@@ -29,7 +29,7 @@ The debug shim is automatically configured and deployed as part of the devcontai
     kubectl exec -it  $TARGET_POD -n $TARGET_NAMESPACE -c ${APP_NAME} -- ls /
     ```
 
-    >Note: 'APP_NAME' is an environment variable auto-populated by `/space-sdk-dev/space-sdk-dev.env`
+    >Note: 'APP_NAME' is an environment variable auto-populated by `/spacefx-dev/spacefx-dev.env`
 
 - Get Logs for Pod
 
@@ -44,7 +44,7 @@ The debug shim is automatically configured and deployed as part of the devcontai
     kubectl logs $TARGET_POD -n $TARGET_NAMESPACE -c daprd
     ```
 
-    >Note: 'APP_NAME' is an environment variable auto-populated by `/space-sdk-dev/space-sdk-dev.env`
+    >Note: 'APP_NAME' is an environment variable auto-populated by `/spacefx-dev/spacefx-dev.env`
 
 - Get Pod Details
 
@@ -54,7 +54,7 @@ The debug shim is automatically configured and deployed as part of the devcontai
     kubectl describe pod/$TARGET_POD -n $TARGET_NAMESPACE
     ```
 
-    >Note: 'APP_NAME' is an environment variable auto-populated by `/space-sdk-dev/space-sdk-dev.env`
+    >Note: 'APP_NAME' is an environment variable auto-populated by `/spacefx-dev/spacefx-dev.env`
 
 - Monitor Pod Deployment
 

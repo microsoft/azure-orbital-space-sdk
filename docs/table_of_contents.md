@@ -58,7 +58,7 @@
 
 ### Infrastructure
 
-- [Devcontainer Feature](https://github.com/microsoft/azure-orbital-space-sdk-devfeature)
+- [Devcontainer Feature](https://github.com/microsoft/azure-orbital-spacefx-devfeature)
 - [Github Actions](https://github.com/microsoft/azure-orbital-space-sdk-github-actions)
 - [Infrastructure](https://github.com/microsoft/azure-orbital-space-sdk-infra)
 - [Setup](https://github.com/microsoft/azure-orbital-space-sdk-setup)
