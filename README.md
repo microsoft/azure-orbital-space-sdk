@@ -1,14 +1,20 @@
-# Project
+# Azure Orbital Space SDK
 
-> This repo has been populated by an initial template to help get you started. Please
-> make sure to update the content to build a great experience for community-building.
+- [Azure Orbital Space SDK](#azure-orbital-space-sdk)
+  - [About](#about)
+  - [SDK License](#sdk-license)
+  - [Contributing](#contributing)
+  - [Trademarks](#trademarks)
 
-As the maintainer of this project, please make a few updates:
+## About
+The Azure Orbital Space SDK is a solution designed to lower the barriers for developing applications intended to run on spacecraft. The solution was created to be able to run on any spacecraft, providing a secure hosting platform and application kit to create, deploy, and operate applications on-orbit.
+As a space partner, you can leverage the Space SDK to offer edge processing on your satellite and provide your customers with the power, approachability, and security of the Microsoft development tools and the Azure ecosystem.
 
-- Improving this README.MD file to provide a great experience
-- Updating SUPPORT.MD with content about this project's support experience
-- Understanding the security reporting process in SECURITY.MD
-- Remove this section from the README
+![AzureOrbitalSDK-Overview.png](./img/AzureOrbitalSDK-Overview.png)
+
+## SDK License
+
+The license for the Space SDK can be found [here](/LICENSE).
 
 ## Contributing
 
@@ -26,8 +32,8 @@ contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additio
 
 ## Trademarks
 
-This project may contain trademarks or logos for projects, products, or services. Authorized use of Microsoft 
-trademarks or logos is subject to and must follow 
+This project may contain trademarks or logos for projects, products, or services. Authorized use of Microsoft
+trademarks or logos is subject to and must follow
 [Microsoft's Trademark & Brand Guidelines](https://www.microsoft.com/en-us/legal/intellectualproperty/trademarks/usage/general).
 Use of Microsoft trademarks or logos in modified versions of this project must not cause confusion or imply Microsoft sponsorship.
 Any use of third-party trademarks or logos are subject to those third-party's policies.
