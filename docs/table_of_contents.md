@@ -1,197 +1,112 @@
 # Table of Contents
 
-This document serves as the table of contents for all documents within the Space SDK
+## Getting Started
 
-# Space SDK Host Services
+- [Reset Environment](./walkthroughs/reset-environment.md)
+- [Setting Up Development VM](./walkthroughs/setting-up-development-vm.md)
+- [Setup SDK without Devcontainer](./walkthroughs/setup-sdk-no-devcontainer.md)
+- [Spacedev Cache](./docs/walkthroughs/spacedev_cache.md)
+- [Using Devcontainers](./walkthroughs/using-devcontainers.md)
 
-[CODE OF CONDUCT](https://github.com/microsoft/Azure-Orbital-Space-SDK-Host-Services/blob/main/CODE_OF_CONDUCT.md)
+### Personas
 
-[README](https://github.com/microsoft/Azure-Orbital-Space-SDK-Host-Services/blob/main/README.md)
+- [Application Developer](./docs/personas/application-developer.md)
+- [Data Scientist](./docs/personas/data-scientist.md)
+- [Framework Developer](./docs/personas/framework-developer.md)
+- [Satellite Owner/Operator](./docs/personas/satellite-owner-operator.md)
 
-[SECURITY](https://github.com/microsoft/Azure-Orbital-Space-SDK-Host-Services/blob/main/SECURITY.md)
+## Overview
 
-[SUPPORT](https://github.com/microsoft/Azure-Orbital-Space-SDK-Host-Services/blob/main/SUPPORT.md) - needs to be edited
+- [About the Azure Orbital Space SDK](./overview/about-space-sdk.md)
+- [Detailed Architecture Documentation](./architecture/README.md)
+- [System Requirements](./overview/requirements.md)
 
-## Release Notes
+## Reference Sheets
 
-** The markdown that exists is from 0.0.2 [here](https://github.com/microsoft/Azure-Orbital-Space-SDK-Host-Services/blob/main/release-notes/azure-orbital-space-sdk-0.0.2.md)
+- [Accessing Pod Metrics](./walkthroughs/k3s-pull-container-metrics.md)
+- [Cheats](./walkthroughs/cheats.md)
 
-## Core Registry
+## Azure Orbital Space SDK Components
 
-[README](https://github.com/microsoft/Azure-Orbital-Space-SDK-Host-Services/blob/main/core-registry/README.md)
+### Client Libraries
 
-## Documentation
+- [Client Libraries](https://github.com/microsoft/azure-orbital-space-sdk-client)
 
-### Advanced Topics
+### Host Services
 
-[- K3S Pull Container Metrics](./advanced_topics/k3s-pull-container-metrics.md)
+- [Link Service](https://github.com/microsoft/azure-orbital-space-sdk-hostsvc-link)
+- [Logging Service](https://github.com/microsoft/azure-orbital-space-sdk-hostsvc-logging)
+- [Position Service](https://github.com/microsoft/azure-orbital-space-sdk-hostsvc-position)
+- [Sensor Service](https://github.com/microsoft/azure-orbital-space-sdk-hostsvc-sensor)
 
-### Architecture
+### Platform Services
 
-[- README](./architecture/README.md)
+- [Deployment Service](https://github.com/microsoft/azure-orbital-space-sdk-platform-deployment)
+- [Message Translation Service (MTS)](https://github.com/microsoft/azure-orbital-space-sdk-platform-mts)
 
-#### Components in Architecture
+### Core Services
 
-[Client-Librarys](./architecture/components/client-libraries.md)
+- [Core Service](https://github.com/microsoft/azure-orbital-space-sdk-core)
+- [Fileserver Service](https://github.com/microsoft/azure-orbital-space-sdk-coresvc-fileserver)
+- [Registry Service](https://github.com/microsoft/azure-orbital-space-sdk-coresvc-registry)
+- [Switchboard Service](https://github.com/microsoft/azure-orbital-space-sdk-coresvc-switchboard)
 
-[Host-Services](./architecture/components/host-services.md)
+### Virtual Test Harness Components
 
-[Platform-services](./architecture/components/platform-services.md)
+- [Data Generators](https://github.com/microsoft/azure-orbital-space-sdk-data-generators)
+- [Virtual Test Harness (VTH)](https://github.com/microsoft/azure-orbital-space-sdk-vth)
 
-[Plugins](./architecture/components/plugins.md)
+### Infrastructure
 
-[Virtual Test Harness](./architecture/components/virtual-test-harness.md)
+- [Devcontainer Feature](https://github.com/microsoft/azure-orbital-space-sdk-devfeature)
+- [Github Actions](https://github.com/microsoft/azure-orbital-space-sdk-github-actions)
+- [Infrastructure](https://github.com/microsoft/azure-orbital-space-sdk-infra)
+- [Setup](https://github.com/microsoft/azure-orbital-space-sdk-setup)
 
-### Overview
+### Tools
 
-[About Space SDK](./overview/about-space-sdk.md)
+- [Healthcheck Application](https://github.com/microsoft/azure-orbital-space-sdk-app-healthcheck)
 
-[Requirements](./overview/requirements.md)
+## Tutorials and Quick-Starts
 
-### Walkthroughs
+- [Tutorials and Quick Starts](tutorials/README.md)
 
-[Cheats](./walkthroughs/cheats.md)
+### Samples
 
-[Reset Environment](./walkthroughs/reset-environment.md)
+### Data Generators
 
-[Setting Up Development VM](./walkthroughs/setting-up-development-vm.md)
+- [Starter Data Generator](../samples/datagenerator/starter-datagenerator/placeholder)
 
-[Setup SDK without Devcontainer](./walkthroughs/setup-sdk-no-devcontainer.md)
+### Payload Applications
 
-[Spacedev Cache](./docs/walkthroughs/spacedev_cache.md)
+#### .NET
 
-[Using Devcontainers](./walkthroughs/using-devcontainers.md)
+- [Starter Application](../samples/payloadapps/dotnet/starter-app/placeholder)
 
-### env-config [README](https://github.com/microsoft/Azure-Orbital-Space-SDK-Host-Services/blob/main/env-config/README.md)
+### Python
 
-### framework-core [README](https://github.com/microsoft/Azure-Orbital-Space-SDK-Host-Services/blob/main/framework-core/README.md)
+- [Starter Application](../samples/payloadapps/python/starter-app/placeholder)
+- [Ship Detector - ONNX](../samples/payloadapps/python/shipdetector-onnx/placeholder)
+- [Ship Detector - Tensorflow](../samples/payloadapps/python/shipdetector-tf/placeholder)
 
-### hostsvc-link [README](https://github.com/microsoft/Azure-Orbital-Space-SDK-Host-Services/blob/main/hostsvc-link/README.md)
+### Plugins
 
-### hostsvc-logging [README](https://github.com/microsoft/Azure-Orbital-Space-SDK-Host-Services/blob/main/hostsvc-logging/README.md)
+#### Host Services
 
-### hostsvc-position [README](https://github.com/microsoft/Azure-Orbital-Space-SDK-Host-Services/blob/main/hostsvc-position/README.md)
+- [Link Service Plugin](../samples/plugins/hostsvc/hostsvc-link/placeholder)
+- [Logging Service Plugin](../samples/plugins/hostsvc/hostsvc-logging/placeholder)
+- [Position Service Plugin](../samples/plugins/hostsvc/hostsvc-position/placeholder)
+- [Sensor Service Plugin](../samples/plugins/hostsvc/hostsvc-sensor/placeholder)
 
-### hostsvc-sensor [README](https://github.com/microsoft/Azure-Orbital-Space-SDK-Host-Services/blob/main/hostsvc-sensor/README.md)
+#### Platform Services
 
-### hostsvc-switchboard [README](https://github.com/microsoft/Azure-Orbital-Space-SDK-Host-Services/blob/main/hostsvc-switchboard/README.md)
-
-### platform-deployment [README](https://github.com/microsoft/Azure-Orbital-Space-SDK-Host-Services/blob/main/platform-deployment/README.md)
-
-### platform-mts [README](https://github.com/microsoft/Azure-Orbital-Space-SDK-Host-Services/blob/main/platform-mts/README.md)
-
-# Azure Orbital Space SDK QuickStarts
-
-## Data Generators
-
-tool geotiff processor [README](https://github.com/microsoft/Azure-Orbital-Space-SDK-QuickStarts/blob/main/data-generators/tool-geotiff-processor/README.md)
-
-tool planetary computer geotiff [README](https://github.com/microsoft/Azure-Orbital-Space-SDK-QuickStarts/blob/main/data-generators/tool-planetary-computer-geotiff/README.md)
-
-tool star viewer [README](https://github.com/microsoft/Azure-Orbital-Space-SDK-QuickStarts/blob/main/data-generators/tool-star-viewer/README.md)
-
-## Dev-VMs / Virtual Satellites / Virtual Ground Stations
-
-[README](https://github.com/microsoft/Azure-Orbital-Space-SDK-QuickStarts/blob/main/infrastructure/README.md)
-
-## Plugins
-
-### geotiff processory plugin vth
-
-[README](https://github.com/microsoft/Azure-Orbital-Space-SDK-QuickStarts/blob/main/plugins/geotiffprocessorpluginvth/README.md)
-
-### mts plugin vth
-
-[README](https://github.com/microsoft/Azure-Orbital-Space-SDK-QuickStarts/blob/main/plugins/mtspluginvth/README.md)
-
-### planetary computer geotiff plugin vth
-
-[README](https://github.com/microsoft/Azure-Orbital-Space-SDK-QuickStarts/blob/main/plugins/planetarycomputergeotiffpluginvth/README.md)
-
-### starviewer plugin vth
-
-[README](https://github.com/microsoft/Azure-Orbital-Space-SDK-QuickStarts/blob/main/plugins/starviewerpluginvth/README.md)
-
-### telemetry pluggin logging
-
-[README](https://github.com/microsoft/Azure-Orbital-Space-SDK-QuickStarts/blob/main/plugins/telemetrypluginLogging/README.md)
-
-## Sample-Apps
-
-### Sample-EO-AI Payload Application Python
-
-[README](https://github.com/microsoft/Azure-Orbital-Space-SDK-QuickStarts/blob/main/sample-apps/sample-eo-ai-payload-application-python/README.md)
-
-### Sample-EO-Hand on Lab
-
-[README](https://github.com/microsoft/Azure-Orbital-Space-SDK-QuickStarts/blob/main/sample-apps/sample-eo-hands-on-lab/README.md)
-
-### Sample-EO Payload Application-dotnet
-
-[README](https://github.com/microsoft/Azure-Orbital-Space-SDK-QuickStarts/blob/main/sample-apps/sample-eo-payload-application-dotnet/README.md)
-
-### Sample-EO Payload Application-python
-
-[README](https://github.com/microsoft/Azure-Orbital-Space-SDK-QuickStarts/blob/main/sample-apps/sample-eo-payload-application-python/README.md)
-
-## Satellite-VM
-
-[README](https://github.com/microsoft/Azure-Orbital-Space-SDK-QuickStarts/blob/main/satellite-vm/README.md)
-
-## Tutorials
-
-[README](https://github.com/microsoft/Azure-Orbital-Space-SDK-QuickStarts/blob/main/tutorials/README.md)
-
-### Quick Start Tutorials
-
-[Adding Node Cluster](https://github.com/microsoft/Azure-Orbital-Space-SDK-QuickStarts/blob/main/tutorials/quick-start-tutorials/adding_node_cluster.md)
-
-[Building a VTH Plugin](https://github.com/microsoft/Azure-Orbital-Space-SDK-QuickStarts/blob/main/tutorials/quick-start-tutorials/building-a-vth-plugin.md)
-
-[Developing App w/ Deployment Service](https://github.com/microsoft/Azure-Orbital-Space-SDK-QuickStarts/blob/main/tutorials/quick-start-tutorials/deploying-your-app-with-deployment-service.md)
-
-[E2E-EO Building Data Generator](https://github.com/microsoft/Azure-Orbital-Space-SDK-QuickStarts/blob/main/tutorials/quick-start-tutorials/e2e-eo-building-data-generator.md)
-
-[E2E-EO Sample AI Python](https://github.com/microsoft/Azure-Orbital-Space-SDK-QuickStarts/blob/main/tutorials/quick-start-tutorials/e2e-eo-sample-ai-python.md)
-
-[E2E-EO Sample dotnet](https://github.com/microsoft/Azure-Orbital-Space-SDK-QuickStarts/blob/main/tutorials/quick-start-tutorials/e2e-eo-sample-dotnet.md)
-
-[E2E-EO Sample Python](https://github.com/microsoft/Azure-Orbital-Space-SDK-QuickStarts/blob/main/tutorials/quick-start-tutorials/e2e-eo-sample-python.md)
-
-[Extending the Sample](https://github.com/microsoft/Azure-Orbital-Space-SDK-QuickStarts/blob/main/tutorials/quick-start-tutorials/extending-the-sample.md)
-
-[Known Issues](https://github.com/microsoft/Azure-Orbital-Space-SDK-QuickStarts/blob/main/tutorials/quick-start-tutorials/known-issues.md)
-
-[Loading Configurations](https://github.com/microsoft/Azure-Orbital-Space-SDK-QuickStarts/blob/main/tutorials/quick-start-tutorials/loading-configurations.md)
-
-[Multi-Node Cluster w/ Affinity](https://github.com/microsoft/Azure-Orbital-Space-SDK-QuickStarts/blob/main/tutorials/quick-start-tutorials/multi-node-cluster-wth-affinity.md)
-
-[Plugin Example MTS](https://github.com/microsoft/Azure-Orbital-Space-SDK-QuickStarts/blob/main/tutorials/quick-start-tutorials/plugin-example-mts.md)
-
-[Uplift Plugin](https://github.com/microsoft/Azure-Orbital-Space-SDK-QuickStarts/blob/main/tutorials/quick-start-tutorials/uplift-plugin.md)
-
-# Azure Orbital Space SDK Client Library-DOTNET
-
-[README](https://github.com/microsoft/Azure-Orbital-Space-SDK-Client-Library-dotnet/blob/main/README.md)
-
-## src_plugin Template
-
-[README](https://github.com/microsoft/Azure-Orbital-Space-SDK-Client-Library-dotnet/blob/main/src_pluginTemplate/templates/src/README.md) needs to be updated
-
-# Azure Orbital Space SDK Client Library-Python
-
-[README](https://github.com/microsoft/Azure-Orbital-Space-SDK-Client-Library-python/blob/main/README.md)
-
-# Azure Orbital Space SDK Virtual Test Harness
-
-## vth
-
-[README](https://github.com/microsoft/Azure-Orbital-Space-SDK-Virtual-Test-Harness/blob/main/vth/README.md)
-
-### src_plugin Template
-
-[README](https://github.com/microsoft/Azure-Orbital-Space-SDK-Virtual-Test-Harness/blob/main/vth/src_pluginTemplate/templates/src/README.md)
-
-### test
-
-[README](https://github.com/microsoft/Azure-Orbital-Space-SDK-Virtual-Test-Harness/blob/main/vth/test/README.md)
+- [Deployment Service Plugin](../samples/plugins/platform/platform-deployment/placeholder)
+- [Message Translation Service (MTS) Plugin](../samples/plugins/platform/platform-mts/placeholder)
+- [Virtual Test Harness (VTH) Plugin](../samples/plugins/platform/platform-vth/placeholder)
+
+## Resources
+
+- [CODE OF CONDUCT](../CODE_OF_CONDUCT.md)
+- [README](../README.md)
+- [SECURITY](../SECURITY.md)
+- [SUPPORT](../SUPPORT.md)

@@ -1,4 +1,4 @@
-# Pod Metrics Commands
+# Accessing Pod Metrics
 
 This page contains a list of common `kubectl` commands
 
