@@ -3,17 +3,12 @@
 ## Getting Started
 
 - [Getting Started with the Azure Orbital Space SDK](./getting_started.md)
-- [Reset Environment](./walkthroughs/reset-environment.md)
-- [Setting Up Development VM](./walkthroughs/setting-up-development-vm.md)
-- [Setup SDK without Devcontainer](./walkthroughs/setup-sdk-no-devcontainer.md)
-- [Spacedev Cache](./walkthroughs/spacedev_cache.md)
-- [Using Devcontainers](./walkthroughs/using-devcontainers.md)
 
 ### Personas
 
 - [Application Developer](./personas/application-developer.md)
 - [Framework Developer](./personas/framework-developer.md)
-- [Satellite Owner/Operator](./personas/satellite-owner-operator.md)
+- [Satellite Owner/Operator (SOO)](./personas/satellite-owner-operator.md)
 
 ## Overview
 
@@ -21,10 +16,50 @@
 - [Detailed Architecture Documentation](./architecture/README.md)
 - [System Requirements](./overview/requirements.md)
 
-## Reference Sheets
+## Setup and Support
 
-- [Accessing Pod Metrics](./walkthroughs/k3s-pull-container-metrics.md)
-- [Cheats](./walkthroughs/cheats.md)
+- [Using Devcontainers](./walkthroughs/using-devcontainers.md)
+- [Resetting Your Environment](./walkthroughs/reset-environment.md)
+- [Setting Up Your Development VM](./walkthroughs/setting-up-development-vm.md)
+- [Setting Up the SDK Without a Devcontainer](./walkthroughs/setup-sdk-no-devcontainer.md)
+- [Spacedev Cache](./walkthroughs/spacedev_cache.md)
+
+## Tutorials and Quick-Starts
+
+- [Tutorials and Quick Starts](tutorials/README.md)
+
+### Samples
+
+### Data Generators
+
+- [Starter Data Generator](../samples/datagenerator/starter-datagenerator/placeholder)
+
+### Payload Applications
+
+#### .NET
+
+- [Starter .NET Application](../samples/payloadapps/dotnet/starter-app/placeholder)
+
+### Python
+
+- [Starter Python Application](../samples/payloadapps/python/starter-app/placeholder)
+- [Sample ONNX Application](../samples/payloadapps/python/shipdetector-onnx/placeholder)
+- [Sample Tensorflow Application](../samples/payloadapps/python/shipdetector-tf/placeholder)
+
+### Plugins
+
+#### Host Services
+
+- [Link Service Plugin](../samples/plugins/hostsvc/hostsvc-link/placeholder)
+- [Logging Service Plugin](../samples/plugins/hostsvc/hostsvc-logging/placeholder)
+- [Position Service Plugin](../samples/plugins/hostsvc/hostsvc-position/placeholder)
+- [Sensor Service Plugin](../samples/plugins/hostsvc/hostsvc-sensor/placeholder)
+
+#### Platform Services
+
+- [Deployment Service Plugin](../samples/plugins/platform/platform-deployment/placeholder)
+- [Message Translation Service (MTS) Plugin](../samples/plugins/platform/platform-mts/placeholder)
+- [Virtual Test Harness (VTH) Plugin](../samples/plugins/platform/platform-vth/placeholder)
 
 ## Azure Orbital Space SDK Components
 
@@ -67,46 +102,16 @@
 
 - [Healthcheck Application](https://github.com/microsoft/azure-orbital-space-sdk-app-healthcheck)
 
-## Tutorials and Quick-Starts
+## Reference Sheets
 
-- [Tutorials and Quick Starts](tutorials/README.md)
-
-### Samples
-
-### Data Generators
-
-- [Starter Data Generator](../samples/datagenerator/starter-datagenerator/placeholder)
-
-### Payload Applications
-
-#### .NET
-
-- [Starter Application](../samples/payloadapps/dotnet/starter-app/placeholder)
-
-### Python
-
-- [Starter Application](../samples/payloadapps/python/starter-app/placeholder)
-- [Ship Detector - ONNX](../samples/payloadapps/python/shipdetector-onnx/placeholder)
-- [Ship Detector - Tensorflow](../samples/payloadapps/python/shipdetector-tf/placeholder)
-
-### Plugins
-
-#### Host Services
-
-- [Link Service Plugin](../samples/plugins/hostsvc/hostsvc-link/placeholder)
-- [Logging Service Plugin](../samples/plugins/hostsvc/hostsvc-logging/placeholder)
-- [Position Service Plugin](../samples/plugins/hostsvc/hostsvc-position/placeholder)
-- [Sensor Service Plugin](../samples/plugins/hostsvc/hostsvc-sensor/placeholder)
-
-#### Platform Services
-
-- [Deployment Service Plugin](../samples/plugins/platform/platform-deployment/placeholder)
-- [Message Translation Service (MTS) Plugin](../samples/plugins/platform/platform-mts/placeholder)
-- [Virtual Test Harness (VTH) Plugin](../samples/plugins/platform/platform-vth/placeholder)
+- [Accessing Pod Metrics](./walkthroughs/k3s-pull-container-metrics.md)
+- [Cheats](./walkthroughs/cheats.md)
 
 ## Resources
 
 - [CODE OF CONDUCT](../CODE_OF_CONDUCT.md)
+- [CONTRIBUTING](../CONTRIBUTING.md)
+- [LEGAL](../LEGAL.md)
 - [README](../README.md)
 - [SECURITY](../SECURITY.md)
 - [SUPPORT](../SUPPORT.md)
