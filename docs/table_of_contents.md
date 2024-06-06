@@ -11,7 +11,6 @@
 ### Personas
 
 - [Application Developer](./docs/personas/application-developer.md)
-- [Data Scientist](./docs/personas/data-scientist.md)
 - [Framework Developer](./docs/personas/framework-developer.md)
 - [Satellite Owner/Operator](./docs/personas/satellite-owner-operator.md)
 
