@@ -2,17 +2,18 @@
 
 ## Getting Started
 
+- [Getting Started with the Azure Orbital Space SDK](./getting_started.md)
 - [Reset Environment](./walkthroughs/reset-environment.md)
 - [Setting Up Development VM](./walkthroughs/setting-up-development-vm.md)
 - [Setup SDK without Devcontainer](./walkthroughs/setup-sdk-no-devcontainer.md)
-- [Spacedev Cache](./docs/walkthroughs/spacedev_cache.md)
+- [Spacedev Cache](./walkthroughs/spacedev_cache.md)
 - [Using Devcontainers](./walkthroughs/using-devcontainers.md)
 
 ### Personas
 
-- [Application Developer](./docs/personas/application-developer.md)
-- [Framework Developer](./docs/personas/framework-developer.md)
-- [Satellite Owner/Operator](./docs/personas/satellite-owner-operator.md)
+- [Application Developer](./personas/application-developer.md)
+- [Framework Developer](./personas/framework-developer.md)
+- [Satellite Owner/Operator](./personas/satellite-owner-operator.md)
 
 ## Overview
 
