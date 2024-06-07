@@ -15,7 +15,7 @@
 
 The Azure Orbital Space SDK is a software development kit and runtime framework that makes it easy to develop and deploy applications to space.
 
-As an application developer, the Azure Orbital Space SDK abstracts complex satellite systems and operations into simple components with clear, standardized interfaces. This allows you to focus on what matters - developing the applications you need on orbit. You don't need knowledge in complicated avionics or expensive custom hardware to be a space developer.
+As an application developer, the Azure Orbital Space SDK abstracts complex satellite systems and operations into simple components with clear, standardized interfaces. This allows you to focus on what matters - developing the applications you need on orbit. You don't need to know complicated avionics or have expensive custom hardware to be a space developer.
 
 As a satellite service provider, the Azure Orbital Space SDK provides a lightweight, secure runtime framework that empowers adaptive satellite without impacting your critical systems and components. By shifting mission specification from low-level system hardware and firmware to high-level ephemeral software applications, satellites become generic, reuseable assets that can be modified on-orbit to meet the needs of you customers.
 
@@ -24,6 +24,8 @@ As a satellite service provider, the Azure Orbital Space SDK provides a lightwei
 The Azure Orbital Space SDK Host Platform is a collection of microservices built on a common framework that's powered by open source technologies such as [Kubernetes](https://kubernetes.io) and [Dapr](https://dapr.io). The Azure Orbital Space SDK provides client libraries for application developers to interface with spacecraft in a standardized and predictable way. Host services abstract interactive logical components of a satellite to these developers, which satellite system providers can extend through plugins to translate the standardized requests from payload applications into the system-specific series of events needed to fulfil that request.
 
 The Azure Orbital Space SDK runs on most linux platforms, and provides a number of tools and deployment options to make development, test, and integration efforts seamless for payload app developers and satellite service providers alike.
+
+<!-- TODO: Add More Info Here? -->
 
 For more details on these topics, please refer to our [Azure Orbital Space SDK Architectural Overview](../architecture/README.md).
 
@@ -57,7 +59,9 @@ As a result, traditional space software development uses different practices tha
 - Relies on specialized on-premises infrastructure
 - Often uses legacy tools and dependencies
 
-<!-- ### Software development in the space industry is expensive.
+<!-- TODO: Explain how the SDK addresses this -->
+
+### Software development in the space industry is expensive.
 
 Traditional software development in the space industry is expensive for a number of reasons:
 
@@ -66,15 +70,48 @@ Traditional software development in the space industry is expensive for a number
 - Long-term maintenance and support
 - Complexity of space systems
 - extensive testing and verification requirements
-- extensive regulatory environment -->
+- extensive regulatory environment
 
-<!-- ## Who is the Azure Orbital Space SDK for?
+<!-- TODO: Finish this section -->
+
+## Who is the Azure Orbital Space SDK for?
+
+The Azure Orbital Space SDK is for everyone! In general, we consider there to be three broad categories of users of the Azure Orbital Space SDK:
+- Application Developers
+- Satellite Service Providers
+- Framework Developers
 
 ### Application Developers
 
+An application developer is any person or entity that contributes to the development of a payload application with the Azure Orbital Space SDK. This could be a software engineer or data scientist that's developing a payload application to go into orbit for their organization. This could be a participant in a hackathon or a group leading an educational program that creates an application with the SDK. Individual hobbyists tinkering with SDK applications deployed to their homelabs would also be considered application developers.
+
+Application developers work primarily with the Azure Orbital Space SDK client libraries. They may also create data generators and develop plugins for the Azure Orbital Space SDK Virtual Test Harness (VTH) to accelerate their development efforts and test their solutions.
+
+<!-- TODO: Add links to:
+- the client libraries
+- data generator samples
+- the virtual test harness -->
+
 ### Satellite Service Providers
 
-### Framework Developers -->
+A satellite service provider is any person or entity that integrates the Azure Orbital Space SDK runtime framework into satellites that are ultimately deployed into orbit. This may be as part of a satellite as a service offering to other customers, or as part of a satellite's technical stack used for their own internal purposes.
+
+Satellite Service providers work primarily with plugins for Azure Orbital Space SDK's Host Services and Platform Services. They may also create data generators and develop plugins for the Azure Orbital Space SDK Virtual Test Harness (VTH) to accelerate their development efforts and test their solutions.
+
+The service plugins, data generators, and VTH plugins created by these satellite service providers will likely be made available to the application developers that will be using the satellite service provider's satellites. This allows payload application developers to design, implement, and test their applications using the same satellite virtualization as the satellite service provider is using to design, implement, and validate their production satellite systems.
+
+<!-- TODO: Add links to:
+- host, platform, and core services
+- host, platform, and core service plugins
+- virtual test harness 
+- virtual test harness plugins
+- data generator samples-->
+
+### Framework Developers
+
+A framework developer is any person or entity that actively develops and maintains any component of the Azure Orbital Space SDK. As an example, the Azure Orbital Space SDK team under Azure Space and its individual members would all be considered framework developers. The same would be the case for any individual or group that contributed to any official Azure Orbital Space SDK repository.
+
+<!-- TODO: Finish this section -->
 
 ## How does the Azure Orbital Space SDK work?
 
