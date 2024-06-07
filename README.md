@@ -1,8 +1,12 @@
 # Azure Orbital Space SDK
-The Azure Orbital Space SDK is a solution designed to lower the barriers for developing applications intended to run on spacecraft. The solution was created to be able to run on any spacecraft, providing a secure hosting platform and application kit to create, deploy, and operate applications on-orbit.
-As a space partner, you can leverage the Space SDK to offer edge processing on your satellite and provide your customers with the power, approachability, and security of the Microsoft development tools and the Azure ecosystem.
 
-![AzureOrbitalSDK-Overview.png](./img/AzureOrbitalSDK-Overview.png)
+The Azure Orbital Space SDK is a software development kit and runtime framework that makes it easy to develop and deploy applications to space.
+
+As an application developer, the Azure Orbital Space SDK abstracts complex satellite systems and operations into simple components with clear, standardized interfaces. This allows you to focus on what matters - developing the applications you need on orbit. You don't need knowledge in complicated avionics or expensive custom hardware to be a space developer.
+
+As a satellite service provider, the Azure Orbital Space SDK provides a lightweight, secure runtime framework that empowers adaptive satellite without impacting your critical systems and components. By shifting mission specification from low-level system hardware and firmware to high-level ephemeral software applications, satellites become generic, reuseable assets that can be modified on-orbit to meet the needs of you customers.
+
+![AzureOrbitalSDK-Overview.png](./docs/img/AzureOrbitalSDK-Overview.png)
 
 ## Getting Started
 
@@ -16,11 +20,14 @@ Want to learn more about what the Azure Orbital Space SDK is and how it works? S
 - [Detailed Architecture Documentation](./architecture/README.md)
 - [System Requirements](./overview/requirements.md)
 
-## Quick-Starts, Samples, and Tutorials
+## Quick Starts and Tutorials
 
 Ready to become a space software developer? Get started with our starter projects and guides:
 
-- [Tutorials and Quick Starts](tutorials/README.md)
+- [Quick Starts and Tutorials](quick-starts/README.md)
+
+## Sample Applications
+
 - [Sample ONNX Application](../samples/payloadapps/python/shipdetector-onnx/placeholder)
 - [Sample Tensorflow Application](../samples/payloadapps/python/shipdetector-tf/placeholder)
 - [Starter .NET Application](../samples/payloadapps/dotnet/starter-app/placeholder)
