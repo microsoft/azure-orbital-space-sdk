@@ -16,22 +16,22 @@ First time working with the Azure Orbital Space SDK? Check out our [Getting Star
 
 Want to learn more about what the Azure Orbital Space SDK is and how it works? Start with these resources:
 
-- [About the Azure Orbital Space SDK](./overview/about-space-sdk.md)
-- [Detailed Architecture Documentation](./architecture/README.md)
-- [System Requirements](./overview/requirements.md)
+- [About the Azure Orbital Space SDK](./docs/overview/about-space-sdk.md)
+- [Detailed Architecture Documentation](./docs/architecture/README.md)
+- [System Requirements](./docs/overview/requirements.md)
 
 ## Quick Starts and Tutorials
 
 Ready to become a space software developer? Get started with our starter projects and guides:
 
-- [Quick Starts and Tutorials](quick-starts/README.md)
+- [Quick Starts and Tutorials](./docs/quick-starts/README.md)
 
 ## Sample Applications
 
-- [Sample ONNX Application](../samples/payloadapps/python/shipdetector-onnx/placeholder)
-- [Sample Tensorflow Application](../samples/payloadapps/python/shipdetector-tf/placeholder)
-- [Starter .NET Application](../samples/payloadapps/dotnet/starter-app/placeholder)
-- [Starter Python Application](../samples/payloadapps/python/starter-app/placeholder)
+- [Sample ONNX Application](./samples/payloadapps/python/shipdetector-onnx/placeholder)
+- [Sample Tensorflow Application](./samples/payloadapps/python/shipdetector-tf/placeholder)
+- [Starter .NET Application](./samples/payloadapps/dotnet/starter-app/placeholder)
+- [Starter Python Application](./samples/payloadapps/python/starter-app/placeholder)
 
 ## Contributing
 
