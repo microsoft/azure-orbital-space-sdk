@@ -6,7 +6,7 @@ As an application developer, the Azure Orbital Space SDK abstracts complex satel
 
 As a satellite service provider, the Azure Orbital Space SDK provides a lightweight, secure runtime framework that empowers adaptive satellite without impacting your critical systems and components. By shifting mission specification from low-level system hardware and firmware to high-level ephemeral software applications, satellites become generic, reuseable assets that can be modified on-orbit to meet the needs of you customers.
 
-![AzureOrbitalSDK-Overview.png](./docs/img/AzureOrbitalSDK-Overview.png)
+![This image provides a high-level architectural overview of the Azure Orbital Space SDK. On the left side of this image, an application kit is shown. This app kit virtualizes satellite subsystems to empower developers to create satellite agnostic applications in a development environment, such as an Azure virtual machine. On the right side of this image, a host platform is shown onboard spacecraft hardware. This host platform abstracts the same satellite subsystems that were virtualized on the left side of the image. Multiple payload applications developed from the left side of the image are seen being deployed to the spacecraft on the right side of the image. Each communicate to the satellite's subsystems through a shared host platform.](./docs/img/AzureOrbitalSDK-Overview.png)
 
 ## Getting Started
 

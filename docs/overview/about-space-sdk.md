@@ -1,81 +1,85 @@
-# Azure Orbital Space SDK
+# About the Azure Orbital Space SDK
 
-The following article outlines the architecture and high level view of the Azure Orbital Space SDK.  
+- [What is the Azure Orbital Space SDK?](#what-is-the-azure-orbital-space-sdk)
+- [What problems does the Azure Orbital Space SDK address?](#what-problems-does-the-azure-orbital-space-sdk-address)
+  - [The space industry is a difficult environment for modern software development.](#the-space-industry-is-a-difficult-environment-for-modern-software-development)
+  - [Software development in the space industry is expensive.](#software-development-in-the-space-industry-is-expensive)
+- [Who is the Azure Orbital Space SDK for?](#who-is-the-azure-orbital-space-sdk-for)
+  - [Application Developers](#application-developers)
+  - [Satellite Service Providers](#satellite-service-providers)
+  - [Framework Developers](#framework-developers)
+- [How does the Azure Orbital Space SDK work?](#how-does-the-azure-orbital-space-sdk-work)
+- [How do I use the Azure Orbital Space SDK?](#how-do-i-use-the-azure-orbital-space-sdk)
 
-# What is the Azure Orbital Space SDK?
+## What is the Azure Orbital Space SDK?
 
-The Azure Orbital Space SDk is a solution designed to lower the barriers to developing applications that are ultimately intended to run on spacecraft. Coding applications to run in space is a different type of process that poses many unique challenges due to the disconnected nature of running on a spacecraft.​
+The Azure Orbital Space SDK is a software development kit and runtime framework that makes it easy to develop and deploy applications to space.
 
-The Azure Orbital Space SDK was created to be able to run on any spacecraft and provide a secure hosting platform and application kit to create, deploy, and operate applications on-orbit. This "host platform" runs onboard the spacecraft including a containerized, scalable compute infrastructure with resource and schedule management capabilities.​
+As an application developer, the Azure Orbital Space SDK abstracts complex satellite systems and operations into simple components with clear, standardized interfaces. This allows you to focus on what matters - developing the applications you need on orbit. You don't need knowledge in complicated avionics or expensive custom hardware to be a space developer.
 
-The application kit provides a set of templates, samples, and documentation to make it easy to get up and running as a space developer with template applications for common workload patterns, such as earth observation image processing. There is also a "virtual test harness" that allows developers to easily test their applications on the ground against an instance of the host platform.​
+As a satellite service provider, the Azure Orbital Space SDK provides a lightweight, secure runtime framework that empowers adaptive satellite without impacting your critical systems and components. By shifting mission specification from low-level system hardware and firmware to high-level ephemeral software applications, satellites become generic, reuseable assets that can be modified on-orbit to meet the needs of you customers.
 
-![Picture1.png](../img/Picture1.png)
+![This image provides a high-level architectural overview of the Azure Orbital Space SDK. On the left side of this image, an application kit is shown. This app kit virtualizes satellite subsystems to empower developers to create satellite agnostic applications in a development environment, such as an Azure virtual machine. On the right side of this image, a host platform is shown onboard spacecraft hardware. This host platform abstracts the same satellite subsystems that were virtualized on the left side of the image. Multiple payload applications developed from the left side of the image are seen being deployed to the spacecraft on the right side of the image. Each communicate to the satellite's subsystems through a shared host platform.](../img/AzureOrbitalSDK-Overview.png)
 
-# Why is Space Development Hard?
+The Azure Orbital Space SDK Host Platform is a collection of microservices built on a common framework that's powered by open source technologies such as [Kubernetes](https://kubernetes.io) and [Dapr](https://dapr.io). The Azure Orbital Space SDK provides client libraries for application developers to interface with spacecraft in a standardized and predictable way. Host services abstract interactive logical components of a satellite to these developers, which satellite system providers can extend through plugins to translate the standardized requests from payload applications into the system-specific series of events needed to fulfil that request.
 
-As mentioned above, developing applications for Space is Hard, and it's because many Satellite Owner/Operators (SOO) support a variety of hardware platforms and expose access to their hardware platform by presenting the payload application with an API to interact with the hardware or Command and Data Handler (CnDH) Computer.  A common communication architecture would be the following:
+The Azure Orbital Space SDK runs on most linux platforms, and provides a number of tools and deployment options to make development, test, and integration efforts seamless for payload app developers and satellite service providers alike.
 
-![Why is Space Development Hard](../img/Why-Space-is-Hard-1.png)
+For more details on these topics, please refer to our [Azure Orbital Space SDK Architectural Overview](../architecture/README.md).
 
-## APIs are very much Satellite Owner/Operator Specific
+## What problems does the Azure Orbital Space SDK address?
 
-The above scenario is made more complex, if the intention is to run the application on more than one SOO's hardware.  To do that, the application must be built to interact with different APIs that function very differently.  
+### The space industry is a difficult environment for modern software development.
 
-To help resolve this, the SDK implements the tools outlined above.  Firstly we implement the Azure Orbital Space SDK's client libraries (Python and dotnet), which provide a common interface for interacting with the spacecraft for any SOO that supports our platform.
+As the world becomes more interconnected, modern software development has leaned into practices that increase speed, agility, and responsiveness. This often includes relying on cloud infrastructure and open source tools.
 
-![Why is Space Development Hard - SDK Client Libraries replace API](../img/Why-Space-is-Hard-2.png)
+**Modern software development**
 
-## I do not have access to a Command and Data Handler (CnDH) computer
+- An emphasis on agile design, iterative development, and continuous delivery
+- Leverages automated testing to catch and fix issues early
+- Prioritizes collaboration and communication between team members, partners, and stakeholders
+- Utilizes open source software and tools
+- Relies heavily on cloud computing and high-bandwidth, persistent connectivity
+- Uses up-to-date tools and dependencies
 
-The next core challenge being, I as a payload app developer do not have access to a CnDH computer, but need to be able to develop against something comparable to build my application.  
+Space, however, is not interconnected in the same way as is on Earth. Satellites only have connectivity to the rest of the world while in contact with a ground station, and are limited by the capabilities of their on-board antennae their distance from everything else. As a result satellites are inconsistently connected at best, and those connections are highly latent with limited bandwidth.
 
-To help resolve this, we provide a Virtual Test Harness (VTH) which acts as a CnDH by interfacing with data generators.  These generators could be created by the SOO, a sensor vendor, or even the payload app developer themselves.  
+Infrastructure is also much more difficult to operate in space than on the Earth. If a machine isn't working right on the ground it's a simple process to reset it. If that doesn't work, it can be replaced quickly. In space, even the most basic of operations require careful planning, coordination, and monitoring. You can't send someone up to a satellite to get it working again, and replacing a broken satellite with a new one takes a long time and a lot of money. Space is a limited resource too, and there are many regulations outlining its use.
 
-![Why is Space Development Hard - VTH replaces CnDH](../img/Why-Space-is-Hard-3.png)
+As a result, traditional space software development uses different practices than other software domains to accommodate for these unique needs and concerns.
 
-## I do not have access to a camera, and they are expensive
+**Traditional space software development**
 
-The final of the core challenges, I as a payload app developer do not have access to a camera as they are expensive. This is a major issue as I need to be able to get representative output from that camera to build my application.  This is where data generators come in, and as previous mentioned, those data generators can come from Microsoft in the form of sample data generators, Satellite Owner / Operators, Sensor Vendors themselves, or could be generates that I as the payload app developer build to simulate what I need for my application.
+- Emphasizes waterfall design, phase-gate development, and infrequent delivery
+- May not perform significant testing until later phases of development
+- Developers don't typically communicate directly with other teams, partners, or stakeholders
+- Often uses proprietary software and tools
+- Relies on specialized on-premises infrastructure
+- Often uses legacy tools and dependencies
 
-![Why is Space Development Hard - Data generators replace camera](../img/Why-Space-is-Hard-4.png)
+<!-- ### Software development in the space industry is expensive.
 
-# What does the Azure Orbital Space SDK architecture look like for communication
+Traditional software development in the space industry is expensive for a number of reasons:
 
-Now that we've resolved many of the core challenges, what does it look like for our applications to communicate from the payload application, the whole way down to the data generator and back.  
+- High cost of specialized hardware and infrastructure requires to support development efforts
+- High level of risk associated with space systems
+- Long-term maintenance and support
+- Complexity of space systems
+- extensive testing and verification requirements
+- extensive regulatory environment -->
 
-The flow is the following (you can also run the demo described here using our walkthrough for [dotnet](https://github.com/microsoft/Azure-Orbital-Space-SDK-QuickStarts/blob/main/tutorials/quick-start-tutorials/e2e-eo-sample-dotnet.md) or [python](https://github.com/microsoft/Azure-Orbital-Space-SDK-QuickStarts/blob/main/tutorials/quick-start-tutorials/e2e-eo-sample-python.md):
+<!-- ## Who is the Azure Orbital Space SDK for?
 
-```mermaid
-sequenceDiagram
-    Sample App->>hostsvc-sensor: Make a Sensor Tasking Request
-    hostsvc-sensor->>platform-mts: Make a sensor request
-    platform-mts->>MtsPluginVth: The call is routed to the MTS plugin
-    MtsPluginVth->>vth: Sensor request is forwarded
-    vth->>PlanetaryComputerGeotiffPluginVth: Sensor request is forwarded
-    PlanetaryComputerGeotiffPluginVth->>PlanetaryComputerGeotiffPluginVth: converted SensorRequest to a EarthImageRequest
-    PlanetaryComputerGeotiffPluginVth->>tool-planetary-computer-geotiff: EarthImageRequest is forwarded
-    tool-planetary-computer-geotiff->>tool-planetary-computer-geotiff: store output image /var/spacedev/tmp/vth/output shared volume
-    tool-planetary-computer-geotiff->>PlanetaryComputerGeotiffPluginVth: Send EarthImageResponse with filename of output
-    PlanetaryComputerGeotiffPluginVth->>vth: send Sensor Response / Data
-    vth->>MtsPluginVth: Send Sensor Response / Data
-    MtsPluginVth->>platform-mts: Send Sensor Response / Data
-    platform-mts->>hostsvc-sensor: Send Sensor Response / Data
-    hostsvc-sensor->>Sample App: Send back sensor response / data
-```
+### Application Developers
 
-# What are plugins?
+### Satellite Service Providers
 
-To faciliate the level of abstraction required to build our SDK, we created host services, which are docker container applications that our client libraries make requests of to interact with the hardware.  Recognizing that our Satellite Owner / Operator (SOO) customers have many different requirements and needs, we make all of our services extensible by plugins.
+### Framework Developers -->
 
-Plugins in this case can overload the operations within the host services, platform services, and even the Virtual Test Harness (VTH), to allow for the SOO to customize what the operations inside those host services do.  This provides a high level of flexibility to our SOO customers to expose functionality to their customers.  
+## How does the Azure Orbital Space SDK work?
 
-# What is Message Translation Service (MTS)?
+Want to know how the Azure Orbital Space SDK works? See our [Detailed Architecture Documentation](../architecture/README.md).
 
-The key element of communication between the payload app computer, and the underlying CnDH is the implementation of the Message Translation Service (MTS).  The MTS is the point by which the messages coming from the payload app, and then host services can communicate with the spacecraft.  By funnelling requests through the MTS we create an easy point for the Satellite Owner / Operators (SOOs) to interact with their own APIs for the CnDH.  This interaction is done via a plugin.  
+## How do I use the Azure Orbital Space SDK?
 
-# What is Helm?
-
-Helm is the application package manager for Kubernetes that you use to standardize and simplify the deployment of cloud-native applications on Kubernetes. It can also be descirbed as the package manager for Kubernetes. Helm makes it easier for us to package and deploy software on a Kubernetes cluster using charts.
-
-Overall Helm allows for us to be more flexible and tailor it to the enviornment as needed. All while becoming more advanced.
+Ready to use the Azure Orbital Space SDK? Check out our [Getting Started Guide](../getting_started.md).
