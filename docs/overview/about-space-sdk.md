@@ -2,12 +2,7 @@
 
 - [What is the Azure Orbital Space SDK?](#what-is-the-azure-orbital-space-sdk)
 - [What problems does the Azure Orbital Space SDK address?](#what-problems-does-the-azure-orbital-space-sdk-address)
-  - [The space industry is a difficult environment for modern software development.](#the-space-industry-is-a-difficult-environment-for-modern-software-development)
-  - [Software development in the space industry is expensive.](#software-development-in-the-space-industry-is-expensive)
 - [Who is the Azure Orbital Space SDK for?](#who-is-the-azure-orbital-space-sdk-for)
-  - [Application Developers](#application-developers)
-  - [Satellite Service Providers](#satellite-service-providers)
-  - [Framework Developers](#framework-developers)
 - [How does the Azure Orbital Space SDK work?](#how-does-the-azure-orbital-space-sdk-work)
 - [How do I use the Azure Orbital Space SDK?](#how-do-i-use-the-azure-orbital-space-sdk)
 
@@ -95,46 +90,10 @@ Development with the Azure Orbital Space SDK is paired best with Azure's cloud i
 
 ## Who is the Azure Orbital Space SDK for?
 
-The Azure Orbital Space SDK is intended for the following personas:
+The Azure Orbital Space SDK is intended for the following personas. Please refer to the links below to learn more.
 - [Application Developers](../personas/application-developer.md)
 - [Satellite Service Providers](../personas/satellite-owner-operator.md)
 - [Framework Developers](../personas/framework-developer.md)
-
-### Application Developers
-
-An application developer is any person or entity that contributes to the development of a payload application using the Azure Orbital Space SDK.
-
-Application developers use the Azure Orbital Space SDK client libraries to create their applications. They also use the Azure Orbital Space SDK Virtual Test Harness (VTH) to test their solutions. They may also create their own data generators and develop plugins for the Virtual Test Harness (VTH) to better simulate the on orbit environment their application will be running in virtually.
-
-<!-- TODO: Add links to:
-- the client libraries
-- data generator samples
-- the virtual test harness -->
-
-### Satellite Service Providers
-
-A satellite service provider is any person or entity that integrates the Azure Orbital Space SDK runtime framework into satellites that are ultimately deployed into orbit.
-
-Satellite service providers create plugins for Azure Orbital Space SDK's host and platform services. These plugins contain the business logic needed
-
-Satellite service providers create data generators and develop plugins for the Azure Orbital Space SDK Virtual Test Harness (VTH) to test their plugins. As their system matures, they will continue to use the VTH verify and validate the behavior of their spacecraft through ongoing software-in-the-loop and hardware-in-the-loop testing.
-
-Satellite service providers make the service plugins, data generators, and VTH plugins they create available to the application developers that will be running applications on their satellites. This allows payload application developers to use the same satellite virtualization as the satellite service provider to design, implement, and test their applications.
-
-<!-- TODO: Add links to:
-- host, platform, and core services
-- host, platform, and core service plugins
-- virtual test harness 
-- virtual test harness plugins
-- data generator samples -->
-
-### Framework Developers
-
-A framework developer is any person or entity that actively develops and maintains any component of the Azure Orbital Space SDK. As an example, the Azure Orbital Space SDK team under Azure Space and its individual members would all be considered framework developers. The same would be the case for any individual or group that contributed to any official Azure Orbital Space SDK repository.
-
-Framework application developers maintain the Azure Orbital Space SDK's core, host, and platform services. They also maintain the Azure Orbital Space SDK Virtual Test Harness (VTH). They respond to feature requests and issues, and ensure that documentation is accurate and easy to use. Framework developers also create tutorials and samples that teach others how to use the Azure Orbital Space SDK.
-
-<!-- TODO: Add links for this section -->
 
 ## How does the Azure Orbital Space SDK work?
 
