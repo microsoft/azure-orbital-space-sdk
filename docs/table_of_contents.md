@@ -13,7 +13,7 @@
 ## Overview
 
 - [About the Azure Orbital Space SDK](./overview/about-space-sdk.md)
-- [Detailed Architecture Documentation](./architecture/README.md)
+- [Architecture Documentation](./architecture/architecture.md)
 - [System Requirements](./overview/requirements.md)
 
 ## Setup and Support
@@ -67,6 +67,13 @@
 
 - [Client Libraries](https://github.com/microsoft/azure-orbital-space-sdk-client)
 
+### Core Services
+
+- [Core Service](https://github.com/microsoft/azure-orbital-space-sdk-core)
+- [Fileserver Service](https://github.com/microsoft/azure-orbital-space-sdk-coresvc-fileserver)
+- [Registry Service](https://github.com/microsoft/azure-orbital-space-sdk-coresvc-registry)
+- [Switchboard Service](https://github.com/microsoft/azure-orbital-space-sdk-coresvc-switchboard)
+
 ### Host Services
 
 - [Link Service](https://github.com/microsoft/azure-orbital-space-sdk-hostsvc-link)
@@ -79,14 +86,7 @@
 - [Deployment Service](https://github.com/microsoft/azure-orbital-space-sdk-platform-deployment)
 - [Message Translation Service (MTS)](https://github.com/microsoft/azure-orbital-space-sdk-platform-mts)
 
-### Core Services
-
-- [Core Service](https://github.com/microsoft/azure-orbital-space-sdk-core)
-- [Fileserver Service](https://github.com/microsoft/azure-orbital-space-sdk-coresvc-fileserver)
-- [Registry Service](https://github.com/microsoft/azure-orbital-space-sdk-coresvc-registry)
-- [Switchboard Service](https://github.com/microsoft/azure-orbital-space-sdk-coresvc-switchboard)
-
-### Virtual Test Harness Components
+### Virtual Test Harness
 
 - [Data Generators](https://github.com/microsoft/azure-orbital-space-sdk-data-generators)
 - [Virtual Test Harness (VTH)](https://github.com/microsoft/azure-orbital-space-sdk-vth)

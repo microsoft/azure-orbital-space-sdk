@@ -17,7 +17,7 @@ First time working with the Azure Orbital Space SDK? Check out our [Getting Star
 Want to learn more about what the Azure Orbital Space SDK is and how it works? Start with these resources:
 
 - [About the Azure Orbital Space SDK](./docs/overview/about-space-sdk.md)
-- [Detailed Architecture Documentation](./docs/architecture/README.md)
+- [Detailed Architecture Documentation](./docs/architecture/architecture.md)
 - [System Requirements](./docs/overview/requirements.md)
 
 ## Quick Starts and Tutorials

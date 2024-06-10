@@ -1,4 +1,4 @@
-# Azure Orbital Space SDK
+# Azure Orbital Space SDK Architecture
 
 The Azure Orbital Space SDK is a microservices platform that abstracts spacecraft telemetry and sensor data to provide a common interface for satellite operators and payload application developers to use data collected in-orbit.
 
@@ -52,9 +52,9 @@ Extensibility, customization, and interoperability with a variety of spacecraft 
 
 Visit the **[Plugins](./components/plugins.md)** documentation for more information on what plugins are and how to author them.
 
-## Developer Tools
+## Tools
 
-See **[Developer Tools](./developer-tools)** documentation for more information on what is used to develop, and develop solutions on top of, the Azure Orbital Space SDK.
+See **[Tools](../tools/tools.md)** documentation for more information on what is used to develop, and develop solutions on top of, the Azure Orbital Space SDK.
 
 ## Kubernetes Configuration
 

@@ -28,7 +28,7 @@ The Azure Orbital Space SDK Virtual Test Harness (VTH) provides a means of repli
 
 Core and Platform Services provide a number of capabilities to satellite service providers to simplify on orbit operations. In general, these services manage communications between system components, secure access to the filesystem, and the lifecycle of kubernetes pods and their underlying docker images.
 
-Interested in learning more about any of these topics? Please refer to our [Azure Orbital Space SDK Architectural Overview](../architecture/README.md).
+Interested in learning more about any of these topics? Please refer to our [Azure Orbital Space SDK Architecture](../architecture/architecture.md) documentation.
 
 ## What problems does the Azure Orbital Space SDK address?
 
@@ -97,7 +97,7 @@ The Azure Orbital Space SDK is intended for the following personas. Please refer
 
 ## How does the Azure Orbital Space SDK work?
 
-Want to know how the Azure Orbital Space SDK works? See our [Detailed Architecture Documentation](../architecture/README.md).
+Want to know how the Azure Orbital Space SDK works? See our [Architecture Documentation](../architecture/architecture.md).
 
 ## How do I use the Azure Orbital Space SDK?
 
