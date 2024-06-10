@@ -41,7 +41,7 @@ Interested in learning more about any of these topics? Please refer to our [Azur
 
 As the world becomes more interconnected, modern software development has leaned into practices that increase speed, agility, and responsiveness. This often includes relying on cloud infrastructure and open source tools.
 
-**Modern software development**
+**Modern Software Development**
 
 - An emphasis on agile design, iterative development, and continuous delivery
 - Leverages automated testing to catch and fix issues early
@@ -56,7 +56,7 @@ Infrastructure is also much more difficult to operate in space than on the Earth
 
 As a result, traditional space software development uses different practices than other software domains to accommodate for these unique needs and concerns.
 
-**Traditional space software development**
+**Traditional Space Software Development**
 
 - Emphasizes waterfall design, phase-gate development, and infrequent delivery
 - May not perform significant testing until later phases of development
@@ -76,20 +76,26 @@ The Azure Orbital Space SDK runtime framework is built on modern open source and
 
 ### Software development in the space industry is expensive.
 
-Traditional software development in the space industry is expensive for a number of reasons:
+Software development in the space industry is expensive for a number of reasons:
 
-- High cost of specialized hardware and infrastructure requires to support development efforts
-- High level of risk associated with space systems
-- Long-term maintenance and support
-- Complexity of space systems
-- Extensive testing and verification requirements
-- Extensive regulatory environment
+- Development required specialized hardware and infrastructure
+- Space systems carry a higher level of risk than those on the ground
+- Long-term maintenance and support is more expensive to maintain
+- Space systems are very complex to manage and operate
+- Space systems require extensive testing and verification requirements
+- Space is a limited resource with strict regulatory requirements
 
 <!-- TODO: Finish this section -->
 
+The Azure Orbital Space SDK seeks to address these concerns through generalization, reuse, and leveraging open source and cloud technologies.
+
+The Azure Orbital Space SDK provides a software development kit and runtime environment that generalizes and standardizes software development, deployment, and operations in space. This limits the risks that come with bespoke systems that get redesigned and reimplemented for each unique mission. By adhering to [fundamental principles of microservice design](https://learn.microsoft.com/en-us/azure/architecture/microservices/), the Azure Orbital Space SDK provides a framework that is flexible, resilient, and cost-efficient to develop and maintain.
+
+Development with the Azure Orbital Space SDK is paired best with Azure's cloud infrastructure, which can provide many [cost saving benefits](https://azure.microsoft.com/en-us/resources/cloud-computing-dictionary/benefits-of-cloud-migration) to your team or organization. We also provide native support for [GitHub CodeSpaces](https://github.com/features/codespaces) and pair all components with [Visual Studio Code Dev Containers](https://code.visualstudio.com/docs/devcontainers/containers) so that development infrastructure is ephemeral and easily replaced. We work to get you started with Azure Orbital Space SDK with the bare minimum you need to be productive while giving you the tools and support to scale your infrastructure when you're ready.
+
 ## Who is the Azure Orbital Space SDK for?
 
-The Azure Orbital Space SDK is for everyone! In general, we consider there to be three broad categories of users of the Azure Orbital Space SDK:
+The Azure Orbital Space SDK is intended for the following personas:
 - [Application Developers](../personas/application-developer.md)
 - [Satellite Service Providers](../personas/satellite-owner-operator.md)
 - [Framework Developers](../personas/framework-developer.md)
