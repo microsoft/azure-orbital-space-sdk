@@ -8,7 +8,7 @@
 
 ## What is the Azure Orbital Space SDK?
 
-The Azure Orbital Space SDK is a software development kit and runtime framework that makes it easy to develop and deploy applications to space.
+The Azure Orbital Space SDK is a software development kit, runtime framework, and virtualization platform that makes it easy to develop and deploy applications to space.
 
 As an application developer, the Azure Orbital Space SDK abstracts complex satellite systems and operations into simple components with clear, standardized actions and interfaces. This allows you to focus on what matters - developing the applications you need on orbit.
 
@@ -18,7 +18,7 @@ As a satellite service provider, the Azure Orbital Space SDK provides a lightwei
 
 Unlike traditional space software frameworks, which are often proprietary and built on legacy tools, the Azure Orbital Space SDK runtime framework is built on modern open source and cloud technologies such as [Kubernetes](https://kubernetes.io) and [Dapr](https://dapr.io). Its source code is publicly available through [GitHub](https://github.com), and is developed using [Visual Studio Code](https://code.visualstudio.com) on [GitHub CodeSpaces](https://github.com/features/codespaces) or [Azure Virtual Machines](https://azure.microsoft.com/en-us/products/virtual-machines). We also provide guidance on how to deploy the Azure Orbital Space SDK on commodity single-board computers such as a [Raspberry Pi](https://www.raspberrypi.com). The Azure Orbital Space SDK is written in [.NET](https://dotnet.microsoft.com/en-us/learn/dotnet/what-is-dotnet) and exposes both .NET and [Python](https://www.python.org) client libraries so that application developers can use their favorite libraries such as [TensorFlow](https://www.tensorflow.org) or [ONNX](https://onnx.ai) to run new AI models in space or easily onboard existing legacy applications to our framework.
 
-The Azure Orbital Space SDK Host Platform is a collection of microservices built on a common framework. We client libraries for application developers to interface with spacecraft in a standardized and predictable way. Host services abstract interactive logical components of a satellite to these developers, which satellite system providers can extend through the use of plugins.
+The Azure Orbital Space SDK host platform is a collection of microservices built on a common framework. We client libraries for application developers to interface with spacecraft in a standardized and predictable way. Host services abstract interactive logical components of a satellite to these developers, which satellite system providers can extend through the use of plugins.
 
 These plugins implement the systems logic needed to convert generic requests from payload applications into their meaningful system-specific series of events. For example, a sensor service plugin could define how a payload application would interact with an imaging sensor onboard your satellite. A position service plugin could define how a payload application understands your satellite's location and orientation on orbit.
 
@@ -80,11 +80,9 @@ Software development in the space industry is expensive for a number of reasons:
 - Space systems require extensive testing and verification requirements
 - Space is a limited resource with strict regulatory requirements
 
-<!-- TODO: Finish this section -->
-
 The Azure Orbital Space SDK seeks to address these concerns through generalization, reuse, and leveraging open source and cloud technologies.
 
-The Azure Orbital Space SDK provides a software development kit and runtime environment that generalizes and standardizes software development, deployment, and operations in space. This limits the risks that come with bespoke systems that get redesigned and reimplemented for each unique mission. By adhering to [fundamental principles of microservice design](https://learn.microsoft.com/en-us/azure/architecture/microservices/), the Azure Orbital Space SDK provides a framework that is flexible, resilient, and cost-efficient to develop and maintain.
+The Azure Orbital Space SDK provides a software development kit, runtime framework, and virtualization platform that generalizes and standardizes software development, deployment, and operations in space. This limits the risks that come with bespoke systems that get redesigned and reimplemented for each unique mission. By adhering to [fundamental principles of microservice design](https://learn.microsoft.com/en-us/azure/architecture/microservices/), the Azure Orbital Space SDK provides a framework that is flexible, resilient, and cost-efficient to develop and maintain.
 
 Development with the Azure Orbital Space SDK is paired best with Azure's cloud infrastructure, which can provide many [cost saving benefits](https://azure.microsoft.com/en-us/resources/cloud-computing-dictionary/benefits-of-cloud-migration) to your team or organization. We also provide native support for [GitHub CodeSpaces](https://github.com/features/codespaces) and pair all components with [Visual Studio Code Dev Containers](https://code.visualstudio.com/docs/devcontainers/containers) so that development infrastructure is ephemeral and easily replaced. We work to get you started with Azure Orbital Space SDK with the bare minimum you need to be productive while giving you the tools and support to scale your infrastructure when you're ready.
 

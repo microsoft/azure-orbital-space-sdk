@@ -1,6 +1,6 @@
 # Azure Orbital Space SDK
 
-The Azure Orbital Space SDK is a software development kit and runtime framework that makes it easy to develop and deploy applications to space.
+The Azure Orbital Space SDK is a software development kit, runtime framework, and virtualization platform that makes it easy to develop and deploy applications to space.
 
 As an application developer, the Azure Orbital Space SDK abstracts complex satellite systems and operations into simple components with clear, standardized actions and interfaces. This allows you to focus on what matters - developing the applications you need on orbit.
 
