@@ -1,11 +1,11 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/dotnet
 {
-	"name": "python-starter-app",
+	"name": "try-space-sdk",
 	"image": "mcr.microsoft.com/devcontainers/dotnet:1-8.0-bookworm",
-	"runArgs": [ "--name=python-starter-app" ],
-	"workspaceFolder": "/workspace/python-starter-app",
-	"workspaceMount": "source=${localWorkspaceFolder}/samples/payloadapps/python/starter-app,target=/workspace/starter-app,type=bind,consistency=cached",
+	"runArgs": [ "--name=try-ao-space-sdk" ],
+	"workspaceFolder": "/workspace/try-ao-space-sdk",
+	"workspaceMount": "source=${localWorkspaceFolder}/samples/try-space-sdk,target=/workspace/try-ao-space-sdk,type=bind,consistency=cached",
     "features": {
 		"ghcr.io/microsoft/azure-orbital-space-sdk/spacefx-dev:0.11.0": {}
 	},
@@ -15,8 +15,7 @@
 	},
 	"customizations": {
 		"vscode": {
-			// Add the IDs of extensions you want installed when the container is created.
-			"extensions": [
+            "extensions": [
                 "ms-dotnettools.csharp",
                 "ms-dotnettools.csdevkit",
                 "DavidAnson.vscode-markdownlint",
@@ -26,7 +25,7 @@
                 "bierner.markdown-mermaid"
             ]
 		},
-		// Grant permissions to the Azure Orbital Space SDK repositories and their packages
+        // Grant permissions to the Azure Orbital Space SDK repositories and their packages
 		"codespaces": {
 			"repositories": {
 				"microsoft/azure-orbital-space-sdk": {
