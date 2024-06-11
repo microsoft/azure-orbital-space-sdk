@@ -5,7 +5,7 @@
 	"image": "mcr.microsoft.com/devcontainers/dotnet:1-8.0-bookworm",
 	"runArgs": [ "--name=try-ao-space-sdk" ],
 	"workspaceFolder": "/workspace/try-ao-space-sdk",
-	"workspaceMount": "source=${localWorkspaceFolder}/samples/try-space-sdk,target=/workspace/try-space-sdk,type=bind,consistency=cached",
+	"workspaceMount": "source=${localWorkspaceFolder}/samples/try-space-sdk,target=/workspace/try-ao-space-sdk,type=bind,consistency=cached",
     "features": {
 		"ghcr.io/microsoft/azure-orbital-space-sdk/spacefx-dev:0.11.0": {}
 	},
