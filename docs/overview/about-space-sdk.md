@@ -14,7 +14,31 @@ As an application developer, the Azure Orbital Space SDK abstracts complex satel
 
 As a satellite service provider, the Azure Orbital Space SDK provides a lightweight, secure runtime framework that allows your satellites to be treated as a generic compute platform. Through interface standardization satellites become reusable assets that can be modified on orbit to execute different missions through payload applications. Payload applications can be deployed to any of your satellites with zero downtime and no code modifications required.
 
-![This image provides a high-level architectural overview of the Azure Orbital Space SDK. On the left side of this image, an application kit is shown. This app kit virtualizes satellite subsystems to empower developers to create satellite agnostic applications in a development environment, such as an Azure virtual machine. On the right side of this image, a host platform is shown onboard spacecraft hardware. This host platform abstracts the same satellite subsystems that were virtualized on the left side of the image. Multiple payload applications developed from the left side of the image are seen being deployed to the spacecraft on the right side of the image. Each communicate to the satellite's subsystems through a shared host platform.](../img/AzureOrbitalSDK-Overview.png)
+```mermaid
+flowchart TB
+    subgraph "Azure Orbital Space SDK"
+        subgraph "Software Development Kit"
+            APIs
+            Client-Libraries(Client Libraries)
+            Documentation
+            Devcontainers
+            Debug-Shims(Debug Shims)
+            Samples
+            Tutorials
+        end
+        subgraph "Runtime Framework"
+            Core-Services(Core Services)
+            Host-Services(Host Services)
+            Platform-Services(Platform Services)
+            Framework-Plugins(Plugins)
+        end
+        subgraph "Virtual Test Harness"
+            Data-Generators(Data Generators)
+            VTH-Plugins(Plugins)
+            Virtual-Test-Harness(Virtual Test Harness)
+        end
+    end
+```
 
 Unlike traditional space software frameworks, which are often proprietary and built on legacy tools, the Azure Orbital Space SDK runtime framework is built on modern open source and cloud technologies such as [Kubernetes](https://kubernetes.io) and [Dapr](https://dapr.io). Its source code is publicly available through [GitHub](https://github.com), and is developed using [Visual Studio Code](https://code.visualstudio.com) on [GitHub CodeSpaces](https://github.com/features/codespaces) or [Azure Virtual Machines](https://azure.microsoft.com/en-us/products/virtual-machines). We also provide guidance on how to deploy the Azure Orbital Space SDK on commodity single-board computers such as a [Raspberry Pi](https://www.raspberrypi.com). The Azure Orbital Space SDK is written in [.NET](https://dotnet.microsoft.com/en-us/learn/dotnet/what-is-dotnet) and exposes both .NET and [Python](https://www.python.org) client libraries so that application developers can use their favorite libraries such as [TensorFlow](https://www.tensorflow.org) or [ONNX](https://onnx.ai) to run new AI models in space or easily onboard existing legacy applications to our framework.
 
