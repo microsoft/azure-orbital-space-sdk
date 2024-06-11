@@ -22,8 +22,8 @@ The runtime framework is designed to be extensible. Satellite system providers c
 
 ```mermaid
 flowchart LR
-    subgraph "Azure Orbital Space SDK - On Orbit"
-        subgraph "Deployed Azure Orbital Space SDK Resources"
+    subgraph "Azure Orbital Space SDK Runtime Framework"
+        subgraph "Azure Orbital Space SDK Resources"
             direction LR
             subgraph "Payload Applications"
                 direction TB
@@ -141,6 +141,48 @@ The VTH is composed of a virtual test harness service, plugins, and one or more 
 The VTH can also be used to integrate hardware components into the runtime environment. This feature allows developers to test their applications against the actual hardware components that will be available on their spacecraft.
 
 The VTH is designed to be flexible and customizable. Developers can choose the fidelity and functionality needed in their virtualization environment, allowing them to tailor the test environment to their specific requirements. This flexibility makes the VTH a powerful tool for developing and testing space based applications.
+
+```mermaid
+flowchart LR
+    subgraph "Azure Orbital Space SDK Virtual Test Harness"
+        subgraph "Virtual Test Harness"
+            direction LR
+            subgraph "Plugins"
+                direction TB
+                Plugin-1(Plugin 1)
+                Plugin-2(Plugin 2)
+                ...(...)
+                Plugin-M(Plugin M)
+            end
+            subgraph "Data Generators"
+                direction TB
+                Data-Generator-1(Data Generator 1)
+                Data-Generator-2(Data Generator 2)
+                ....(...)
+                Data-Generator-N(Data Generator N)
+            end
+        end
+        subgraph "VTH Architecture"
+            subgraph "Virtual Satellite Payload"
+                subgraph "Virtual General Compute Payload"
+                    Payload-Applications(Payload Applications)
+                    Host-Services(Host Services)
+                    Platform-Services(Platform Services)
+                    Payload-Applications  <-. Dapr PubSub .-> Host-Services
+                    Host-Services <-. Dapr PubSub .-> Platform-Services
+                end
+                subgraph "Virtual Test Harness"
+                    VTH(Virtual Test Harness)
+                    VTH <--> Platform-Services
+                end
+                subgraph "Data Generators"
+                    Data-Generators(Data Generators)
+                    Data-Generators <--> VTH
+                end
+            end
+        end
+    end
+```
 
 ### Components
 
