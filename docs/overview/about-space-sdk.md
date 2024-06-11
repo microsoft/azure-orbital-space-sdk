@@ -101,4 +101,4 @@ Want to know how the Azure Orbital Space SDK works? See our [Architecture Docume
 
 ## How do I use the Azure Orbital Space SDK?
 
-Ready to use the Azure Orbital Space SDK? Check out our [Getting Started Guide](../getting_started.md).
+Ready to use the Azure Orbital Space SDK? Check out our [Getting Started Guide](../getting-started.md).

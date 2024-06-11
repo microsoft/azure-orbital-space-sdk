@@ -10,7 +10,7 @@ As a satellite service provider, the Azure Orbital Space SDK provides a lightwei
 
 ## Getting Started
 
-First time working with the Azure Orbital Space SDK? Check out our [Getting Started Guide](./docs/getting_started.md).
+First time working with the Azure Orbital Space SDK? Check out our [Getting Started Guide](./docs/getting-started.md).
 
 ## Overview
 
@@ -43,4 +43,4 @@ Looking for our software license and other legal information? View our [Legal Gu
 
 ## Additional Resources
 
-Searching for something else? Find it quickly in our [Table of Contents](./docs/table_of_contents.md).
+Searching for something else? Find it quickly in our [Table of Contents](./docs/table-of-contents.md).

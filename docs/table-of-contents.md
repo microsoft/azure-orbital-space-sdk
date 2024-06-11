@@ -2,7 +2,7 @@
 
 ## Getting Started
 
-- [Getting Started with the Azure Orbital Space SDK](./getting_started.md)
+- [Getting Started with the Azure Orbital Space SDK](./getting-started.md)
 
 ### Personas
 
