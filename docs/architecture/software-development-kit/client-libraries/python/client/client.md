@@ -1,4 +1,4 @@
-# `spacefx.client` Module
+# `spacefx.client`
 
 The `spacefx.client` module provides a client that initializes your application's connection to the Azure Orbital Space SDK runtime framework.
 

@@ -1,4 +1,4 @@
-# `spacefx.link` Module
+# `spacefx.link`
 
 The `spacefx.link` module provides functionalities for managing file transfers between your application host services, and other applications running within the Azure Orbital Space SDK runtime framework.
 
