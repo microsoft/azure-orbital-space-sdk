@@ -21,7 +21,7 @@ Crosslinks a file to the destination service's inbox directory.
 
 #### **Raises**
 
-- `TimeoutError`: Returns a .NET `System.TimeoutException` if a `LinkResponse` message is not heard during the timeout period.
+- `TimeoutException`: Returns a .NET `System.TimeoutException` if a `LinkResponse` message is not heard during the timeout period.
 
 ---
 
@@ -42,7 +42,7 @@ Sends a file to Message Translation Service (MTS) to downlink to the ground at t
 
 #### **Raises**
 
-- `TimeoutError`: Returns a .NET `System.TimeoutException` if a `LinkResponse` message is not heard during the timeout period.
+- `TimeoutException`: Returns a .NET `System.TimeoutException` if a `LinkResponse` message is not heard during the timeout period.
 
 ---
 
@@ -84,6 +84,6 @@ Sends a file to the destination's inbox directory.
 
 #### **Raises**
 
-- `TimeoutError`: Returns a .NET `System.TimeoutException` if a `LinkResponse` message is not heard during the timeout period.
+- `TimeoutException`: Returns a .NET `System.TimeoutException` if a `LinkResponse` message is not heard during the timeout period.
 
 ---

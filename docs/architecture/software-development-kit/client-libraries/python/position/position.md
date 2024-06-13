@@ -10,13 +10,12 @@ Requests the last observed position of the satellite.
 
 #### **Arguments**
 
-- None
+- `response_timeout_seconds` (optional): An `int` specifying the number of seconds to wait for a `SUCCESSFUL` or `NOT_FOUND` `PositionResponse`. Defaults to `30` seconds.
 
 #### **Returns**
 
 - Returns a `SUCCESSFUL` or `NOT_FOUND` `PositionResponse`, or the last heard `PositionResponse` during the timeout period.
-- `response_timeout_seconds` (optional): An `int` specifying the number of seconds to wait for a `SUCCESSFUL` or `NOT_FOUND` `PositionResponse`. Defaults to `30` seconds.
 
 #### **Raises**
 
-- `TimeoutError`: Returns a .NET `System.TimeoutException` if a `PositionResponse` message is not heard during the timeout period.
+- `TimeoutException`: Returns a .NET `System.TimeoutException` if a `PositionResponse` message is not heard during the timeout period.

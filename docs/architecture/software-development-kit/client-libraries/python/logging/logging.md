@@ -20,7 +20,7 @@ Sends a message to the Logging Host Service. Allows the user to specify the full
 
 #### **Raises**
 
-- `TimeoutError`: Returns a .NET `System.TimeoutException` if a `LogMessageResponse` message is not heard during the timeout period.
+- `TimeoutException`: Returns a .NET `System.TimeoutException` if a `LogMessageResponse` message is not heard during the timeout period.
 
 ---
 
@@ -41,7 +41,7 @@ Sends a message to the Logging Host Service. The message is sent as a string alo
 
 #### **Raises**
 
-- `TimeoutError`: Returns a .NET `System.TimeoutException` if a `LogMessageResponse` message is not heard during the timeout period.
+- `TimeoutException`: Returns a .NET `System.TimeoutException` if a `LogMessageResponse` message is not heard during the timeout period.
 
 ---
 
@@ -62,7 +62,7 @@ Sends a telemetry message to the Logging Host Service.
 
 #### **Raises**
 
-- `TimeoutError`: Returns a .NET `System.TimeoutException` if a `TelemetryMetricResponse` message is not heard during the timeout period.
+- `TimeoutException`: Returns a .NET `System.TimeoutException` if a `TelemetryMetricResponse` message is not heard during the timeout period.
 
 ---
 
