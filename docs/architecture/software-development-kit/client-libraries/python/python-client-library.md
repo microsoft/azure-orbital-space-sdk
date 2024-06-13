@@ -2,6 +2,41 @@
 
 The Azure Orbital Space SDK Python Client Library provides developers with a comprehensive set of interfaces for interacting with satellite subsystems. This library abstracts the complexities of satellite system operation and usage, allowing you as the developer to develop innovative application without needing to know the details of the underlying satellite technology.
 
+## Azure Orbital Space SDK Python Client Library Architecture
+
+The Azure Orbital Space SDK Python Client Library is constructed as a thin python layer that wraps the Azure Orbital Space SDK .NET Client Library via [PythonNET](https://github.com/pythonnet/pythonnet?tab=readme-ov-file). PythonNET is an open source package that integrates python with the .NET Common Language Runtime (CLR) and is officially supported by the [.NET Foundation](https://dotnetfoundation.org).
+
+The Azure Orbital Space SDK .NET Client Library in turn integrates with the [Azure Orbital Space SDK Core Service](placeholder), which provides connectivity to the runtime framework through a [Dapr Sidecar](https://docs.dapr.io/concepts/dapr-services/sidecar/). This architecture reduces the potential for implementation drift between the client libraries and minimizes the level of effort required to maintain them and implement new features.
+
+```mermaid
+flowchart TB
+    subgraph "Azure Orbital Space SDK Python Client Library Architecture"
+        subgraph "Python Payload Application Pod"
+            subgraph "Payload Application Container"
+                subgraph "Space SDK Python Client Library"
+                    subgraph "Space SDK .NET Client Library"
+                        Core-Service(Core Service)
+                    end
+                end
+                Additional-Application-Code(Additional Application Code)
+            end
+        Dapr-Sidecar(Dapr Sidecar)
+        Core-Service <--> Dapr-Sidecar
+        end
+        subgraph "Space SDK Host Services"
+            direction LR
+            Link
+            Logging
+            Position
+            Sensor
+        end
+        Dapr-Sidecar <-.Pubsub.-> Link
+        Dapr-Sidecar <-.Pubsub.-> Logging
+        Dapr-Sidecar <-.Pubsub.-> Position
+        Dapr-Sidecar <-.Pubsub.-> Sensor
+    end
+```
+
 ## Components of the Azure Orbital Space SDK Python Client Library
 
 Each component of the Azure Orbital Space SDK Python Client Library plays a crucial role in simplifying interactions with the satellite. From establishing communication links to handling sensor data, these modules work together to provide a seamless experience. Below, we highlight each component of the client library.
