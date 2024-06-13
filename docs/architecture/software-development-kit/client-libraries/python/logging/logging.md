@@ -2,7 +2,7 @@
 
 The `spacefx.logging` module provides functionality to log information and send telemetry. The logging host service has integrations with the link host service which facilitates the transfer of this data to the ground via downlinks.
 
-## Public Methods
+## Methods
 
 ### `send_complex_log_message()`
 

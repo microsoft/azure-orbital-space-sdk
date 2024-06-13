@@ -2,7 +2,7 @@
 
 The `spacefx.sensor` module 
 
-## Public Methods
+## Methods
 
 ### `get_available_sensors()`
 

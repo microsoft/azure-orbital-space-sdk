@@ -2,7 +2,7 @@
 
 The `spacefx.logger` module publicly exposes the `spacefx.logging.__SpaceFxLogger` class. This class extends `logging.getLoggerClass()` and serves as a drop-in replacement for Python's `logger` module. All logging performed by `spacefx.logger` will perform both native Python logging and logging through the logging host service.
 
-## Public Methods
+## Methods
 
 ### `debug()`
 

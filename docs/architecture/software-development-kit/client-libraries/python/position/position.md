@@ -2,7 +2,7 @@
 
 The `spacefx.position` module provides functionality for payload applications to determine the current location of a satellite. This helps facilitate applications running position-sensitive operations, such as oceanic observation.
 
-## Public Methods
+## Methods
 
 ### `request_position()`
 
