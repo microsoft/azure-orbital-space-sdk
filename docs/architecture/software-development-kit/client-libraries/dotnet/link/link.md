@@ -1,89 +1,71 @@
-# `spacefx.link`
+# `Microsoft.Azure.SpaceFx.SDK.Link`
 
-The `spacefx.link` module provides functionalities for managing file transfers between your application host services, and other applications running within the Azure Orbital Space SDK runtime framework.
+The `Microsoft.Azure.SpaceFx.SDK.Link` namespace provides functionalities for managing file transfers between your application host services, and other applications running within the Azure Orbital Space SDK runtime framework.
 
-## Public Methods
+## `public class Link`
 
-### `crosslink_file()`
+### Public Methods
 
-Crosslinks a file to the destination service's inbox directory.
+#### `public static Task<MessageFormats.HostServices.Link.LinkResponse> SendFileToApp`
 
-#### **Arguments**
+##### **Arguments**
 
-- `destination_app_id`: A `str` containing the ID of the destination application.
-- `filepath`: A `str` containing the local path of the file to be transferred.
-- `overwrite_destination_file` (optional): A `bool` indicating if the file should be overwritten at its destination if it already exists. Defaults to `False`.
-- `response_timeout_seconds` (optional): An `int` indicating the number of seconds to wait for a successful LinkResponse message.
+- `string destinationAppId`: A `string` containing the ID of the destination application.
+- `string file`: A `string` containing the local path to the file to be sent.
+- `bool overwriteDestinationFile = false` (optional): A `bool` indicating if the file should be overwritten at its destination if it already exists. Defaults to `false`.
+- `int? responseTimeoutSecs = null` (optional): An `int` indicating the number of seconds to wait for a successful LinkResponse message. Defaults to `Microsoft.Azure.SpaceFx.SDK.Client.MessageResponseTimeout`.
 
-#### **Returns**
+##### **Returns**
 
-- A successful `LinkResponse` message, or the last `LinkResponse` message heard during the timeout period.
-
-#### **Raises**
-
-- `TimeoutException`: Returns a .NET `System.TimeoutException` if a `LinkResponse` message is not heard during the timeout period.
+- `Task<MessageFormats.HostServices.Link.LinkResponse>`: Returns a `System.Threading.Tasks.Task` with a `Microsoft.Azure.SpaceFx.MessageFormats.HostServices.Link.LinkResponse` result.
 
 ---
 
-### `downlink_file()`
+#### `public static Task<MessageFormats.HostServices.Link.LinkResponse> DownlinkFile`
 
 Sends a file to Message Translation Service (MTS) to downlink to the ground at the next available opportunity.
 
-#### **Arguments**
+##### **Arguments**
 
-- `destination_app_id`: A `str` containing the ID of the destination application.
-- `filepath`: A `str` containing the local path of the file to be transferred.
-- `overwrite_destination_file` (optional): A `bool` indicating if the file should be overwritten at its destination if it already exists. Defaults to `False`.
-- `response_timeout_seconds` (optional): An `int` indicating the number of seconds to wait for a successful LinkResponse message.
+- `string destinationAppId`: A `string` containing the ID of the destination application.
+- `string file`: A `string` containing the local path to the file to be sent.
+- `bool overwriteDestinationFile = false` (optional): A `bool` indicating if the file should be overwritten at its destination if it already exists. Defaults to `false`.
+- `int? responseTimeoutSecs = null` (optional): An `int` indicating the number of seconds to wait for a successful LinkResponse message. Defaults to `Microsoft.Azure.SpaceFx.SDK.Client.MessageResponseTimeout`.
 
-#### **Returns**
+##### **Returns**
 
-- A successful `LinkResponse` message, or the last `LinkResponse` message heard during the timeout period.
-
-#### **Raises**
-
-- `TimeoutException`: Returns a .NET `System.TimeoutException` if a `LinkResponse` message is not heard during the timeout period.
+- `Task<MessageFormats.HostServices.Link.LinkResponse>`: Returns a `System.Threading.Tasks.Task` with a `Microsoft.Azure.SpaceFx.MessageFormats.HostServices.Link.LinkResponse` result.
 
 ---
 
-### `get_xfer_directories()`
+#### `public static Task<MessageFormats.HostServices.Link.LinkResponse> CrosslinkFile`
 
-Returns the inbox, outbox, and root transfer volume for the application.
+Crosslinks a file to the destination service's inbox directory.
 
-#### **Arguments**
+##### **Arguments**
 
-- None
+- `string destinationAppId`: A `string` containing the ID of the destination application.
+- `string file`: A `string` containing the local path to the file to be sent.
+- `bool overwriteDestinationFile = false` (optional): A `bool` indicating if the file should be overwritten at its destination if it already exists. Defaults to `false`.
+- `int? responseTimeoutSecs = null` (optional): An `int` indicating the number of seconds to wait for a successful LinkResponse message. Defaults to `Microsoft.Azure.SpaceFx.SDK.Client.MessageResponseTimeout`.
 
-#### **Returns**
+##### **Returns**
 
-- A `dict` of the form:
-    ```python
-    {
-        'inbox':  str <path to inbox>,
-        'outbox': str <path to inbox>,
-        'root':   str <path to inbox>,
-    }
-    ```
+- `Task<MessageFormats.HostServices.Link.LinkResponse>`: Returns a `System.Threading.Tasks.Task` with a `Microsoft.Azure.SpaceFx.MessageFormats.HostServices.Link.LinkResponse` result.
 
 ---
 
-### `send_file_to_app()`
+#### `public static Task<MessageFormats.HostServices.Link.LinkResponse> SendLinkRequest`
 
-Sends a file to the destination's inbox directory.
+Sends a link request to the link host service.
 
-#### **Arguments**
+##### **Arguments**
 
-- `destination_app_id`: A `str` containing the ID of the destination application.
-- `filepath`: A `str` containing the local path of the file to be transferred.
-- `overwrite_destination_file` (optional): A `bool` indicating if the file should be overwritten at its destination if it already exists. Defaults to `False`.
-- `response_timeout_seconds` (optional): An `int` indicating the number of seconds to wait for a successful LinkResponse message.
+- `MessageFormats.HostServices.Link.LinkRequest linkRequest`: A `Microsoft.Azure.SpaceFx.MessageFormats.HostServices.Link.LinkRequest` message to be sent.
+- `string file`: A `string` containing the local path to the file to be sent.
+- `bool overwriteDestinationFile = false` (optional): A `bool` indicating if the file should be overwritten at its destination if it already exists. Defaults to `false`.
+- `int? responseTimeoutSecs = null` (optional): An `int` indicating the number of seconds to wait for a successful LinkResponse message. Defaults to `Microsoft.Azure.SpaceFx.SDK.Client.MessageResponseTimeout`.
 
-#### **Returns**
+##### **Returns**
 
-- A successful `LinkResponse` message, or the last `LinkResponse` message heard during the timeout period.
-
-#### **Raises**
-
-- `TimeoutException`: Returns a .NET `System.TimeoutException` if a `LinkResponse` message is not heard during the timeout period.
-
----
+- `Task<MessageFormats.HostServices.Link.LinkResponse>`: Returns a `System.Threading.Tasks.Task` with a `Microsoft.Azure.SpaceFx.MessageFormats.HostServices.Link.LinkResponse` result.

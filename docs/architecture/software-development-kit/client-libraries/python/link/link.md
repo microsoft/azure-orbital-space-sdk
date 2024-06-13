@@ -85,5 +85,3 @@ Sends a file to the destination's inbox directory.
 #### **Raises**
 
 - `TimeoutException`: Returns a .NET `System.TimeoutException` if a `LinkResponse` message is not heard during the timeout period.
-
----
