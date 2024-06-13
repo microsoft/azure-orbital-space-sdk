@@ -6,37 +6,41 @@ The Azure Orbital Space SDK Python Client Library provides developers with a com
 
 Each component of the Azure Orbital Space SDK Python Client Library plays a crucial role in simplifying interactions with the satellite. From establishing communication links to handling sensor data, these modules work together to provide a seamless experience. Below, we highlight each component of the client library.
 
-### spacefx
+### `spacefx`
 
 The `spacefx` module serves as the core of the Azure Orbital Space SDK Python Client Library and equips python developers with a broad array of tools to seamlessly interact with satellite platforms without needing to know the details of the satellite itself.
 
-### spacefx.client
+### `spacefx.client`
 
-The [spacefx.client](./client/client.md) module is the core interface for instantiating and interacting with the Azure Orbital Space SDK runtime framework. It provides essential functionalities such as initializing the client itself and managing application your application's runtime configuration.
+The [`spacefx.client`](./client/client.md) module is the core interface for instantiating and interacting with the Azure Orbital Space SDK runtime framework. It provides essential functionalities such as initializing the client itself and managing application your application's runtime configuration.
 
-### spacefx.link
+### `spacefx.link`
 
-The [spacefx.link](./link/link.md) module provides functionalities for managing file transfers between your application host services, and other applications running within the Azure Orbital Space SDK runtime framework. It also provides methods to stage files to transfer to the ground via downlink or transfer to other satellites running the Azure Orbital Space SDK runtime framework via crosslink.
+The [`spacefx.link`](./link/link.md) module provides functionalities for managing file transfers between your application host services, and other applications running within the Azure Orbital Space SDK runtime framework. It also provides methods to stage files to transfer to the ground via downlink or transfer to other satellites running the Azure Orbital Space SDK runtime framework via crosslink.
 
-### spacefx.logging
+### `spacefx.logging`
 
-The [spacefx.logging](./logging/logging.md) module provides functionality to log information and send telemetry. The logging host service has integrations with the link host service which facilitates the transfer of this data to the ground via downlinks. This allows applications to send log messages and telemetry data directly to the Azure Orbital Space SDK runtime framework, facilitating debugging and monitoring of applications and services running within the framework.
+The [`spacefx.logging`](./logging/logging.md) module provides functionality to log information and send telemetry. The logging host service has integrations with the link host service which facilitates the transfer of this data to the ground via downlinks. This allows applications to send log messages and telemetry data directly to the Azure Orbital Space SDK runtime framework, facilitating debugging and monitoring of applications and services running within the framework.
 
 This module is essential for applications that require detailed logging and telemetry to ensure optimal performance and reliability. It supports various logging levels and telemetry metrics, enabling developers to capture and analyze detailed information about their application's behavior and performance.
 
-### spacefx.logger
+### `spacefx.logger`
 
-The [spacefx.logger](./logging/logging.md) module defines a subclass of Python's native `logging.Logger` class, integrated with the functionality provided by `spacefx.logging`. This integration allows application developers to log their applications as they would with any standard Python application, but with the added benefit of the logs being managed by the Azure Orbital Space SDK's logging services. This ensures that logs are automatically staged for downlink to the ground for further analysis and monitoring.
+The [`spacefx.logger`](./logging/logging.md) module defines a subclass of Python's native `logging.Logger` class, integrated with the functionality provided by `spacefx.logging`. This integration allows application developers to log their applications as they would with any standard Python application, but with the added benefit of the logs being managed by the Azure Orbital Space SDK's logging services. This ensures that logs are automatically staged for downlink to the ground for further analysis and monitoring.
 
-### spacefx.sensor
+### `spacefx.position`
 
-The [spacefx.sensor](./spacefx.sensor) module is designed to interact with various sensors on a satellite platform, providing functionalities for querying available sensors, subscribing to sensor data, and tasking sensors for specific operations.
+The [`spacefx.position`](./position/position.md) module provides functionality for payload applications to determine the current location of a satellite. This helps facilitate applications running position-sensitive operations, such as oceanic observation.
+
+### `spacefx.sensor`
+
+The [`spacefx.sensor`](./sensor/sensor.md) module is designed to interact with various sensors on a satellite platform, providing functionalities for querying available sensors, subscribing to sensor data, and tasking sensors for specific operations.
 
 In our sample applications these sensors are typically imaging sensors, but any systems that collects and reports a measurement could be exposed as sensor service. This could include temperature readings, radiation monitors, or magnetometers for example.
 
-### spacefx.protos
+### `spacefx.protos`
 
-The [spacefx.protos](protos/protos.md) module exposes the [protocol buffer (protobuf)](https://protobuf.dev/overview/) Python language bindings for the Azure Orbital Space SDK. Protocol buffers are language-neutral, platform-neutral, extensible mechanisms for serializing structured data. They are similar to XML but smaller, faster, and simpler to use. In the context of the Azure Orbital Space SDK, protobufs are used to define the structure of data exchanged between your application and the Azure Orbital Space SDK runtime framework, ensuring strong typing and efficient data serialization.
+The [`spacefx.protos`](protos/protos.md) module exposes the [protocol buffer (protobuf)](https://protobuf.dev/overview/) Python language bindings for the Azure Orbital Space SDK. Protocol buffers are language-neutral, platform-neutral, extensible mechanisms for serializing structured data. They are similar to XML but smaller, faster, and simpler to use. In the context of the Azure Orbital Space SDK, protobufs are used to define the structure of data exchanged between your application and the Azure Orbital Space SDK runtime framework, ensuring strong typing and efficient data serialization.
 
 ## Using the Azure Orbital Space SDK Python Client Library
 
