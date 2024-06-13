@@ -52,7 +52,7 @@ Sends a telemetry message to the Logging Host Service.
 #### **Arguments**
 
 - `metric_name`: A `str` containing the name of the metric being emitted.
-- `metric_value`: A `int` containing the value of the metric being emitted.
+- `metric_value`: An `int` containing the value of the metric being emitted.
 - `response_timeout_seconds` (optional): An `int` specifying the number of seconds to wait for a successful `TelemetryMetricResponse`. Defaults to `30` seconds.
 - `wait_for_response` (optional): A `bool` indicating if the calling thread should wait for a response. Defaults to `False`.
 
