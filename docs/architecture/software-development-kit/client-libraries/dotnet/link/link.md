@@ -2,11 +2,11 @@
 
 The `Microsoft.Azure.SpaceFx.SDK.Link` namespace provides functionalities for managing file transfers between your application host services, and other applications running within the Azure Orbital Space SDK runtime framework.
 
-## `public class Link`
+## `Link` Class
 
 ### Public Methods
 
-#### `public static Task<MessageFormats.HostServices.Link.LinkResponse> SendFileToApp`
+#### `SendFileToApp()`
 
 ##### **Arguments**
 
@@ -21,7 +21,7 @@ The `Microsoft.Azure.SpaceFx.SDK.Link` namespace provides functionalities for ma
 
 ---
 
-#### `public static Task<MessageFormats.HostServices.Link.LinkResponse> DownlinkFile`
+#### `DownlinkFile()`
 
 Sends a file to Message Translation Service (MTS) to downlink to the ground at the next available opportunity.
 
@@ -38,7 +38,7 @@ Sends a file to Message Translation Service (MTS) to downlink to the ground at t
 
 ---
 
-#### `public static Task<MessageFormats.HostServices.Link.LinkResponse> CrosslinkFile`
+#### `CrosslinkFile()`
 
 Crosslinks a file to the destination service's inbox directory.
 
@@ -55,7 +55,7 @@ Crosslinks a file to the destination service's inbox directory.
 
 ---
 
-#### `public static Task<MessageFormats.HostServices.Link.LinkResponse> SendLinkRequest`
+#### `SendLinkRequest()`
 
 Sends a link request to the link host service.
 

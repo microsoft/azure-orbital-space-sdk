@@ -2,11 +2,11 @@
 
 The `Microsoft.Azure.SpaceFx.SDK.Client` namespace provides a client that initializes your application's connection to the Azure Orbital Space SDK runtime framework.
 
-## `public class Client`
+## `Client` Class
 
 ### Public Methods
 
-#### `public static void Build()`
+#### `Build()`
 
 Initializes the GRPC channel to the Dapr sidecar, serving as the entry point to the Microsoft Azure SpaceFx.
 
@@ -21,7 +21,7 @@ Initializes the GRPC channel to the Dapr sidecar, serving as the entry point to 
 
 ---
 
-#### `public static Task KeepAppOpen()`
+#### `KeepAppOpen()`
 
 A utility function that prevents an application from closing.
 
@@ -35,7 +35,7 @@ A utility function that prevents an application from closing.
 
 ---
 
-#### `public static void Shutdown()`
+#### `Shutdown()`
 
 Stops the `Microsoft.Azure.SpaceFx.SDK.Client` object and disposes all resources.
 
@@ -53,7 +53,7 @@ Stops the `Microsoft.Azure.SpaceFx.SDK.Client` object and disposes all resources
 
 ---
 
-#### `public static List<MessageFormats.Common.HeartBeatPulse> ServicesOnline()`
+#### `ServicesOnline()`
 
 Retrieves a list of services that are currently online, based on the receipt of recent heartbeat messages.
 
@@ -71,7 +71,7 @@ Retrieves a list of services that are currently online, based on the receipt of 
 
 ---
 
-#### `public static Task<Core.Enums.SIDECAR_STATUS> WaitForOnline()`
+#### `WaitForOnline()`
 
 A utility function that instructs the application to wait until its Dapr sidecar is active.
 
@@ -90,7 +90,7 @@ A utility function that instructs the application to wait until its Dapr sidecar
 
 ---
 
-#### `public static Task DirectToApp()`
+#### `DirectToApp()`
 
 Sends a message directly to another application running within the Azure Orbital Space SDK runtime framework.
 
@@ -109,7 +109,7 @@ Sends a message directly to another application running within the Azure Orbital
 
 ---
 
-#### `public Client()`
+#### `Client()`
 
 Constructs a new `Microsoft.Azure.SpaceFx.SDK.Client` object.
 
@@ -123,13 +123,13 @@ Constructs a new `Microsoft.Azure.SpaceFx.SDK.Client` object.
 
 ---
 
-## `public class MessageHandler<Google.Protobuf.IMessage>`
+## `MessageHandler` Class
 
 Extension of the `Google.Protobuf.IMessage` class that provides protobuf message handling and routing capabilities.
 
 ### Public Methods
 
-#### `public void MessageReceived()`
+#### `MessageReceived()`
 
 Routes messages to the applicable registered EventHandler.
 
