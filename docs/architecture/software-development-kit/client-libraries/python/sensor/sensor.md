@@ -1,6 +1,6 @@
 # `spacefx.sensor`
 
-The `spacefx.sensor` module 
+The `spacefx.sensor` module provides a comprehensive interface to onboard satellite sensors.
 
 ## Methods
 
