@@ -1,21 +1,34 @@
-# `spacefx.position`
+# `Microsoft.Azure.SpaceFx.SDK.Position`
 
-The `spacefx.position` module provides functionality for payload applications to determine the current location of a satellite. This helps facilitate applications running position-sensitive operations, such as oceanic observation.
+The `Microsoft.Azure.SpaceFx.SDK.Position` module provides functionality to log information and send telemetry. The logging host service has integrations with the link host service which facilitates the transfer of this data to the ground via downlinks.
 
-## Public Methods
+## `Position` Class
 
-### `request_position()`
+### Public Methods
+
+#### `LastKnownPosition()`
 
 Requests the last observed position of the satellite.
 
-#### **Arguments**
+##### **Arguments**
 
-- `response_timeout_seconds` (optional): An `int` specifying the number of seconds to wait for a `SUCCESSFUL` or `NOT_FOUND` `PositionResponse`. Defaults to `30` seconds.
+- `int? responseTimeoutSecs` (optional): An `int` specifying the number of seconds to wait for a successful `PositionResponse`. Defaults to `Microsoft.Azure.SpaceFx.SDK.Client.MessageResponseTimeout`.
 
-#### **Returns**
+##### **Returns**
 
-- Returns a `SUCCESSFUL` or `NOT_FOUND` `PositionResponse`, or the last heard `PositionResponse` during the timeout period.
+- `Task<MessageFormats.HostServices.Position.PositionResponse>`: Returns a `System.Threading.Tasks.Task` with a `Microsoft.Azure.SpaceFx.MessageFormats.HostServices.Position.PositionResponse` result.
 
-#### **Raises**
+---
 
-- `TimeoutException`: Returns a .NET `System.TimeoutException` if a `PositionResponse` message is not heard during the timeout period.
+#### `LastKnownPosition(MessageFormats.HostServices.Position.PositionRequest positionRequest)`
+
+Requests the last observed position of the satellite.
+
+##### **Arguments**
+
+- `MessageFormats.HostServices.Position.PositionRequest positionRequest`: A full `Microsoft.Azure.SpaceFx.MessageFormats.HostServices.Position.PositionRequest` to be sent.
+- `int? responseTimeoutSecs` (optional): An `int` specifying the number of seconds to wait for a successful `PositionResponse`. Defaults to `Microsoft.Azure.SpaceFx.SDK.Client.MessageResponseTimeout`.
+
+##### **Returns**
+
+- `Task<MessageFormats.HostServices.Position.PositionResponse>`: Returns a `System.Threading.Tasks.Task` with a `Microsoft.Azure.SpaceFx.MessageFormats.HostServices.Position.PositionResponse` result.

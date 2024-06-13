@@ -1,6 +1,6 @@
 # `Microsoft.Azure.SpaceFx.SDK.Logging`
 
-The `Microsoft.Azure.SpaceFx.SDK.Logging` module provides functionality to log information and send telemetry. The logging host service has integrations with the link host service which facilitates the transfer of this data to the ground via downlinks.
+The `Microsoft.Azure.SpaceFx.SDK.Logging` namespace provides functionality to log information and send telemetry. The logging host service has integrations with the link host service which facilitates the transfer of this data to the ground via downlinks.
 
 ## `Logging` Class
 
