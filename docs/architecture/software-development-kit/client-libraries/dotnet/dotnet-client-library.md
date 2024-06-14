@@ -67,7 +67,7 @@ In our sample applications these sensors are typically imaging sensors, but any 
 
 ### `Microsoft.Azure.SpaceFx.MessageFormats`
 
-The [`icrosoft.Azure.SpaceFx.MessageFormats`](protos/protos.md) module exposes the [protocol buffer (protobuf)](https://protobuf.dev/overview/) .NET language bindings for the Azure Orbital Space SDK. Protocol buffers are language-neutral, platform-neutral, extensible mechanisms for serializing structured data. They are similar to XML but smaller, faster, and simpler to use. In the context of the Azure Orbital Space SDK, protobufs are used to define the structure of data exchanged between your application and the Azure Orbital Space SDK runtime framework, ensuring strong typing and efficient data serialization.
+The [`Microsoft.Azure.SpaceFx.MessageFormats`](protos/protos.md) module exposes the [protocol buffer (protobuf)](https://protobuf.dev/overview/) .NET language bindings for the Azure Orbital Space SDK. Protocol buffers are language-neutral, platform-neutral, extensible mechanisms for serializing structured data. They are similar to XML but smaller, faster, and simpler to use. In the context of the Azure Orbital Space SDK, protobufs are used to define the structure of data exchanged between your application and the Azure Orbital Space SDK runtime framework, ensuring strong typing and efficient data serialization.
 
 ## Using the .NET Client Library
 
