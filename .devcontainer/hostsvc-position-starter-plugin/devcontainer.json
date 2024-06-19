@@ -3,8 +3,8 @@
 {
 	"name": "hostsvc-position-plugin-starter",
 	"image": "mcr.microsoft.com/devcontainers/dotnet:0-6.0",
-	"runArgs": [ "--name=plugin-hostsvc-position-starter" ],
-	"workspaceFolder": "/workspace/plugin-hostsvc-position-starter",
+	"runArgs": [ "--name=hostsvc-position-plugin-starter" ],
+	"workspaceFolder": "/workspace/hostsvc-position-plugin-starter",
 	"workspaceMount": "source=${localWorkspaceFolder}/samples/plugins/hostsvc/hostsvc-position/starter-plugin,target=/workspace/hostsvc-position-plugin-starter,type=bind,consistency=cached",
     "features": {
 		"ghcr.io/microsoft/azure-orbital-space-sdk/spacefx-dev:0.11.0": {
