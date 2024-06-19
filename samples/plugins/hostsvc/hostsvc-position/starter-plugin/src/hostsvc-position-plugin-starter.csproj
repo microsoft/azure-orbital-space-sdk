@@ -8,6 +8,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Azure.SpaceSDK.Core" Version="$([System.IO.File]::ReadAllText('/spacefx-dev/config/spacefx_version'))" />
+    <PackageReference Include="Microsoft.Azure.SpaceSDK.HostServices.Position.Plugins" Version="$([System.IO.File]::ReadAllText('/spacefx-dev/config/spacefx_version'))" />
   </ItemGroup>
   <Target Name="CopyCustomContent" AfterTargets="AfterBuild">
     <Copy SourceFiles="hostsvc-position-plugin-starter.json.spacefx_plugin" DestinationFolder="$(OutDir)" />
