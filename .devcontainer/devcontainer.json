@@ -2,12 +2,15 @@
 // README at: https://github.com/devcontainers/templates/tree/main/src/dotnet
 {
 	"name": "try-space-sdk",
-	"image": "mcr.microsoft.com/devcontainers/dotnet:1-8.0-bookworm",
-	"runArgs": [ "--name=try-ao-space-sdk" ],
-	"workspaceFolder": "/workspace/try-ao-space-sdk",
-	"workspaceMount": "source=${localWorkspaceFolder}/samples/try-space-sdk,target=/workspace/try-ao-space-sdk,type=bind,consistency=cached",
+	"image": "mcr.microsoft.com/devcontainers/dotnet:0-6.0",
+	"runArgs": [ "--name=try-space-sdk" ],
+	"workspaceFolder": "/workspace/try-space-sdk",
+	"workspaceMount": "source=${localWorkspaceFolder}/samples/try-space-sdk,target=/workspace/try-space-sdk,type=bind,consistency=cached",
     "features": {
-		"ghcr.io/microsoft/azure-orbital-space-sdk/spacefx-dev:0.11.0": {}
+		"ghcr.io/microsoft/azure-orbital-space-sdk/spacefx-dev:0.11.0": {
+			"app_name": "try-space-sdk",
+			"app_type": "none"
+		}
 	},
 	"hostRequirements": {
 		"cpus": 8,

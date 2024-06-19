@@ -1,14 +1,14 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/dotnet
 {
-	"name": "hostsvc-position-starter-plugin",
+	"name": "hostsvc-position-plugin-starter",
 	"image": "mcr.microsoft.com/devcontainers/dotnet:0-6.0",
 	"runArgs": [ "--name=plugin-hostsvc-position-starter" ],
 	"workspaceFolder": "/workspace/plugin-hostsvc-position-starter",
-	"workspaceMount": "source=${localWorkspaceFolder}/samples/plugins/hostsvc/hostsvc-position/starter-plugin,target=/workspace/hostsvc-position-starter-plugin,type=bind,consistency=cached",
+	"workspaceMount": "source=${localWorkspaceFolder}/samples/plugins/hostsvc/hostsvc-position/starter-plugin,target=/workspace/hostsvc-position-plugin-starter,type=bind,consistency=cached",
     "features": {
 		"ghcr.io/microsoft/azure-orbital-space-sdk/spacefx-dev:0.11.0": {
-			"app_name": "hostsvc-position-starter-plugin",
+			"app_name": "hostsvc-position-plugin-starter",
 			"app_type": "hostsvc-position-plugin",
 			"addl_debug_shim_suffixes": "client"
 		}
