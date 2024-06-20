@@ -1,0 +1,10 @@
+{
+    "pluginFile": "hostsvc-position-plugin-starter.dll",
+    "pluginName": "hostsvc-position-plugin-starter",
+    "targetService": "hostsvc-position",
+    "plugin_permissions": "ALL",
+    "core_permissions": "ALL",
+    "build_artifacts": [],
+    "configuration": {
+    }
+}
