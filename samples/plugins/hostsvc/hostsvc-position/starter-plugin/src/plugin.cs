@@ -8,7 +8,9 @@ public class StarterPlugin : Microsoft.Azure.SpaceFx.HostServices.Position.Plugi
 
     public override ILogger Logger { get; set; }
 
-    public override Task BackgroundTask() => Task.Run(() => Console.WriteLine("Successfully started plugin background task."));
+    public override Task BackgroundTask() => Task.Run(() => {
+        Console.WriteLine("Hello from the background task!");
+    });
 
     public override void ConfigureLogging(ILoggerFactory loggerFactory) => this.Logger = loggerFactory.CreateLogger<StarterPlugin>();
 

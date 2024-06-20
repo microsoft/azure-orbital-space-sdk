@@ -57,7 +57,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/src/templatePlugin.csproj",
+                "${workspaceFolder}/src/hostsvc-position-plugin-starter.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
