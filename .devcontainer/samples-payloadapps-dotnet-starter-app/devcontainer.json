@@ -34,6 +34,12 @@
 						"packages": "read"
 					}
 				},
+				"microsoft/azure-orbital-space-sdk-core": {
+					"permissions": {
+						"contents": "read",
+						"packages": "read"
+					}
+				},
 				"microsoft/azure-orbital-space-sdk-setup": {
 					"permissions": {
 						"contents": "read",
