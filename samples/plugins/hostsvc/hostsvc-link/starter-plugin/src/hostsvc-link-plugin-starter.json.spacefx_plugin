@@ -1,0 +1,10 @@
+{
+    "pluginFile": "hostsvc-link-plugin-starter.dll",
+    "pluginName": "hostsvc-link-plugin-starter",
+    "targetService": "hostsvc-link",
+    "plugin_permissions": "ALL",
+    "core_permissions": "ALL",
+    "build_artifacts": [],
+    "configuration": {
+    }
+}

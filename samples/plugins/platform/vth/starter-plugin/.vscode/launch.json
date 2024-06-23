@@ -1,0 +1,84 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "HostSvc",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "/usr/bin/dotnet",
+            "preLaunchTask": "deploy-debugshim-host",
+            "args": [
+                "${workspaceFolder}/.git/workspaces/vth/vth.dll"
+            ],
+            "env": {
+                "DOTNET_ENVIRONMENT": "PluginDev"
+            },
+            "cwd": "${workspaceFolder}/src",
+            "stopAtEntry": false,
+            "console": "internalConsole",
+            "pipeTransport": {
+                "pipeCwd": "${workspaceRoot}/src",
+                "pipeProgram": "bash",
+                "pipeArgs": [
+                    "-c \" kubectl exec --stdin $(kubectl get pods -l app=vth -n payload-app --sort-by=.metadata.creationTimestamp -o jsonpath=\"{.items[-1:].metadata.name}\") -n payload-app -c vth -- "
+                ],
+                "quoteArgs": false,
+                "debuggerPath": "${workspaceFolder}/.git/spacefx-dev/vsdbg/vsdbg"
+            },
+            "postDebugTask": "reset-debugshim-host",
+            "presentation": {
+                "hidden": false,
+                "group": "",
+                "order": 1
+            },
+            "requireExactSource": true
+        },
+        {
+            "name": "DebugClient",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "/usr/bin/dotnet",
+            "preLaunchTask": "deploy-debugshim-client",
+            "args": [
+                "${workspaceFolder}/debugClient/bin/Debug/net6.0/debugClient.dll"
+            ],
+            "env": {
+                "DOTNET_ENVIRONMENT": "Development"
+            },
+            "cwd": "${workspaceFolder}/debugClient",
+            "stopAtEntry": false,
+            "console": "internalConsole",
+            "pipeTransport": {
+                "pipeCwd": "${workspaceRoot}/debugClient",
+                "pipeProgram": "bash",
+                "pipeArgs": [
+                    "-c \" kubectl exec --stdin $(kubectl get pods -l app=vth-client -n payload-app --sort-by=.metadata.creationTimestamp -o jsonpath=\"{.items[-1:].metadata.name}\") -n payload-app -c vth-client -- "
+                ],
+                "quoteArgs": false,
+                "debuggerPath": "${workspaceFolder}/.git/spacefx-dev/vsdbg/vsdbg"
+            },
+            "postDebugTask": "reset-debugshim-client",
+            "presentation": {
+                "hidden": false,
+                "group": "",
+                "order": 1
+            },
+            "requireExactSource": true
+        }
+    ],
+    "compounds": [
+        {
+            "name": "HostSvc & DebugClient",
+            "configurations": [
+                "HostSvc",
+                "DebugClient"
+            ],
+            "stopAll": true,
+            "presentation": {
+                "hidden": false,
+                "group": "debug",
+                "order": 2
+            }
+        }
+    ]
+}

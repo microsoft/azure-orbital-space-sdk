@@ -1,0 +1,1 @@
+README doc for writting a position plugin
