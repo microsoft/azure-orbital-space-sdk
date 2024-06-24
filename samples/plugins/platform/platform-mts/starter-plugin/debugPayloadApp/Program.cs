@@ -1,6 +1,5 @@
 using Microsoft.Azure.SpaceFx.MessageFormats.Common;
 using Microsoft.Azure.SpaceFx.MessageFormats.HostServices.Sensor;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace DebugClient;
 
@@ -20,6 +19,7 @@ public class Program {
             services.AddSingleton<Core.IMessageHandler<SensorData>, MessageHandler<SensorData>>();
             services.AddSingleton<Core.IMessageHandler<TaskingPreCheckResponse>, MessageHandler<TaskingPreCheckResponse>>();
             services.AddSingleton<Core.IMessageHandler<SensorsAvailableResponse>, MessageHandler<SensorsAvailableResponse>>();
+            services.AddSingleton<Core.IMessageHandler<TaskingResponse>, MessageHandler<TaskingResponse>>();
             services.AddSingleton<Core.IMessageHandler<TaskingResponse>, MessageHandler<TaskingResponse>>();
         }).ConfigureLogging((logging) => {
             // Enable the Azure Orbital Space SDK Logging to route messages to the hostsvc-logging

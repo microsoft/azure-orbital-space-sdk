@@ -2,13 +2,13 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "hostsvc-sensor",
+            "name": "platform-mts",
             "type": "coreclr",
             "request": "launch",
             "program": "/usr/bin/dotnet",
             "preLaunchTask": "deploy-debugshim-host",
             "args": [
-                "${workspaceFolder}/.git/workspaces/hostsvc-sensor/hostsvc-sensor.dll"
+                "${workspaceFolder}/.git/workspaces/platform-mts/platform-mts.dll"
             ],
             "env": {
                 "DOTNET_ENVIRONMENT": "PluginDev"
@@ -20,7 +20,7 @@
                 "pipeCwd": "${workspaceRoot}/src",
                 "pipeProgram": "bash",
                 "pipeArgs": [
-                    "-c \" kubectl exec --stdin $(kubectl get pods -l app=hostsvc-sensor -n payload-app --sort-by=.metadata.creationTimestamp -o jsonpath=\"{.items[-1:].metadata.name}\") -n payload-app -c hostsvc-sensor -- "
+                    "-c \" kubectl exec --stdin $(kubectl get pods -l app=platform-mts -n payload-app --sort-by=.metadata.creationTimestamp -o jsonpath=\"{.items[-1:].metadata.name}\") -n payload-app -c platform-mts -- "
                 ],
                 "quoteArgs": false,
                 "debuggerPath": "${workspaceFolder}/.git/spacefx-dev/vsdbg/vsdbg"
@@ -52,7 +52,7 @@
                 "pipeCwd": "${workspaceRoot}/debugPayloadApp",
                 "pipeProgram": "bash",
                 "pipeArgs": [
-                    "-c \" kubectl exec --stdin $(kubectl get pods -l app=hostsvc-sensor-client -n payload-app --sort-by=.metadata.creationTimestamp -o jsonpath=\"{.items[-1:].metadata.name}\") -n payload-app -c hostsvc-sensor-client -- "
+                    "-c \" kubectl exec --stdin $(kubectl get pods -l app=platform-mts-client -n payload-app --sort-by=.metadata.creationTimestamp -o jsonpath=\"{.items[-1:].metadata.name}\") -n payload-app -c platform-mts-client -- "
                 ],
                 "quoteArgs": false,
                 "debuggerPath": "${workspaceFolder}/.git/spacefx-dev/vsdbg/vsdbg"
@@ -68,9 +68,9 @@
     ],
     "compounds": [
         {
-            "name": "hostsvc-sensor & DebugPayloadApp",
+            "name": "platform-mts & DebugPayloadApp",
             "configurations": [
-                "hostsvc-sensor",
+                "platform-mts",
                 "DebugPayloadApp"
             ],
             "stopAll": true,

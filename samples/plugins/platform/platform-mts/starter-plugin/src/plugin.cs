@@ -1,5 +1,9 @@
-﻿namespace Microsoft.Azure.SpaceFx.HostServices.Sensor.Plugins;
-public class StarterPlugin : Microsoft.Azure.SpaceFx.HostServices.Sensor.Plugins.PluginBase {
+﻿using Microsoft.Azure.SpaceFx.MessageFormats.HostServices.Link;
+using Microsoft.Azure.SpaceFx.MessageFormats.HostServices.Position;
+using Microsoft.Azure.SpaceFx.MessageFormats.HostServices.Sensor;
+
+namespace Microsoft.Azure.SpaceFx.PlatformServices.MessageTranslationService.Plugins;
+public class StarterPlugin : Microsoft.Azure.SpaceFx.PlatformServices.MessageTranslationService.Plugins.PluginBase {
 
     // Temperature sensor simulates a broadcast sensor to validate the unknown destination scenario works
     const string SENSOR_TEMPERATURE_ID = "DemoTemperatureSensor";
@@ -66,6 +70,21 @@ public class StarterPlugin : Microsoft.Azure.SpaceFx.HostServices.Sensor.Plugins
         }
     });
 
+    public override Task<LinkResponse?> LinkResponse(LinkResponse? input_response) => Task.Run(() => {
+        Logger.LogInformation("Plugin received and processed a LinkResponse Event");
+        return (input_response ?? null);
+    });
+
+    public override Task<(PositionUpdateRequest?, PositionUpdateResponse?)> PositionUpdateRequest(PositionUpdateRequest? input_request, PositionUpdateResponse? input_response) => Task.Run(() => {
+        Logger.LogInformation("Plugin received and processed a PositionUpdateRequest Event");
+        return (input_request, input_response);
+    });
+
+    public override Task<PositionUpdateResponse?> PositionUpdateResponse(PositionUpdateResponse? input_response) => Task.Run(() => {
+        Logger.LogInformation("Plugin received and processed a PositionUpdateResponse Event");
+        return (input_response ?? null);
+    });
+
     public override Task<PluginHealthCheckResponse> PluginHealthCheckResponse() => Task<PluginHealthCheckResponse>.Run(() => {
         return new MessageFormats.Common.PluginHealthCheckResponse {
             ResponseHeader = new MessageFormats.Common.ResponseHeader {
@@ -77,12 +96,12 @@ public class StarterPlugin : Microsoft.Azure.SpaceFx.HostServices.Sensor.Plugins
         };
     });
 
-    public override Task<SensorsAvailableRequest?> SensorsAvailableRequest(SensorsAvailableRequest? input_request) => Task.Run(() => {
-        Logger.LogInformation("Plugin received and processed a SensorsAvailableRequest Event");
+    public override Task<SensorData?> SensorData(SensorData? input_request) => Task.Run(() => {
+        Logger.LogInformation("Plugin received and processed a SensorData Event");
         return (input_request ?? null);
     });
 
-    public override Task<(SensorsAvailableRequest?, SensorsAvailableResponse?)> SensorsAvailableResponse(SensorsAvailableRequest? input_request, SensorsAvailableResponse? input_response) => Task.Run(() => {
+    public override Task<(SensorsAvailableRequest?, SensorsAvailableResponse?)> SensorsAvailableRequest(SensorsAvailableRequest? input_request, SensorsAvailableResponse? input_response) => Task.Run(() => {
         Logger.LogInformation("Plugin received and processed a SensorsAvailableResponse Event");
 
         if (input_request == null || input_response == null) return (input_request, input_response);
@@ -95,13 +114,13 @@ public class StarterPlugin : Microsoft.Azure.SpaceFx.HostServices.Sensor.Plugins
         return (input_request, input_response);
     });
 
-    public override Task<TaskingPreCheckRequest?> TaskingPreCheckRequest(TaskingPreCheckRequest? input_request) => Task.Run(() => {
-        Logger.LogInformation("Plugin received and processed a TaskingPreCheckRequest Event");
-        return (input_request ?? null);
+    public override Task<SensorsAvailableResponse?> SensorsAvailableResponse(SensorsAvailableResponse? input_response) => Task.Run(() => {
+        Logger.LogInformation("Plugin received and processed a SensorsAvailableResponse Event");
+        return (input_response ?? null);
     });
 
-    public override Task<(TaskingPreCheckRequest?, TaskingPreCheckResponse?)> TaskingPreCheckResponse(TaskingPreCheckRequest? input_request, TaskingPreCheckResponse? input_response) => Task.Run(() => {
-        Logger.LogInformation("Plugin received and processed a TaskingPreCheckResponse Event");
+    public override Task<(TaskingPreCheckRequest?, TaskingPreCheckResponse?)> TaskingPreCheckRequest(TaskingPreCheckRequest? input_request, TaskingPreCheckResponse? input_response) => Task.Run(() => {
+        Logger.LogInformation("Plugin received and processed a TaskingPreCheckRequest Event");
         if (input_request == null || input_response == null) return (input_request, input_response);
 
         // Flip it to success
@@ -109,13 +128,13 @@ public class StarterPlugin : Microsoft.Azure.SpaceFx.HostServices.Sensor.Plugins
         return (input_request, input_response);
     });
 
-    public override Task<TaskingRequest?> TaskingRequest(TaskingRequest? input_request) => Task.Run(() => {
-        Logger.LogInformation("Plugin received and processed a TaskingRequest Event");
-        return (input_request ?? null);
+    public override Task<TaskingPreCheckResponse?> TaskingPreCheckResponse(TaskingPreCheckResponse? input_response) => Task.Run(() => {
+        Logger.LogInformation("Plugin received and processed a TaskingPreCheckResponse Event");
+        return (input_response ?? null);
     });
 
-    public override Task<(TaskingRequest?, TaskingResponse?)> TaskingResponse(TaskingRequest? input_request, TaskingResponse? input_response) => Task.Run(() => {
-        Logger.LogInformation("Plugin received and processed a TaskingResponse Event");
+    public override Task<(TaskingRequest?, TaskingResponse?)> TaskingRequest(TaskingRequest? input_request, TaskingResponse? input_response) => Task.Run(() => {
+        Logger.LogInformation("Plugin received and processed a TaskingRequest Event");
         if (input_request == null || input_response == null) return (input_request, input_response);
 
         // Flip it to success
@@ -126,12 +145,13 @@ public class StarterPlugin : Microsoft.Azure.SpaceFx.HostServices.Sensor.Plugins
         if (!CLIENT_IDS.Contains(input_request.RequestHeader.AppId))
             CLIENT_IDS.Add(input_request.RequestHeader.AppId);
 
-
+        // Flip it to success
+        input_response.ResponseHeader.Status = StatusCodes.Successful;
         return (input_request, input_response);
     });
 
-    public override Task<SensorData?> SensorData(SensorData? input_request) => Task.Run(() => {
-        Logger.LogInformation("Plugin received and processed a SensorData Event");
-        return (input_request ?? null);
+    public override Task<TaskingResponse?> TaskingResponse(TaskingResponse? input_response) => Task.Run(() => {
+        Logger.LogInformation("Plugin received and processed a SensorsAvailableRequest Event");
+        return (input_response ?? null);
     });
 }

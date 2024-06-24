@@ -8,12 +8,12 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Azure.SpaceSDK.Core" Version="$([System.IO.File]::ReadAllText('/spacefx-dev/config/spacefx_version'))" />
-    <PackageReference Include="Microsoft.Azure.SpaceSDK.HostServices.Sensor.Plugins" Version="$([System.IO.File]::ReadAllText('/spacefx-dev/config/spacefx_version'))" />
+    <PackageReference Include="Microsoft.Azure.SpaceSDK.PlatformServices.MessageTranslationService.Plugins" Version="$([System.IO.File]::ReadAllText('/spacefx-dev/config/spacefx_version'))" />
   </ItemGroup>
   <Target Name="CopyCustomContent" AfterTargets="AfterBuild">
-    <Copy SourceFiles="hostsvc-sensor-plugin-starter.json.spacefx_plugin" DestinationFolder="$(OutDir)" />
+    <Copy SourceFiles="platform-mts-plugin-starter.json.spacefx_plugin" DestinationFolder="$(OutDir)" />
   </Target>
   <Target Name="CopyCustomContentOnPublish" AfterTargets="Publish">
-    <Copy SourceFiles="hostsvc-sensor-plugin-starter.json.spacefx_plugin" DestinationFolder="$(PublishDir)" />
+    <Copy SourceFiles="platform-mts-plugin-starter.json.spacefx_plugin" DestinationFolder="$(PublishDir)" />
   </Target>
 </Project>

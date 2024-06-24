@@ -2,8 +2,8 @@
     "version": "2.0.0",
     "options": {
         "env": {
-            "DEBUG_SHIM_HOST": "hostsvc-sensor",
-            "DEBUG_SHIM_CLIENT": "hostsvc-sensor-client",
+            "DEBUG_SHIM_HOST": "platform-mts",
+            "DEBUG_SHIM_CLIENT": "platform-mts-client",
         }
     },
     "tasks": [
@@ -57,7 +57,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/src/hostsvc-sensor-plugin-starter.csproj",
+                "${workspaceFolder}/src/platform-mts-plugin-starter.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],

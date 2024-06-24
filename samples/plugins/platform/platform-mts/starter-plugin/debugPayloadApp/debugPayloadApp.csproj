@@ -8,6 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="/workspace/hostsvc-sensor-plugin-starter/src/hostsvc-sensor-plugin-starter.csproj" />
+    <ProjectReference Include="/workspace/platform-mts-plugin-starter/src/platform-mts-plugin-starter.csproj" />
   </ItemGroup>
 </Project>
