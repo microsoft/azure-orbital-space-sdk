@@ -1,0 +1,10 @@
+{
+    "pluginFile": "vth-plugin-starter.dll",
+    "pluginName": "vth-plugin-starter",
+    "targetService": "vth",
+    "plugin_permissions": "ALL",
+    "core_permissions": "ALL",
+    "build_artifacts": [],
+    "configuration": {
+    }
+}

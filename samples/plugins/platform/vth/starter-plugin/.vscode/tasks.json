@@ -1,0 +1,163 @@
+{
+    "version": "2.0.0",
+    "options": {
+        "env": {
+            "DEBUG_SHIM_HOST": "vth",
+            "DEBUG_SHIM_CLIENT": "vth-client",
+        }
+    },
+    "tasks": [
+        {
+            "label": "deploy-debugshim-host",
+            "isBackground": false,
+            "command": "/bin/bash",
+            "type": "shell",
+            "dependsOn": [
+                "build",
+            ],
+            "dependsOrder": "sequence",
+            "args": [
+                "/spacefx-dev/debugShim-deploy.sh",
+                "--debug_shim",
+                "${DEBUG_SHIM_HOST}"
+            ],
+            "presentation": {
+                "echo": true,
+                "reveal": "never",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            }
+        },
+        {
+            "label": "reset-debugshim-host",
+            "isBackground": true,
+            "command": "/bin/bash",
+            "type": "shell",
+            "dependsOrder": "sequence",
+            "args": [
+                "/spacefx-dev/debugShim-reset.sh",
+                "--debug_shim",
+                "${DEBUG_SHIM_HOST}",
+                "--skip-pod-wait"
+            ],
+            "presentation": {
+                "echo": false,
+                "reveal": "never",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            }
+        },
+        {
+            "label": "build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/src/vth-plugin-starter.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "deploy-debugshim-client",
+            "isBackground": false,
+            "command": "/bin/bash",
+            "type": "shell",
+            "dependsOn": [
+                "pause-processing",
+                "build-client"
+            ],
+            "dependsOrder": "sequence",
+            "args": [
+                "/spacefx-dev/debugShim-deploy.sh",
+                "--debug_shim",
+                "${DEBUG_SHIM_CLIENT}",
+                "--disable_plugin_configs"
+            ],
+            "presentation": {
+                "echo": true,
+                "reveal": "never",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            }
+        },
+        {
+            "label": "reset-debugshim-client",
+            "isBackground": true,
+            "command": "/bin/bash",
+            "type": "shell",
+            "dependsOrder": "sequence",
+            "args": [
+                "/spacefx-dev/debugShim-reset.sh",
+                "--debug_shim",
+                "${DEBUG_SHIM_CLIENT}",
+                "--skip-pod-wait"
+            ],
+            "presentation": {
+                "echo": false,
+                "reveal": "never",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            }
+        },
+        {
+            "label": "build-client",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/debugPayloadApp/debugPayloadApp.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "reset-debugshim-test-client",
+            "isBackground": true,
+            "command": "/bin/bash",
+            "type": "shell",
+            "dependsOrder": "sequence",
+            "args": [
+                "/spacefx-dev/debugShim-reset.sh",
+                "--debug_shim",
+                "${DEBUG_SHIM_CLIENT}",
+                "--skip-pod-wait"
+            ],
+            "presentation": {
+                "echo": false,
+                "reveal": "never",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            }
+        },
+        {
+            "label": "pause-processing",
+            "isBackground": false,
+            "command": "sleep",
+            "type": "process",
+            "args": [
+                "3s"
+            ],
+            "presentation": {
+                "echo": false,
+                "reveal": "never",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            }
+        }
+    ]
+}
