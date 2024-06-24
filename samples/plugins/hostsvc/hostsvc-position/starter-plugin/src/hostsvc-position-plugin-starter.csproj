@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <RuntimeIdentifiers>linux-x64;linux-arm64</RuntimeIdentifiers>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Azure.SpaceSDK.Core" Version="$([System.IO.File]::ReadAllText('/spacefx-dev/config/spacefx_version'))" />
+    <PackageReference Include="Microsoft.Azure.SpaceSDK.HostServices.Position.Plugins" Version="$([System.IO.File]::ReadAllText('/spacefx-dev/config/spacefx_version'))" />
+  </ItemGroup>
+  <Target Name="CopyCustomContent" AfterTargets="AfterBuild">
+    <Copy SourceFiles="hostsvc-position-plugin-starter.json.spacefx_plugin" DestinationFolder="$(OutDir)" />
+  </Target>
+  <Target Name="CopyCustomContentOnPublish" AfterTargets="Publish">
+    <Copy SourceFiles="hostsvc-position-plugin-starter.json.spacefx_plugin" DestinationFolder="$(PublishDir)" />
+  </Target>
+</Project>
