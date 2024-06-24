@@ -1,13 +1,17 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/dotnet
 {
-	"name": "dotnet-starter-app",
-	"image": "mcr.microsoft.com/devcontainers/dotnet:1-8.0-bookworm",
-	"runArgs": [ "--name=dotnet-starter-app" ],
-	"workspaceFolder": "/workspace/dotnet-starter-app",
-	"workspaceMount": "source=${localWorkspaceFolder}/samples/payloadapps/dotnet/starter-app,target=/workspace/starter-app,type=bind,consistency=cached",
+	"name": "plugins-starter-platform-mts",
+	"image": "mcr.microsoft.com/devcontainers/dotnet:0-6.0",
+	"runArgs": [ "--name=platform-mts-plugin-starter" ],
+	"workspaceFolder": "/workspace/platform-mts-plugin-starter",
+	"workspaceMount": "source=${localWorkspaceFolder}/samples/plugins/platform/platform-mts/starter-plugin,target=/workspace/platform-mts-plugin-starter,type=bind,consistency=cached",
     "features": {
-		"ghcr.io/microsoft/azure-orbital-space-sdk/spacefx-dev:0.11.0": {}
+		"ghcr.io/microsoft/azure-orbital-space-sdk/spacefx-dev:0.11.0": {
+			"app_name": "platform-mts-plugin-starter",
+			"app_type": "platform-mts-plugin",
+			"addl_debug_shim_suffixes": "client"
+		}
 	},
 	"hostRequirements": {
 		"cpus": 8,

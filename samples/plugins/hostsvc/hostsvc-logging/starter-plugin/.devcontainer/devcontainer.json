@@ -1,13 +1,17 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/dotnet
 {
-	"name": "python-starter-app",
-	"image": "mcr.microsoft.com/devcontainers/dotnet:1-8.0-bookworm",
-	"runArgs": [ "--name=python-starter-app" ],
-	"workspaceFolder": "/workspace/python-starter-app",
-	"workspaceMount": "source=${localWorkspaceFolder}/samples/payloadapps/python/starter-app,target=/workspace/starter-app,type=bind,consistency=cached",
+	"name": "plugins-starter-hostsvc-logging",
+	"image": "mcr.microsoft.com/devcontainers/dotnet:0-6.0",
+	"runArgs": [ "--name=hostsvc-logging-plugin-starter" ],
+	"workspaceFolder": "/workspace/hostsvc-logging-plugin-starter",
+	"workspaceMount": "source=${localWorkspaceFolder}/samples/plugins/hostsvc/hostsvc-logging/starter-plugin,target=/workspace/hostsvc-logging-plugin-starter,type=bind,consistency=cached",
     "features": {
-		"ghcr.io/microsoft/azure-orbital-space-sdk/spacefx-dev:0.11.0": {}
+		"ghcr.io/microsoft/azure-orbital-space-sdk/spacefx-dev:0.11.0": {
+			"app_name": "hostsvc-logging-plugin-starter",
+			"app_type": "hostsvc-logging-plugin",
+			"addl_debug_shim_suffixes": "client"
+		}
 	},
 	"hostRequirements": {
 		"cpus": 8,
@@ -94,7 +98,7 @@
 						"packages": "read"
 					}
 				},
-				"microsoft/azure-orbital-space-sdk-hostsvc-position": {
+				"azure-orbital-space-sdk-hostsvc-position": {
 					"permissions": {
 						"contents": "read",
 						"packages": "read"

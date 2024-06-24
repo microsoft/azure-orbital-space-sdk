@@ -1,15 +1,15 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/dotnet
 {
-	"name": "platform-mts-plugin-starter",
+	"name": "plugins-starter-vth",
 	"image": "mcr.microsoft.com/devcontainers/dotnet:0-6.0",
-	"runArgs": [ "--name=platform-mts-plugin-starter" ],
-	"workspaceFolder": "/workspace/platform-mts-plugin-starter",
-	"workspaceMount": "source=${localWorkspaceFolder}/samples/plugins/platform/platform-mts/starter-plugin,target=/workspace/platform-mts-plugin-starter,type=bind,consistency=cached",
+	"runArgs": [ "--name=vth-plugin-starter" ],
+	"workspaceFolder": "/workspace/vth-plugin-starter",
+	"workspaceMount": "source=${localWorkspaceFolder}/samples/plugins/platform/vth/starter-plugin,target=/workspace/vth-plugin-starter,type=bind,consistency=cached",
     "features": {
 		"ghcr.io/microsoft/azure-orbital-space-sdk/spacefx-dev:0.11.0": {
-			"app_name": "platform-mts-plugin-starter",
-			"app_type": "platform-mts-plugin",
+			"app_name": "vth-plugin-starter",
+			"app_type": "vth-plugin",
 			"addl_debug_shim_suffixes": "client"
 		}
 	},

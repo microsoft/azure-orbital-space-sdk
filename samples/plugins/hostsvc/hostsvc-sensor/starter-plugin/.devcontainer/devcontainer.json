@@ -1,15 +1,15 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/dotnet
 {
-	"name": "platform-deployment-plugin-starter",
+	"name": "plugins-starter-hostsvc-sensor",
 	"image": "mcr.microsoft.com/devcontainers/dotnet:0-6.0",
-	"runArgs": [ "--name=platform-deployment-plugin-starter" ],
-	"workspaceFolder": "/workspace/platform-deployment-plugin-starter",
-	"workspaceMount": "source=${localWorkspaceFolder}/samples/plugins/platform/platform-deployment/starter-plugin,target=/workspace/platform-deployment-plugin-starter,type=bind,consistency=cached",
+	"runArgs": [ "--name=hostsvc-sensor-plugin-starter" ],
+	"workspaceFolder": "/workspace/hostsvc-sensor-plugin-starter",
+	"workspaceMount": "source=${localWorkspaceFolder}/samples/plugins/hostsvc/hostsvc-sensor/starter-plugin,target=/workspace/hostsvc-sensor-plugin-starter,type=bind,consistency=cached",
     "features": {
 		"ghcr.io/microsoft/azure-orbital-space-sdk/spacefx-dev:0.11.0": {
-			"app_name": "platform-deployment-plugin-starter",
-			"app_type": "platform-deployment-plugin",
+			"app_name": "hostsvc-sensor-plugin-starter",
+			"app_type": "hostsvc-sensor-plugin",
 			"addl_debug_shim_suffixes": "client"
 		}
 	},

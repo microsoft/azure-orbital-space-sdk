@@ -1,15 +1,15 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/dotnet
 {
-	"name": "vth-plugin-starter",
+	"name": "plugins-starter-platform-deployment",
 	"image": "mcr.microsoft.com/devcontainers/dotnet:0-6.0",
-	"runArgs": [ "--name=vth-plugin-starter" ],
-	"workspaceFolder": "/workspace/vth-plugin-starter",
-	"workspaceMount": "source=${localWorkspaceFolder}/samples/plugins/platform/vth/starter-plugin,target=/workspace/vth-plugin-starter,type=bind,consistency=cached",
+	"runArgs": [ "--name=platform-deployment-plugin-starter" ],
+	"workspaceFolder": "/workspace/platform-deployment-plugin-starter",
+	"workspaceMount": "source=${localWorkspaceFolder}/samples/plugins/platform/platform-deployment/starter-plugin,target=/workspace/platform-deployment-plugin-starter,type=bind,consistency=cached",
     "features": {
 		"ghcr.io/microsoft/azure-orbital-space-sdk/spacefx-dev:0.11.0": {
-			"app_name": "vth-plugin-starter",
-			"app_type": "vth-plugin",
+			"app_name": "platform-deployment-plugin-starter",
+			"app_type": "platform-deployment-plugin",
 			"addl_debug_shim_suffixes": "client"
 		}
 	},
@@ -98,7 +98,7 @@
 						"packages": "read"
 					}
 				},
-				"microsoft/azure-orbital-space-sdk-hostsvc-position": {
+				"azure-orbital-space-sdk-hostsvc-position": {
 					"permissions": {
 						"contents": "read",
 						"packages": "read"
