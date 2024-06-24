@@ -86,7 +86,7 @@
 						"packages": "read"
 					}
 				},
-				"microsoft/azure-orbital-space-sdk-hostsvc-link": {
+				"microsoft/azure-orbital-space-sdk-hostsvc-logging": {
 					"permissions": {
 						"contents": "read",
 						"packages": "read"
