@@ -1,15 +1,15 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/dotnet
 {
-	"name": "plugins-starter-hostsvc-link",
+	"name": "plugins-starter-platform-mts",
 	"image": "mcr.microsoft.com/devcontainers/dotnet:0-6.0",
-	"runArgs": [ "--name=hostsvc-link-plugin-starter" ],
-	"workspaceFolder": "/workspace/hostsvc-link-plugin-starter",
-	"workspaceMount": "source=${localWorkspaceFolder}/samples/plugins/hostsvc/hostsvc-link/starter-plugin,target=/workspace/hostsvc-link-plugin-starter,type=bind,consistency=cached",
+	"runArgs": [ "--name=platform-mts-plugin-starter" ],
+	"workspaceFolder": "/workspace/platform-mts-plugin-starter",
+	"workspaceMount": "source=${localWorkspaceFolder}/samples/plugins/platform/platform-mts/starter-plugin,target=/workspace/platform-mts-plugin-starter,type=bind,consistency=cached",
     "features": {
 		"ghcr.io/microsoft/azure-orbital-space-sdk/spacefx-dev:0.11.0": {
-			"app_name": "hostsvc-link-plugin-starter",
-			"app_type": "hostsvc-link-plugin",
+			"app_name": "platform-mts-plugin-starter",
+			"app_type": "platform-mts-plugin",
 			"addl_debug_shim_suffixes": "client"
 		}
 	},

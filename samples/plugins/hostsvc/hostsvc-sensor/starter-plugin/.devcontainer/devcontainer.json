@@ -86,7 +86,7 @@
 						"packages": "read"
 					}
 				},
-				"microsoft/azure-orbital-space-sdk-hostsvc-sensor": {
+				"microsoft/azure-orbital-space-sdk-hostsvc-link": {
 					"permissions": {
 						"contents": "read",
 						"packages": "read"
@@ -98,7 +98,7 @@
 						"packages": "read"
 					}
 				},
-				"azure-orbital-space-sdk-hostsvc-sensor": {
+				"microsoft/azure-orbital-space-sdk-hostsvc-position": {
 					"permissions": {
 						"contents": "read",
 						"packages": "read"
