@@ -2,7 +2,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "HostSvc",
+            "name": "HostSvc-Link",
             "type": "coreclr",
             "request": "launch",
             "program": "/usr/bin/dotnet",
@@ -34,22 +34,22 @@
             "requireExactSource": true
         },
         {
-            "name": "DebugClient",
+            "name": "DebugPayloadApp",
             "type": "coreclr",
             "request": "launch",
             "program": "/usr/bin/dotnet",
             "preLaunchTask": "deploy-debugshim-client",
             "args": [
-                "${workspaceFolder}/debugClient/bin/Debug/net6.0/debugClient.dll"
+                "${workspaceFolder}/debugPayloadApp/bin/Debug/net6.0/debugPayloadApp.dll"
             ],
             "env": {
                 "DOTNET_ENVIRONMENT": "Development"
             },
-            "cwd": "${workspaceFolder}/debugClient",
+            "cwd": "${workspaceFolder}/debugPayloadApp",
             "stopAtEntry": false,
             "console": "internalConsole",
             "pipeTransport": {
-                "pipeCwd": "${workspaceRoot}/debugClient",
+                "pipeCwd": "${workspaceRoot}/debugPayloadApp",
                 "pipeProgram": "bash",
                 "pipeArgs": [
                     "-c \" kubectl exec --stdin $(kubectl get pods -l app=hostsvc-link-client -n payload-app --sort-by=.metadata.creationTimestamp -o jsonpath=\"{.items[-1:].metadata.name}\") -n payload-app -c hostsvc-link-client -- "
@@ -68,10 +68,10 @@
     ],
     "compounds": [
         {
-            "name": "HostSvc & DebugClient",
+            "name": "HostSvc-Link & DebugPayloadApp",
             "configurations": [
-                "HostSvc",
-                "DebugClient"
+                "HostSvc-Link",
+                "DebugPayloadApp"
             ],
             "stopAll": true,
             "presentation": {

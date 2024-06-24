@@ -76,7 +76,8 @@
             "args": [
                 "/spacefx-dev/debugShim-deploy.sh",
                 "--debug_shim",
-                "${DEBUG_SHIM_CLIENT}"
+                "${DEBUG_SHIM_CLIENT}",
+                "--disable_plugin_configs"
             ],
             "presentation": {
                 "echo": true,
@@ -114,7 +115,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/debugClient/debugClient.csproj",
+                "${workspaceFolder}/debugPayloadApp/debugPayloadApp.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
