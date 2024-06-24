@@ -1,0 +1,10 @@
+{
+    "pluginFile": "hostsvc-logging-plugin-starter.dll",
+    "pluginName": "hostsvc-logging-plugin-starter",
+    "targetService": "hostsvc-logging",
+    "plugin_permissions": "ALL",
+    "core_permissions": "ALL",
+    "build_artifacts": [],
+    "configuration": {
+    }
+}

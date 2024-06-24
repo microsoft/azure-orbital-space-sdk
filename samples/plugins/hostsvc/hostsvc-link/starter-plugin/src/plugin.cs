@@ -1,5 +1,5 @@
-﻿namespace Microsoft.Azure.SpaceFx.HostServices.Position.Plugins;
-public class StarterPlugin : Microsoft.Azure.SpaceFx.HostServices.Position.Plugins.PluginBase {
+﻿namespace Microsoft.Azure.SpaceFx.HostServices.Link.Plugins;
+public class StarterPlugin : Microsoft.Azure.SpaceFx.HostServices.Link.Plugins.PluginBase {
     public StarterPlugin() {
         LoggerFactory loggerFactory = new();
         this.Logger = loggerFactory.CreateLogger<StarterPlugin>();
@@ -24,13 +24,13 @@ public class StarterPlugin : Microsoft.Azure.SpaceFx.HostServices.Position.Plugi
         };
     });
 
-    public override Task<(PositionRequest?, PositionResponse?)> PositionRequest(PositionRequest? input_request, PositionResponse? input_response) => Task.Run(() => {
-        Logger.LogInformation("Plugin received and processed a PositionRequest");
-        return (input_request, input_response);
+    public override Task<LinkRequest?> LinkRequest(LinkRequest? input_request) => Task.Run(() => {
+        Logger.LogInformation("Plugin received and processed a LinkRequest");
+        return (input_request);
     });
 
-    public override Task<(PositionUpdateRequest?, PositionUpdateResponse?)> PositionUpdateRequest(PositionUpdateRequest? input_request, PositionUpdateResponse? input_response) => Task.Run(() => {
-        Logger.LogInformation("Plugin received and processed a PositionUpdateRequest");
+    public override Task<(LinkRequest?, LinkResponse?)> LinkResponse(LinkRequest? input_request, LinkResponse? input_response) => Task.Run(() => {
+        Logger.LogInformation("Plugin received and processed a LinkResponse");
         return (input_request, input_response);
     });
 }

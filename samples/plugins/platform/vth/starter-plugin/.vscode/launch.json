@@ -2,13 +2,13 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "hostsvc-position",
+            "name": "vth",
             "type": "coreclr",
             "request": "launch",
             "program": "/usr/bin/dotnet",
             "preLaunchTask": "deploy-debugshim-host",
             "args": [
-                "${workspaceFolder}/.git/workspaces/hostsvc-position/hostsvc-position.dll"
+                "${workspaceFolder}/.git/workspaces/vth/vth.dll"
             ],
             "env": {
                 "DOTNET_ENVIRONMENT": "PluginDev"
@@ -20,7 +20,7 @@
                 "pipeCwd": "${workspaceRoot}/src",
                 "pipeProgram": "bash",
                 "pipeArgs": [
-                    "-c \" kubectl exec --stdin $(kubectl get pods -l app=hostsvc-position -n payload-app --sort-by=.metadata.creationTimestamp -o jsonpath=\"{.items[-1:].metadata.name}\") -n payload-app -c hostsvc-position -- "
+                    "-c \" kubectl exec --stdin $(kubectl get pods -l app=vth -n payload-app --sort-by=.metadata.creationTimestamp -o jsonpath=\"{.items[-1:].metadata.name}\") -n payload-app -c vth -- "
                 ],
                 "quoteArgs": false,
                 "debuggerPath": "${workspaceFolder}/.git/spacefx-dev/vsdbg/vsdbg"
@@ -52,7 +52,7 @@
                 "pipeCwd": "${workspaceRoot}/debugPayloadApp",
                 "pipeProgram": "bash",
                 "pipeArgs": [
-                    "-c \" kubectl exec --stdin $(kubectl get pods -l app=hostsvc-position-client -n payload-app --sort-by=.metadata.creationTimestamp -o jsonpath=\"{.items[-1:].metadata.name}\") -n payload-app -c hostsvc-position-client -- "
+                    "-c \" kubectl exec --stdin $(kubectl get pods -l app=vth-client -n payload-app --sort-by=.metadata.creationTimestamp -o jsonpath=\"{.items[-1:].metadata.name}\") -n payload-app -c vth-client -- "
                 ],
                 "quoteArgs": false,
                 "debuggerPath": "${workspaceFolder}/.git/spacefx-dev/vsdbg/vsdbg"
@@ -68,9 +68,9 @@
     ],
     "compounds": [
         {
-            "name": "hostsvc-position & DebugPayloadApp",
+            "name": "vth & DebugPayloadApp",
             "configurations": [
-                "hostsvc-position",
+                "vth",
                 "DebugPayloadApp"
             ],
             "stopAll": true,

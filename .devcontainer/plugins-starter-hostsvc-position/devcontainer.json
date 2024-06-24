@@ -1,0 +1,117 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/dotnet
+{
+	"name": "plugins-starter-hostsvc-position",
+	"image": "mcr.microsoft.com/devcontainers/dotnet:0-6.0",
+	"runArgs": [ "--name=hostsvc-position-plugin-starter" ],
+	"workspaceFolder": "/workspace/hostsvc-position-plugin-starter",
+	"workspaceMount": "source=${localWorkspaceFolder}/samples/plugins/hostsvc/hostsvc-position/starter-plugin,target=/workspace/hostsvc-position-plugin-starter,type=bind,consistency=cached",
+    "features": {
+		"ghcr.io/microsoft/azure-orbital-space-sdk/spacefx-dev:0.11.0": {
+			"app_name": "hostsvc-position-plugin-starter",
+			"app_type": "hostsvc-position-plugin",
+			"addl_debug_shim_suffixes": "client"
+		}
+	},
+	"hostRequirements": {
+		"cpus": 8,
+		"memory": "8gb"
+	},
+	"customizations": {
+		"vscode": {
+            "extensions": [
+                "ms-dotnettools.csharp",
+                "ms-dotnettools.csdevkit",
+                "DavidAnson.vscode-markdownlint",
+                "zxh404.vscode-proto3",
+                "mutantdino.resourcemonitor",
+                "josefpihrt-vscode.roslynator",
+                "bierner.markdown-mermaid"
+            ]
+		},
+        // Grant permissions to the Azure Orbital Space SDK repositories and their packages
+		"codespaces": {
+			"repositories": {
+				"microsoft/azure-orbital-space-sdk": {
+					"permissions": {
+						"contents": "read",
+						"packages": "read"
+					}
+				},
+				"microsoft/azure-orbital-space-sdk-core": {
+					"permissions": {
+						"contents": "read",
+						"packages": "read"
+					}
+				},
+				"microsoft/azure-orbital-space-sdk-setup": {
+					"permissions": {
+						"contents": "read",
+						"packages": "read"
+					}
+				},
+				"microsoft/azure-orbital-space-sdk-coresvc-registry": {
+					"permissions": {
+						"contents": "read",
+						"packages": "read"
+					}
+				},
+				"microsoft/azure-orbital-space-sdk-coresvc-fileserver": {
+					"permissions": {
+						"contents": "read",
+						"packages": "read"
+					}
+				},
+				"microsoft/azure-orbital-space-sdk-coresvc-switchboard": {
+					"permissions": {
+						"contents": "read",
+						"packages": "read"
+					}
+				},
+				"microsoft/azure-orbital-space-sdk-platform-mts": {
+					"permissions": {
+						"contents": "read",
+						"packages": "read"
+					}
+				},
+				"microsoft/azure-orbital-space-sdk-platform-deployment": {
+					"permissions": {
+						"contents": "read",
+						"packages": "read"
+					}
+				},
+				"microsoft/azure-orbital-space-sdk-vth": {
+					"permissions": {
+						"contents": "read",
+						"packages": "read"
+					}
+				},
+				"microsoft/azure-orbital-space-sdk-hostsvc-link": {
+					"permissions": {
+						"contents": "read",
+						"packages": "read"
+					}
+				},
+				"microsoft/azure-orbital-space-sdk-hostsvc-logging": {
+					"permissions": {
+						"contents": "read",
+						"packages": "read"
+					}
+				},
+				"microsoft/azure-orbital-space-sdk-hostsvc-position": {
+					"permissions": {
+						"contents": "read",
+						"packages": "read"
+					}
+				},
+				"microsoft/azure-orbital-space-sdk-hostsvc-sensor": {
+					"permissions": {
+						"contents": "read",
+						"packages": "read"
+					}
+				}
+			}
+		}
+	},
+	"remoteUser": "root"
+}

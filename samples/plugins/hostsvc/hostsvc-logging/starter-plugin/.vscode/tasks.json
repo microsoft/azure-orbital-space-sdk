@@ -2,8 +2,8 @@
     "version": "2.0.0",
     "options": {
         "env": {
-            "DEBUG_SHIM_HOST": "hostsvc-position",
-            "DEBUG_SHIM_CLIENT": "hostsvc-position-client",
+            "DEBUG_SHIM_HOST": "hostsvc-logging",
+            "DEBUG_SHIM_CLIENT": "hostsvc-logging-client",
         }
     },
     "tasks": [
@@ -57,7 +57,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/src/hostsvc-position-plugin-starter.csproj",
+                "${workspaceFolder}/src/hostsvc-logging-plugin-starter.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
