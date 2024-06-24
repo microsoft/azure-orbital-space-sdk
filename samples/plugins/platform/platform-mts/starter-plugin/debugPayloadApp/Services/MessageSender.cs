@@ -11,7 +11,7 @@ public class MessageSender : BackgroundService {
     private readonly string _hostSvcAppId;
     private readonly List<string> _appsOnline = new();
     private readonly TimeSpan MAX_TIMESPAN_TO_WAIT_FOR_MSG = TimeSpan.FromSeconds(10);
-    private readonly string _testFile = "/workspace/hostsvc-link-plugin-starter/sampleData/astronaut.jpg";
+    private readonly string _testFile = "/workspace/platform-mts-plugin-starter/sampleData/astronaut.jpg";
 
     public MessageSender(ILogger<MessageSender> logger, IServiceProvider serviceProvider) {
         _logger = logger;
@@ -41,7 +41,19 @@ public class MessageSender : BackgroundService {
                 throw new Exception($"Service '{_hostSvcAppId}' did not come online in time.");
             }
 
-            await RegisterForSensorData();
+            // Hostsvc-Position endpoints
+            await UpdatePosition();
+            await GetCurrentPosition();
+
+            // Hostsvc-Link endpoints
+            await SendFileRootDirectory();
+
+            // Hostsvc-Logging endpoints
+            await SendTelemetryMetric();
+            await SendLogMessage();
+
+            // Hostsvc-Sensor endpoints
+            RegisterForSensorData();
             await SendPluginHealthCheck();
             await SendSensorsAvailableRequest();
             await SendTaskingPreCheckRequest();
@@ -98,7 +110,201 @@ public class MessageSender : BackgroundService {
 
     }
 
-    private async Task RegisterForSensorData() {
+    private async Task UpdatePosition() {
+        DateTime maxTimeToWait = DateTime.Now.Add(TimeSpan.FromSeconds(10));
+        PositionUpdateResponse? response = null;
+        PositionUpdateRequest request = new() {
+            RequestHeader = new() {
+                TrackingId = Guid.NewGuid().ToString(),
+                CorrelationId = Guid.NewGuid().ToString()
+            },
+            Position = new Position() {
+                PositionTime = Google.Protobuf.WellKnownTypes.Timestamp.FromDateTime(DateTime.UtcNow),
+                Point = new Position.Types.Point() {
+                    X = 1,
+                    Y = 2,
+                    Z = 3,
+                },
+                Attitude = new Position.Types.Attitude() {
+                    X = 1,
+                    Y = 2,
+                    Z = 3,
+                    K = 4
+                }
+            }
+        };
+
+        _logger.LogInformation($"Sending '{request.GetType().Name}' request (TrackingId: '{request.RequestHeader.TrackingId}')");
+
+        // Register a callback event to catch the response
+        void ResponseEventHandler(object? _, PositionUpdateResponse _response) {
+            response = _response;
+            MessageHandler<PositionUpdateResponse>.MessageReceivedEvent -= ResponseEventHandler;
+        }
+
+        MessageHandler<PositionUpdateResponse>.MessageReceivedEvent += ResponseEventHandler;
+
+        await _client.DirectToApp(appId: _hostSvcAppId, message: request);
+
+        _logger.LogInformation($"Waiting for response (TrackingId: '{request.RequestHeader.TrackingId}')");
+
+        while (response == null && DateTime.Now <= maxTimeToWait) {
+            Thread.Sleep(100);
+        }
+
+        if (response == null) throw new TimeoutException($"Failed to hear {nameof(response)} after {MAX_TIMESPAN_TO_WAIT_FOR_MSG}.  Please check that {_hostSvcAppId} is deployed");
+
+        if (response.ResponseHeader.Status != Microsoft.Azure.SpaceFx.MessageFormats.Common.StatusCodes.Successful) {
+            throw new Exception($"'{request.GetType().Name}' failed with status '{response.ResponseHeader.Status}' and message '{response.ResponseHeader.Message}'");
+        }
+
+
+        _logger.LogInformation($"'{request.GetType().Name}' request received.  Status: '{response.ResponseHeader.Status}' (TrackingId: '{request.RequestHeader.TrackingId}')");
+
+    }
+
+    private async Task GetCurrentPosition() {
+        DateTime maxTimeToWait = DateTime.Now.Add(TimeSpan.FromSeconds(10));
+        PositionResponse? response = null;
+        PositionRequest request = new() {
+            RequestHeader = new() {
+                TrackingId = Guid.NewGuid().ToString(),
+                CorrelationId = Guid.NewGuid().ToString()
+            }
+        };
+
+        _logger.LogInformation($"Sending '{request.GetType().Name}' request (TrackingId: '{request.RequestHeader.TrackingId}')");
+
+        // Register a callback event to catch the response
+        void ResponseEventHandler(object? _, PositionResponse _response) {
+            response = _response;
+            MessageHandler<PositionResponse>.MessageReceivedEvent -= ResponseEventHandler;
+        }
+
+        MessageHandler<PositionResponse>.MessageReceivedEvent += ResponseEventHandler;
+
+        await _client.DirectToApp(appId: _hostSvcAppId, message: request);
+
+        _logger.LogInformation($"Waiting for response (TrackingId: '{request.RequestHeader.TrackingId}')");
+
+        while (response == null && DateTime.Now <= maxTimeToWait) {
+            Thread.Sleep(100);
+        }
+
+        if (response == null) throw new TimeoutException($"Failed to hear {nameof(response)} after {MAX_TIMESPAN_TO_WAIT_FOR_MSG}.  Please check that {_hostSvcAppId} is deployed");
+
+        if (response.ResponseHeader.Status != Microsoft.Azure.SpaceFx.MessageFormats.Common.StatusCodes.Successful) {
+            throw new Exception($"'{request.GetType().Name}' failed with status '{response.ResponseHeader.Status}' and message '{response.ResponseHeader.Message}'");
+        }
+
+
+        _logger.LogInformation($"'{request.GetType().Name}' request received.  Status: '{response.ResponseHeader.Status}' (TrackingId: '{request.RequestHeader.TrackingId}')");
+
+    }
+
+    private async Task SendFileRootDirectory() {
+        var (inbox, outbox, root) = _client.GetXFerDirectories().Result;
+
+        File.Copy(_testFile, string.Format($"{outbox}/{Path.GetFileName(_testFile)}"), overwrite: true);
+
+        LinkRequest request = new() {
+            RequestHeader = new() {
+                TrackingId = Guid.NewGuid().ToString(),
+                CorrelationId = Guid.NewGuid().ToString()
+            },
+            FileName = Path.GetFileName(_testFile),
+            DestinationAppId = "contoso-app-id"
+        };
+
+        await _client.DirectToApp(appId: _hostSvcAppId, message: request);
+    }
+
+    private async Task SendTelemetryMetric() {
+        DateTime maxTimeToWait = DateTime.Now.Add(TimeSpan.FromSeconds(10));
+        TelemetryMetricResponse? response = null;
+
+        TelemetryMetric request = new() {
+            RequestHeader = new() {
+                TrackingId = Guid.NewGuid().ToString(),
+                CorrelationId = Guid.NewGuid().ToString()
+            },
+            MetricName = "Testing",
+            MetricValue = 37
+        };
+
+        _logger.LogInformation($"Sending '{request.GetType().Name}' request to '{_hostSvcAppId}' (TrackingId: '{request.RequestHeader.TrackingId}')");
+
+        // Register a callback event to catch the response
+        void TelemetryMetricResponseEventHandler(object? _, TelemetryMetricResponse _response) {
+            if (_response.ResponseHeader.CorrelationId != request.RequestHeader.CorrelationId) return;
+            response = _response;
+            MessageHandler<TelemetryMetricResponse>.MessageReceivedEvent -= TelemetryMetricResponseEventHandler;
+        }
+
+        MessageHandler<TelemetryMetricResponse>.MessageReceivedEvent += TelemetryMetricResponseEventHandler;
+
+        await _client.DirectToApp(appId: _hostSvcAppId, message: request);
+
+        _logger.LogInformation($"Waiting for response message type (TrackingId: '{request.RequestHeader.TrackingId}')");
+
+        while (response == null && DateTime.Now <= maxTimeToWait) {
+            Thread.Sleep(100);
+        }
+
+        if (response == null) throw new TimeoutException($"Failed to hear {nameof(response)} after {MAX_TIMESPAN_TO_WAIT_FOR_MSG}.  Please check that {_hostSvcAppId} is deployed");
+
+        if (response.ResponseHeader.Status != Microsoft.Azure.SpaceFx.MessageFormats.Common.StatusCodes.Successful) {
+            throw new Exception($"'{request.GetType().Name}' failed with status '{response.ResponseHeader.Status}' and message '{response.ResponseHeader.Message}'");
+        }
+
+
+        _logger.LogInformation($"'{request.GetType().Name}'received.  Status: '{response.ResponseHeader.Status}' (TrackingId: '{request.RequestHeader.TrackingId}')");
+    }
+
+    private async Task SendLogMessage() {
+        DateTime maxTimeToWait = DateTime.Now.Add(TimeSpan.FromSeconds(10));
+        LogMessageResponse? response = null;
+
+        LogMessage request = new() {
+            RequestHeader = new() {
+                TrackingId = Guid.NewGuid().ToString(),
+                CorrelationId = Guid.NewGuid().ToString()
+            },
+            LogLevel = LogMessage.Types.LOG_LEVEL.Info,
+            Message = "Log Message from DebugPayloadApp",
+            Priority = Priority.Medium,
+        };
+
+        _logger.LogInformation($"Sending '{request.GetType().Name}' request to '{_hostSvcAppId}' (TrackingId: '{request.RequestHeader.TrackingId}')");
+
+        // Register a callback event to catch the response
+        void LogMessageResponseEventHandler(object? _, LogMessageResponse _response) {
+            if (_response.ResponseHeader.CorrelationId != request.RequestHeader.CorrelationId) return;
+            response = _response;
+            MessageHandler<LogMessageResponse>.MessageReceivedEvent -= LogMessageResponseEventHandler;
+        }
+
+        MessageHandler<LogMessageResponse>.MessageReceivedEvent += LogMessageResponseEventHandler;
+
+        await _client.DirectToApp(appId: _hostSvcAppId, message: request);
+
+        _logger.LogInformation($"Waiting for response message type (TrackingId: '{request.RequestHeader.TrackingId}')");
+
+        while (response == null && DateTime.Now <= maxTimeToWait) {
+            Thread.Sleep(100);
+        }
+
+        if (response == null) throw new TimeoutException($"Failed to hear {nameof(response)} after {MAX_TIMESPAN_TO_WAIT_FOR_MSG}.  Please check that {_hostSvcAppId} is deployed");
+
+        if (response.ResponseHeader.Status != Microsoft.Azure.SpaceFx.MessageFormats.Common.StatusCodes.Successful) {
+            throw new Exception($"'{request.GetType().Name}' failed with status '{response.ResponseHeader.Status}' and message '{response.ResponseHeader.Message}'");
+        }
+
+
+        _logger.LogInformation($"'{request.GetType().Name}'received.  Status: '{response.ResponseHeader.Status}' (TrackingId: '{request.RequestHeader.TrackingId}')");
+    }
+
+    private void RegisterForSensorData() {
 
         _logger.LogInformation($"Registering a function to process Sensor Data");
 

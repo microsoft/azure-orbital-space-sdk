@@ -11,7 +11,7 @@ public class MessageSender : BackgroundService {
     private readonly string _hostSvcAppId;
     private readonly List<string> _appsOnline = new();
     private readonly TimeSpan MAX_TIMESPAN_TO_WAIT_FOR_MSG = TimeSpan.FromSeconds(10);
-    private readonly string _testFile = "/workspace/hostsvc-link-plugin-starter/sampleData/astronaut.jpg";
+    private readonly string _testFile = "/workspace/vth-plugin-starter/sampleData/astronaut.jpg";
 
     public MessageSender(ILogger<MessageSender> logger, IServiceProvider serviceProvider) {
         _logger = logger;
