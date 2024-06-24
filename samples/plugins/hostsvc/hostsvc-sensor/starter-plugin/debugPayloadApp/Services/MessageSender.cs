@@ -41,6 +41,7 @@ public class MessageSender : BackgroundService {
                 throw new Exception($"Service '{_hostSvcAppId}' did not come online in time.");
             }
 
+            await RegisterForSensorData();
             await SendPluginHealthCheck();
             await SendSensorsAvailableRequest();
             await SendTaskingPreCheckRequest();
@@ -94,6 +95,22 @@ public class MessageSender : BackgroundService {
 
 
         _logger.LogInformation($"Plugin Healthcheck request received.  Status: '{response.ResponseHeader.Status}' (TrackingId: '{request.RequestHeader.TrackingId}')");
+
+    }
+
+    private async Task RegisterForSensorData() {
+
+        _logger.LogInformation($"Registering a function to process Sensor Data");
+
+        // Register a callback event to catch the Sensor Data
+        void SensorDataEventHandler(object? _, SensorData _response) {
+            _logger.LogInformation($"Received Sensor Data: '{_response.SensorID}'");
+            // Do something with data
+        }
+
+        MessageHandler<SensorData>.MessageReceivedEvent += SensorDataEventHandler;
+
+        _logger.LogInformation($"Successfully registered a function to process any Sensor Data");
 
     }
 
@@ -215,13 +232,5 @@ public class MessageSender : BackgroundService {
 
         _logger.LogInformation($"'{request.GetType().Name}' request received.  Status: '{response.ResponseHeader.Status}' (TrackingId: '{request.RequestHeader.TrackingId}')");
 
-    }
-
-
-    // Update the SendMessageAndWaitForResponse method
-    private async Task SendMessageAndWaitForResponse<T, V>(T messageRequest, V messageResponse)
-        where T : Core.IRequestHeaderMessage
-        where V : Core.IResponseHeaderMessage {
-        // Implementation remains the same
     }
 }
