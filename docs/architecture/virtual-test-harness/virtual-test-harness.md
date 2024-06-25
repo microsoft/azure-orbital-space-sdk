@@ -8,28 +8,146 @@ The Azure Orbital Space SDK Virtual Test Harness (VTH) virtualizes the operation
 
 Data generators are tools that produce synthetic data that mimics the output of satellite sensors and systems. This could include satellite position, orientation, and sensor imagery, as examples. This capability is crucial for developers, as it allows them to test how their applications interact with the satellite payload and process its data without needing actual satellite hardware. By interfacing with these data generators, the VTH enables developers to create realistic and complex scenarios, testing applications under a wide range of conditions to ensure robustness, accuracy, and reliability before deployment in space.
 
+To bridge the gap between virtual testing and real-world application, the Azure Orbital Space SDK Virtual Test Harness (VTH) can be used in both Simulation in the Loop (SITL) and Hardware in the Loop (HITL) configurations. These approaches represent a continuum of testing environments, from fully virtualized simulations to integrations with actual hardware components. SITL focuses on simulating the entire satellite system within a virtual environment, allowing developers to test applications against a broad spectrum of simulated data and scenarios without the need for physical hardware. This method is invaluable for early-stage development and debugging, offering a cost-effective and flexible testing solution.
+
+Transitioning from SITL, HITL incorporates real hardware components into the testing loop, providing a more accurate representation of operational conditions. This hybrid approach enables developers to validate their applications against the physical characteristics and constraints of actual satellite hardware, ensuring compatibility and performance under real-world conditions. By leveraging both SITL and HITL, developers can comprehensively test and refine their space-based applications, ensuring they are robust, reliable, and ready for deployment in the challenging environment of space.
+
+### Simulation in the Loop (SITL)
+
 ```mermaid
-flowchart TB
-  subgraph "Azure Orbital Space SDK Virtual Test Harness (VTH)"
-    direction LR
-    subgraph "SDK Runtime Framework"
-      Payload-Applications(Payload Applications)
-      Host-Services(Host Services)
-      Platform-Services(Platform-Services)
+flowchart LR
+    subgraph "Azure Orbital Space SDK - Simulation in the Loop (SITL)"
+        subgraph "Deployed Azure Orbital Space SDK Resources"
+            direction LR
+            subgraph "Payload Applications"
+                    direction TB
+                    Application-1(Application 1)
+                    Application-2(Application 2)
+                    ...(...)
+                    Application-N(Application-N)
+            end
+            subgraph "Host Services"
+                direction TB
+                Link
+                Logging
+                Position
+                Sensor
+            end
+            subgraph "Platform Services"
+                direction TB
+                Deployment
+                Message-Translation-Service(Message Translation Service)
+            end
+            subgraph "Core Services"
+                direction TB
+                Fileserver
+                Registry
+                Switchboard
+            end
+            subgraph "Virtual Test Harness"
+                direction LR
+                Virtual-Test-Harness(Virtual Test Harness)
+                subgraph "Data Generators"
+                    direction TB
+                    Data-Generator-1(Data Generator 1)
+                    Data-Generator-2(Data Generator 2)
+                    ....(...)
+                    Data-Generator-N(Data Generator N)
+                end
+            end
+        end
+        subgraph "Simulation in the Loop"
+            subgraph "Virtual Satellite Payload"
+                subgraph "Virtual General Compute Payload"
+                    Payload-Applications(Payload Applications)
+                    Host-Services(Host Services)
+                    Platform-Services(Platform Services)
+                    Payload-Applications  <-. Dapr PubSub .-> Host-Services
+                    Host-Services <-. Dapr PubSub .-> Platform-Services
+                end
+                subgraph "Virtual Test Harness"
+                    Data-Generators(Data Generators)
+                    VTH(Virtual Test Harness)
+                    VTH <--> Platform-Services
+                    Data-Generators <--> VTH
+                end
+            end
+        end
     end
-    VTH(Virtual Test Harness)
-    subgraph "Data Generators"
-      Sensor-Generator(Sensor Generator)
-      Position-Generator(Position Generator)
-      Other-Generators(Other Generators)
+```
+
+### Hardware in the Loop (HITL)
+
+```mermaid
+flowchart LR
+    subgraph "Azure Orbital Space SDK - Hardware in the Loop (HITL)"
+        subgraph "Deployed Azure Orbital Space SDK Resources"
+            direction LR
+            subgraph "Payload Applications"
+                    direction TB
+                    Application-1(Application 1)
+                    Application-2(Application 2)
+                    ...(...)
+                    Application-N(Application-N)
+            end
+            subgraph "Host Services"
+                direction TB
+                Link
+                Logging
+                Position
+                Sensor
+            end
+            subgraph "Platform Services"
+                direction TB
+                Deployment
+                Message-Translation-Service(Message Translation Service)
+            end
+            subgraph "Core Services"
+                direction TB
+                Fileserver
+                Registry
+                Switchboard
+            end
+            subgraph "Virtual Test Harness"
+                direction LR
+                Virtual-Test-Harness(Virtual Test Harness)
+                subgraph "Data Generators"
+                    direction TB
+                    Data-Generator-1(Data Generator 1)
+                    Data-Generator-2(Data Generator 2)
+                    ....(...)
+                    Data-Generator-N(Data Generator N)
+                end
+            end
+        end
+        subgraph "Hardware in the Loop"
+            subgraph "Virtual Satellite Payload"
+                subgraph "Virtual General Compute Payload"
+                    Payload-Applications(Payload Applications)
+                    Host-Services(Host Services)
+                    Platform-Services(Platform Services)
+                    Payload-Applications  <-. Dapr PubSub .-> Host-Services
+                    Host-Services <-. Dapr PubSub .-> Platform-Services
+                end
+                subgraph "Virtual Test Harness"
+                    Data-Generators(Data Generators)
+                    VTH(Virtual Test Harness)
+                    VTH <--> Platform-Services
+                    Data-Generators <--> VTH
+                end
+            end
+            subgraph "Satellite Payload"
+                subgraph "Command and Data Handling Payload"
+                    Command-and-Data-Handler(Command and Data Handler)
+                    Command-and-Data-Handler <--> Platform-Services
+                end
+                subgraph "Satellite Subsystem Payloads"
+                    Satellite-Subsystems(Satellite Subsystems)
+                    Satellite-Subsystems <--> Command-and-Data-Handler
+                end
+            end
+        end
     end
-    Payload-Applications <--> Host-Services
-    Host-Services <--> Platform-Services
-    Platform-Services <--> VTH
-    VTH <--> Sensor-Generator
-    VTH <--> Position-Generator
-    VTH <--> Other-Generators
-  end
 ```
 
 ## Components
