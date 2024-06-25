@@ -152,40 +152,74 @@ flowchart LR
 
 ## Components
 
+The Azure Orbital Space SDK Virtual Test Harness (VTH) comprises several key components designed to offer a comprehensive and realistic testing environment for space-based applications. These components are crucial for ensuring that applications are robust, reliable, and ready for deployment in the challenging environment of space.
+
 ### Virtual Test Harness (VTH)
+
+The Virtual Test Harness (VTH) serves as the cornerstone of the Azure Orbital Space SDK's testing framework. It is a sophisticated simulation tool that abstracts the satellite hardware and subsystem capabilities into a virtual environment. This abstraction allows developers to test and validate their applications against a highly accurate representation of satellite systems without the need for physical hardware. The VTH supports a wide range of testing scenarios, from simple unit tests to complex integration and performance testing, providing developers with the flexibility to tailor their testing approach to their specific needs.
+
+#### Key Features:
+
+- **Dop-In Replacement for Hardware**: Payload Applications and Host Services can communicate with either the VTH or production hardware with zero code changes required.
+- **Plugin Architecture**: Allows for the extension and customization of the VTH, enabling developers to simulate specific satellite models and configurations.
+- **Integration with Data Generators**: Facilitates testing under various conditions by providing synthetic data that replicates the output of satellite sensors and systems.
+
+#### How it Works - Image Acquisition Example
+
+Here's a simplified example showing the component-level interactions of a payload application requesting an image of the Microsoft campus from a spacecraft's camera sensor on orbit:
+
+```mermaid
+sequenceDiagram
+    participant app as MySampleApp
+    participant sensor as Sensor Service
+    participant mts as MTS
+    participant mtsPlugin as MTS Plugin
+    participant c&dh as C&DH
+    participant camera as Camera
+
+    app           ->> sensor:    Give me an image for <br/> (47.6405, -122.1468, 47.6477, -122.1269)
+    sensor        ->> mts:       Give MySampleApp an image for <br/> (47.6405, -122.1468, 47.6477, -122.1269)
+    mts           ->> c&dh:      MTS Plugin translates Request <br/> from SDK format to Camera format
+    c&dh          -> camera:     (spacecraft internals)
+    c&dh          ->> mts:       MTS Plugin translates Response <br/> from Camera format to SDK format  
+    mts           ->> sensor:    Return this image to MySampleApp
+    sensor        ->> app:       Here's your image for <br/> (47.6405, -122.1468, 47.6477, -122.1269)
+```
+
+Here's what that same request would look like using the Virtual Test Harness with a data generator that mimics the behavior of the on orbit camera sensor:
+
+```mermaid
+sequenceDiagram
+    participant app as MySampleApp
+    participant sensor as Sensor Service
+    participant mts as MTS
+    participant mtsPlugin as MTS Plugin
+    participant vth as VTH
+    participant vthPlugin as VTH Plugin
+    participant datagenerator as Data Generator
+
+    app           ->> sensor:        Give me an image for <br/> (47.6405, -122.1468, 47.6477, -122.1269)
+    sensor        ->> mts:           Give MySampleApp an image for <br/> (47.6405, -122.1468, 47.6477, -122.1269)
+    mts           ->> vth:           MTS Plugin translates Request <br/> from SDK format to Camera format
+    vth           ->> datagenerator: VTH Plugin Translates Request <br/> from Camera format to Data Generator format
+    datagenerator ->> vth:           VTH Plugin Translates Response <br/> from Data Generator format to Camera format
+    vth           ->> mts:           MTS Plugin Translates Response <br/> from Data Generator format to SDK format  
+    mts           ->> sensor:        Return this image to MySampleApp
+    sensor        ->> app:           Here's your image for <br/> (47.6405, -122.1468, 47.6477, -122.1269)
+```
+
+By replacing the spacecraft and its sensors with a data generator and the VTH, the application can be tested in a predictable and repeatable fashion. The application has know knowledge that it's communicating with a data generator instead of a spacecraft sensor.
 
 ### Data Generators
 
-The Azure Orbital Space SDK provides several data generators that you can use to develop and test your applications. They're also a great starting point for creating your own data generators for more specialized use cases.
+Data Generators are an integral part of the Virtual Test Harness, providing the synthetic data necessary for simulating real-world satellite operations. These tools generate a wide range of data, including satellite telemetry, sensor outputs, and environmental conditions, enabling developers to test how their applications will perform in orbit.
 
-A data generator is any component that produces data to be used for the development and test of payload applications. A data generator could be a web service, an FTP server, an Azure Blob container, or any other source of data that exposes an interface. VTH plugins encapsulate the logic necessary to interact with the data generator, keeping interactions generic elsewhere in the data pipeline. 
+#### Key Features:
 
-#### Planetary Computer
+- **Diverse Data Production**: Generates a wide variety of data types, from simple telemetry to complex sensor imagery, to support comprehensive testing.
+- **Customizable Scenarios**: Allows developers to create specific testing scenarios, including failure modes and edge cases, to ensure thorough application validation.
+- **Seamless Integration**: Works in conjunction with the VTH to provide a cohesive and realistic testing environment.
 
-The Azure Orbital Space SDK provides a data generator that integrates with [Planetary Computer](https://planetarycomputer.microsoft.com), Microsoft's multi-petabyte catalog of open environmental monitoring data. Planetary Computer houses a variety of current and historic Earth observational data. This data generator leverages [Planetary Computer's STAC API](https://planetarycomputer.microsoft.com/docs/quickstarts/reading-stac/) to easily query for geotiffs given latitude, longitude, and a broad array of additional query options to further refine results based on collections, time ranges, and assets.
+By leveraging the capabilities of the Virtual Test Harness and Data Generators, developers can ensure that their space-based applications are thoroughly tested and validated, reducing the risk of failure and ensuring compatibility with satellite systems. This comprehensive testing framework is essential for the development of reliable and robust applications capable of withstanding the rigors of space operations.
 
-<!-- TODO: Add link to data generator repo -->
-
-#### Image Provider
-
-The Azure Orbital Space SDK Image Provider offers developers an out-of-the-box data generator for vending local image assets. Image Provider supports many data formats including geotiffs, PNGs, and JPEGs. Exposed as a simple web server exposing contents of a local directory, Image Provider offers a lightweight, flexible, and user-friendly starting point for creating custom data generators for sensor imagery.
-
-<!-- TODO: Add link to data generator repo -->
-
-#### Star Viewer
-
-The Azure Orbital Space SDK Star Viewer generates noised grey-scale images of star fields for a given line-of-sight vector. Built on the [Hipparcos-Yale-Gliese Star Catalogue](https://github.com/astronexus/HYG-Database), Star Viewer offers accurate synthetic stellar imagery for space-observation applications.
-
-<!-- TODO: Add link to data generator repo -->
-
-#### Hello World
-
-The Azure Orbital Space SDK Hello World data generator...
-
-<!-- TODO: Finish this and add a link -->
-
-#### Temperature Sensor
-
-The Azure Orbital Space SDK Temperature Sensor provides a lean example of a data generator for non-imagery data. A sensor is anything that captures a measurement. This could be a magnetometer, an altimeter, or accelerometer. In this data generator, a synthetic temperature sensor that returns a random is exposed.
-
-<!-- TODO: Finish this and add a link -->
+To learn more about data generators, including data generators officially created by the Azure Orbital Space SDK team, see our [Azure Orbital Space SDK Data Generators Documentation](./data-generators/data-generators.md).
