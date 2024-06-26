@@ -16,6 +16,8 @@ The Deployment Service is tasked with the deployment, scheduling, and management
 
 ## Overview
 
+To illustrate the Deployment Service's functionality, consider the process of deploying and initiating a payload application by a Satellite Owner Operator from ground control. The sequence diagrams below provide a visual representation of this process, highlighting the critical role of the Deployment Service in managing the lifecycle of payload applications on the spacecraft.
+
 For example, the deployment and initiation of a payload application by a Satellite Owner Operator from ground control is depicted below:
 
 ```mermaid

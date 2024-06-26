@@ -18,7 +18,9 @@ Given the unique data interface of each Satellite Owner Operator, ranging from U
 
 ## Overview
 
-For instance, the process for querying available sensors on the spacecraft is illustrated below:
+To provide a clearer understanding of how MTS integrates within the Azure Orbital Space SDK ecosystem, consider the following scenario: querying the spacecraft for available sensors. The sequence diagram below visualizes the interaction between a payload application, the Sensor Service, MTS, and the Satellite Owner Operator's configuration settings.
+
+This example highlights MTS's role in facilitating communication across different components of the spacecraft's data handling and processing systems:
 
 ```mermaid
 sequenceDiagram
