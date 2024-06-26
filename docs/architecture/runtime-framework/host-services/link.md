@@ -1,4 +1,4 @@
-# Link Service Documentation
+# Azure Orbital Space SDK - Link Service
 
 The Link Service is a core component of the Azure Orbital Space SDK, designed to facilitate seamless and secure communication links between satellite payloads and ground stations. This service ensures reliable data transmission over space-to-ground and ground-to-space channels, supporting a wide range of mission-critical operations including telemetry data exchange, command and control operations, and payload data downlink. Link service is also the means by which payload applications can transmit data to one another.
 
