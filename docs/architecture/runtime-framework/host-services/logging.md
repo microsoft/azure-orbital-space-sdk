@@ -1,6 +1,6 @@
 # Azure Orbital Space SDK - Logging Service
 
-The Logging Service is an integral part of the Azure Orbital Space SDK, designed to provide comprehensive logging capabilities for payload applications and components of the runtime framework. This service facilitates the collection, storage, and analysis of logs, enabling developers and operators to monitor system performance, troubleshoot issues, and ensure the integrity of mission-critical operations.
+The Logging Service provides comprehensive logging capabilities for payload applications and components of the runtime framework. This service facilitates the collection, storage, and analysis of logs, enabling developers and operators to monitor system performance, troubleshoot issues, and ensure the integrity of mission-critical operations.
 
 ## Key Features
 
