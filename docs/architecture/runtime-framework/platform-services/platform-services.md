@@ -1,41 +1,33 @@
-# Platform Services
+# Azure Orbital Space SDK - Platform Services
 
-Platform Services are microservices that abstract on-board concerns like data translation and scheduling, giving payload applications (via the [Host Services](../host-services/)) and Satellite Owner Operators a common interface to interact with the spacecraft.
+Platform Services serve as the foundational microservices layer, directly interfacing with spacecraft hardware to abstract complex on-board operations such as data translation and scheduling. These services offer a unified interface for both payload applications, through Host Services, and Satellite Owner Operators, streamlining interactions with the spacecraft's systems.
 
-A Platform Service is a layer of abstraction nearer to the spacecraft and its hardware than the Host Services.
+Positioned closer to the spacecraft's hardware, Platform Services provide a critical layer of abstraction, simplifying the complexities of spacecraft operations for Satellite Owner Operators and payload applications.
 
-For those reasons, Platform Services are managed and interacted with exclusively by the Satellite Owner Operator (SOO) and  are logically isolated from the payload applications and Host Services by Kubernetes namespaces.
+Due to their integral role and the need for secure operations, Platform Services are exclusively managed by Satellite Owner Operators. They are segregated from payload applications and Host Services within Kubernetes namespaces to ensure logical isolation and operational integrity.
 
-The Azure Orbital Space SDK Platform Services provide Satellite Owner Operators with:
+The Azure Orbital Space SDK enriches Satellite Owner Operators with essential Platform Services, including:
 
-- the **[Message Translation Service](https://github.com/microsoft/Azure-Orbital-Space-SDK-Host-Services/tree/main/platform-mts)** to translate telemetry and sensor data from the spacecraft to a common format
-- the **[Deployment Service](https://github.com/microsoft/Azure-Orbital-Space-SDK-Host-Services/tree/main/platform-deployment)** to deploy, update, and stop payload applications
-
-## Source
-
-See the [Azure Orbital Space SDK Host Services](https://github.com/microsoft/Azure-Orbital-Space-SDK-Host-Services/) repository to get started with the Platform Services.
+- **[Message Translation Service (MTS)](https://github.com/microsoft/Azure-Orbital-Space-SDK-Host-Services/tree/main/platform-mts)**: Facilitates the conversion of telemetry and sensor data from spacecraft-specific formats to a standardized format.
+- **[Deployment Service](https://github.com/microsoft/Azure-Orbital-Space-SDK-Host-Services/tree/main/platform-deployment)**: Manages the deployment, updating, and termination of payload applications on the spacecraft.
 
 ## Extensibility and Customizations
 
-To extend and customize behavior of the Platform Services, the Azure Orbital Space SDK provides a plugin system.
+The Azure Orbital Space SDK's plugin system offers extensive opportunities for customizing and extending the functionalities of Platform Services to cater to specific mission requirements.
 
-See **[Plugins](../plugins.md)** for more information.
+For detailed information on plugins, see **[Plugins](../plugins.md)**.
 
 ## Design
 
-Platform Services control things like deploying applications, managing the deployment schedule or interacting with the Command and Data Handling computer.
+Platform Services are pivotal in managing application deployments, scheduling operations, and facilitating seamless interaction with the spacecraft's Command and Data Handling (C&DH) computer.
 
-### Message Translation
+### Message Translation Service (MTS)
 
-The Message Translation Service is a Platform Service responsible for translating telemetry and sensor data from the spacecraft to a common format.
+At the core of platform services, the Message Translation Service (MTS) plays a vital role in converting telemetry and sensor data from the spacecraft into a universally understandable format. Leveraging protocol buffers and gRPC, it ensures smooth data exchange the Azure Orbital Space SDK runtime framework and the satellite payload.
 
-Internally, the Azure Orbital Space SDK uses Protocol Buffers and gRPC as its data exchange between Host Services and payload applications.
+Given the unique data interface of each Satellite Owner Operator, ranging from UDP broadcasting to FTP servers, the Message Translation Service employs plugins to translate various protocols into the expected protocol buffers format, transmitted via gRPC.
 
-The data interface to a spacecraft is unique to each SOO. Some use UDP broadcasting, some use file drop/retrieval, others provide FTP servers.
-
-The MTS is responsible for translating the different protocols into Protocol Buffers transmitted by gRPC as expected by the Host Services.
-
-For example, here's how an application might request what sensors are available on the spacecraft:
+For instance, the process for querying available sensors on the spacecraft is illustrated below:
 
 ```mermaid
 sequenceDiagram
@@ -53,13 +45,11 @@ sequenceDiagram
     sensor ->> app:    RGB, IR, LiDAR
 ```
 
-### Deployment and Scheduling
+### Deployment Service
 
-The Deployment Service is a Platform Service responsible for deploying payload applications and scheduling them to run on the spacecraft.
+The Deployment Service is tasked with the deployment, scheduling, and management of payload applications on the spacecraft. This service adapts to the unique hosting architectures and platforms through the use of customizable plugins.
 
-Deploying and starting a payload application is a complex process unique to every hosting architecture and platform. That uniqueness is specified by the Deployment Service's Plugins. See **[Plugins](../plugins.md)** for more information.
-
-For example, here's how a Satellite Owner Operator might request an application be deployed and started from the ground:
+For example, the deployment and initiation of a payload application by a Satellite Owner Operator from ground control is depicted below:
 
 ```mermaid
 sequenceDiagram
@@ -74,9 +64,7 @@ sequenceDiagram
     deployment ->> app: Stops and Removes MyPayloadApp
 ```
 
-The Deployment Service is the only place a Satellite Owner Operator deploys and starts payload applications.
-
-Say an application needs updating, the application is also patched by the Deployment Service:
+The Deployment Service exclusively handles the deployment, initiation, and updating of payload applications, ensuring a streamlined and secure process for Satellite Owner Operators. The flow diagram below outlines the process of updating an application on orbit:
 
 ```mermaid
 sequenceDiagram
