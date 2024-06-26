@@ -19,7 +19,7 @@ See the [Azure Orbital Space SDK Host Services](https://github.com/microsoft/Azu
 
 To extend and customize behavior of the Platform Services, the Azure Orbital Space SDK provides a plugin system.
 
-See **[Plugins](./plugins.md)** for more information.
+See **[Plugins](../plugins.md)** for more information.
 
 ## Design
 
@@ -57,7 +57,7 @@ sequenceDiagram
 
 The Deployment Service is a Platform Service responsible for deploying payload applications and scheduling them to run on the spacecraft.
 
-Deploying and starting a payload application is a complex process unique to every hosting architecture and platform. That uniqueness is specified by the Deployment Service's Plugins. See **[Plugins](./plugins.md)** for more information.
+Deploying and starting a payload application is a complex process unique to every hosting architecture and platform. That uniqueness is specified by the Deployment Service's Plugins. See **[Plugins](../plugins.md)** for more information.
 
 For example, here's how a Satellite Owner Operator might request an application be deployed and started from the ground:
 
