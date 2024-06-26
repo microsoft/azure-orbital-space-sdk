@@ -1,4 +1,4 @@
-# Azure Orbital Space SDK Core Services
+# Azure Orbital Space SDK - Core Services
 
 The Azure Orbital Space SDK provides a suite of core services designed to facilitate the development, deployment, and management of space-based applications. Below is an overview of each core service, with links to detailed documentation for further information.
 
@@ -13,3 +13,9 @@ The Azure Orbital Space SDK provides a suite of core services designed to facili
 - **[Switchboard Service](https://github.com/microsoft/azure-orbital-space-sdk-coresvc-switchboard)**: A secure MQTT message router for reliable and secure message routing between space-based application components. [Learn more](./switchboard.md).
 
 Each of these services plays a crucial role in ensuring the reliability, security, and efficiency of space missions. By leveraging these core services, developers can focus on building innovative and robust space applications, confident in the support provided by the Azure Orbital Space SDK infrastructure.
+
+## Extensibility and Customizations
+
+The Azure Orbital Space SDK's plugin system offers extensive opportunities for customizing and extending the functionalities of Core Services to cater to specific mission requirements.
+
+For detailed information on plugins, see **[Plugins](../plugins.md)**.

@@ -1,4 +1,4 @@
-# Azure Orbital Space SDK Host Services
+# Azure Orbital Space SDK  - Host Services
 
 The Azure Orbital Space SDK provides a suite of host services that facilitate interactivity between payload applications and satellite subsystems and data. Through host services, payload applications can request spacecraft telemetry and sensor data, coordinate communication and file transfer with Earth, and emit detailed logging information for further analysis on the ground.
 
@@ -13,3 +13,9 @@ The Azure Orbital Space SDK provides a suite of host services that facilitate in
 - **Sensor Service**: Provides access to raw and processed data from onboard sensor. This service is critical for payload applications performing environmental monitoring, Earth observation, or other sensor-based missions. [Learn more](./sensor.md).
 
 Each of these host services is designed to enhance the capabilities of payload applications and improve the efficiency and reliability of satellite operations. By leveraging these services, developers can create more sophisticated and responsive space applications, capable of performing complex tasks and responding dynamically to on-orbit conditions.
+
+## Extensibility and Customizations
+
+The Azure Orbital Space SDK's plugin system offers extensive opportunities for customizing and extending the functionalities of Host Services to cater to specific mission requirements.
+
+For detailed information on plugins, see **[Plugins](../plugins.md)**.

@@ -150,6 +150,12 @@ flowchart LR
     end
 ```
 
+## Extensibility and Customizations
+
+The Azure Orbital Space SDK's plugin system offers extensive opportunities for customizing and extending the functionalities of the Virtual Test Harness to cater to specific testing requirements.
+
+For detailed information on plugins, see **[Plugins](../runtime-framework/plugins.md)**.
+
 ## Components
 
 The Azure Orbital Space SDK Virtual Test Harness (VTH) comprises several key components designed to offer a comprehensive and realistic testing environment for space-based applications. These components are crucial for ensuring that applications are robust, reliable, and ready for deployment in the challenging environment of space.
