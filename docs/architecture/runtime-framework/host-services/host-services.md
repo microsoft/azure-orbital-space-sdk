@@ -4,7 +4,7 @@ The Azure Orbital Space SDK provides a suite of host services that facilitate in
 
 ## Host Services Overview
 
-- **Link Service**: Offers a robust mechanism for transferring files between components of the runtime framework. It may also be used to stage files so they may be downlinked to the ground for further analysis.v[Learn more](./link.md).
+- **Link Service**: Offers a robust mechanism for transferring files between components of the runtime framework. It may also be used to stage files so they may be downlinked to the ground for further analysis. [Learn more](./link.md).
 
 - **Logging Service**: Captures detailed logs from payload applications and satellite subsystems, facilitating debugging, performance monitoring, and operational analysis. [Learn more](./logging.md).
 
