@@ -8,9 +8,9 @@ Due to their integral role and the need for secure operations, Platform Services
 
 ## Platform Services Overview
 
-- **[Message Translation Service (MTS)](https://github.com/microsoft/Azure-Orbital-Space-SDK-Host-Services/tree/main/platform-mts)**: Facilitates the conversion of telemetry and sensor data from spacecraft-specific formats to a standardized format.
+- **[Deployment Service](./deployment.md)**: Manages the deployment, updating, and termination of payload applications on the spacecraft.
 
-- **[Deployment Service](https://github.com/microsoft/Azure-Orbital-Space-SDK-Host-Services/tree/main/platform-deployment)**: Manages the deployment, updating, and termination of payload applications on the spacecraft.
+- **[Message Translation Service (MTS)](./message-translation-service.md)**: Facilitates the conversion of telemetry and sensor data from spacecraft-specific formats to a standardized format.
 
 ## Extensibility and Customizations
 

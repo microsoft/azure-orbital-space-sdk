@@ -4,13 +4,13 @@ The Azure Orbital Space SDK provides a suite of core services designed to facili
 
 ## Core Services Overview
 
-- **[Core Service](https://github.com/microsoft/azure-orbital-space-sdk-core)**: The foundational service that provides essential runtime services and payload application support. [Learn more](./core-services.md).
+- **[Core Service](./core-services.md)**: The foundational service that provides essential runtime services and payload application support.
 
-- **[Fileserver Service](https://github.com/microsoft/azure-orbital-space-sdk-coresvc-fileserver)**: A service optimized for high-throughput file transfers, supporting the efficient exchange of payload data and configuration files. [Learn more](./fileserver.md).
+- **[Fileserver Service](./fileserver.md)**: A service optimized for high-throughput file transfers, supporting the efficient exchange of payload data and configuration files.
 
-- **[Registry Service](https://github.com/microsoft/azure-orbital-space-sdk-coresvc-registry)**: Manages container images for on-orbit applications, facilitating secure storage, management, and deployment of software components. [Learn more](./registry.md).
+- **[Registry Service](./registry.md)**: Manages container images for on-orbit applications, facilitating secure storage, management, and deployment of software components.
 
-- **[Switchboard Service](https://github.com/microsoft/azure-orbital-space-sdk-coresvc-switchboard)**: A secure MQTT message router for reliable and secure message routing between space-based application components. [Learn more](./switchboard.md).
+- **[Switchboard Service](./switchboard.md)**: A secure MQTT message router for reliable and secure message routing between space-based application components.
 
 Each of these services plays a crucial role in ensuring the reliability, security, and efficiency of space missions. By leveraging these core services, developers can focus on building innovative and robust space applications, confident in the support provided by the Azure Orbital Space SDK infrastructure.
 
