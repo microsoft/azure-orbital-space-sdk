@@ -77,28 +77,28 @@ flowchart LR
 
 #### Core Services
 
-Core services provide the fundamental functionality required for the operation of the runtime framework. These services include:
+[Core Services](./runtime-framework/core-services/core-services.md) underpin the runtime framework with essential functionalities necessary for its operation. These services include:
 
-- [Core Service](./runtime-framework/core-services/core.md)
-- [Fileserver](./runtime-framework/core-services/fileserver.md)
-- [Registry](./runtime-framework/core-services/registry.md)
-- [Switchboard](./runtime-framework/core-services/switchboard.md)
+- [Core Service](./runtime-framework/core-services/core.md): Acts as the foundation of the runtime framework, coordinating the interaction between different services.
+- [Fileserver](./runtime-framework/core-services/fileserver.md): Manages file storage and access, providing a centralized repository for runtime data and configurations.
+- [Registry](./runtime-framework/core-services/registry.md): Docker image registry management, used for storing and managing Docker images used by the runtime framework for service and application deployments and updates.
+- [Switchboard](./runtime-framework/core-services/switchboard.md): Enables message routing and inter-service communication, ensuring efficient data exchange within the framework.
 
 #### Host Services
 
-Host services provide logical abstractions of a satellite's interactive components and operations. These services include:
+[Host Services](./runtime-framework/host-services/host-services.md) abstract the satellite's interactive components and operations into logical services. These services include:
 
-- [Link](./runtime-framework/host-services/link.md)
-- [Logging](./runtime-framework/host-services/logging.md)
-- [Position](./runtime-framework/host-services/position.md)
-- [Sensor](./runtime-framework/host-services/sensor.md)
+- [Link](./runtime-framework/host-services/link.md): Manages communication links, handling data transmission to and from the satellite.
+- [Logging](./runtime-framework/host-services/logging.md): Provides comprehensive logging capabilities, capturing system events and operational data for analysis.
+- [Position](./runtime-framework/host-services/position.md): Tracks the satellite's position and movement, offering precise location data and trajectory information.
+- [Sensor](./runtime-framework/host-services/sensor.md): Interfaces with satellite sensors, facilitating data collection and sensor management.
 
 #### Platform Services
 
-Platform services provide functionality such as application deployment and lifecycle management and interface to a satellite's hardware and subsystems. These services include:
+[Platform Services](./runtime-framework/platform-services/platform-services.md) extend the runtime framework with capabilities for application deployment, lifecycle management, and hardware interfacing. These services include:
 
-- [Deployment](./runtime-framework/platform-services/deployment.md)
-- [Message Translation Service (MTS)](./runtime-framework/platform-services/message-translation-service.md)
+- [Deployment](./runtime-framework/platform-services/deployment.md): Oversees the deployment and management of applications on the satellite, handling installation, updates, and removal.
+- [Message Translation Service (MTS)](./runtime-framework/platform-services/message-translation-service.md): Translates between the satellite's native data formats and standardized formats, enabling seamless data integration and processing.
 
 #### Supporting Technologies
 
@@ -112,7 +112,7 @@ To learn more about the Azure Orbital Space SDK Runtime Framework, please refer 
 
 ## Software Development Kit
 
-The Azure Orbital Space SDK Software Development Kit is a comprehensive collection of tools, libraries, code samples, and other resources designed to facilitate development on the Azure Orbital Space SDK runtime framework. The SDK is designed to support developers at every stage of the development process, making it easier to create and deploy space-based applications.
+The [Azure Orbital Space SDK Software Development Kit](./software-development-kit/software-development-kit.md) is a comprehensive collection of tools, libraries, code samples, and other resources designed to facilitate development on the Azure Orbital Space SDK runtime framework. The SDK is designed to support developers at every stage of the development process, making it easier to create and deploy space-based applications.
 
 The SDK includes client libraries for .NET and Python, providing a standardized interface for interacting with the runtime framework. These libraries abstract the complexities of the underlying system, allowing developers to focus on creating applications that fulfill their specific needs.
 
@@ -128,11 +128,9 @@ In addition to these resources, the SDK provides a variety of code samples, tuto
 - Development Tools such as Devcontainers and Debug Shims
 - Samples, Tutorials, and Quick-Starts
 
-To learn more about the Azure Orbital Space SDK Software Development Kit, please refer to our detailed [Azure Orbital Space SDK Software Development Kit](./software-development-kit/software-development-kit.md) documentation.
-
 ## Virtual Test Harness (VTH)
 
-The Azure Orbital Space SDK Virtual Test Harness (VTH) provides a means of virtually replicating environments seen on orbit. The VTH is designed to simulate the challenging conditions of space, allowing developers to test their applications under realistic conditions before deployment.
+The [Azure Orbital Space SDK Virtual Test Harness (VTH)](./virtual-test-harness/virtual-test-harness.md) provides a means of virtually replicating environments seen on orbit. The VTH is designed to simulate the challenging conditions of space, allowing developers to test their applications under realistic conditions before deployment.
 
 The VTH is logically separated from the Azure Orbital Space SDK runtime. This separation ensures that payload applications and service plugins run the exact same way in a test environment as they would on orbit. This feature is crucial for ensuring the reliability and robustness of applications before they go to orbit.
 
@@ -188,5 +186,3 @@ flowchart LR
 
 - [Data Generators](./virtual-test-harness/data-generators/data-generators.md)
 - [Virtual Test Harness (VTH)](./virtual-test-harness/virtual-test-harness.md)
-
-To learn more about the Azure Orbital Space SDK Virtual Test Harness, please refer to our detailed [Azure Orbital Space SDK Virtual Test Harness (VTH)](./virtual-test-harness/virtual-test-harness.md) documentation.
