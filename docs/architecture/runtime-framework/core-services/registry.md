@@ -1,4 +1,4 @@
-# Azure Orbital Space SDK - Registry Service
+# Azure Orbital Space SDK - Registry Service (core-registry)
 
 The Registry service offers an on-orbit container image registry for use with the Azure Orbital Space SDK, leveraging the [Distribution Toolkit](https://github.com/distribution/distribution). This service is designed to facilitate the storage, management, and deployment of container images in on orbit.
 

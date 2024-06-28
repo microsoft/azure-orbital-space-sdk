@@ -1,4 +1,4 @@
-# Azure Orbital Space SDK - Deployment Service
+# Azure Orbital Space SDK - Deployment Service (platform-deployment)
 
 The Deployment Service is tasked with the deployment, scheduling, and management of payload applications on the spacecraft. This service adapts to the unique hosting architectures and platforms through the use of customizable plugins.
 

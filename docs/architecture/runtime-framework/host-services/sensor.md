@@ -1,4 +1,4 @@
-# Azure Orbital Space SDK - Sensor Service
+# Azure Orbital Space SDK - Sensor Service (hostsvc-sensor)
 
 The Sensor Service provides access to the wide array of sensors onboard on the spacecraft. This service enables the efficient collection, processing, and distribution of sensor data. Thanks to its highly abstracted and generalized design, the sensor service can interface with any type of onboard sensor, whether its an imaging sensor, an altimeter, an accelerometer, or beyond.
 

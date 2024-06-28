@@ -1,4 +1,4 @@
-# Azure Orbital Space SDK - Message Translation Service (MTS)
+# Azure Orbital Space SDK - Message Translation Service (MTS) (platform-mts)
 
 At the core of platform services, the Message Translation Service (MTS) plays a vital role in converting telemetry and sensor data from the spacecraft into a universally understandable format. Leveraging protocol buffers and gRPC, it ensures smooth data exchange the Azure Orbital Space SDK runtime framework and the satellite payload.
 

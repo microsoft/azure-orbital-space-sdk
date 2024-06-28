@@ -1,4 +1,4 @@
-# Azure Orbital Space SDK - Fileserver Service
+# Azure Orbital Space SDK - Fileserver Service (core-fileserver)
 
 The Fileserver service within the Azure Orbital Space SDK offers a robust SMB (Server Message Block) server designed to streamline file transfers between payload applications and runtime services. This service is pivotal for operations requiring high-volume data exchange or configuration file updates, ensuring seamless and secure data flow across the satellite's onboard systems.
 

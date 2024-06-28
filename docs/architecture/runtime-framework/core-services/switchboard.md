@@ -1,4 +1,4 @@
-# Azure Orbital Space SDK - Switchboard Service
+# Azure Orbital Space SDK - Switchboard Service (core-switchboard)
 
 The Switchboard service is the Azure Orbital Space SDK's secure MQTT message router. Switchboard is built from [rabbitMQ](https://github.com/rabbitmq/rabbitmq-server) from source with additional updates to remove rabbitMQ's dependency on docker hub. This service is designed to facilitate reliable and secure message routing within the runtime framework.
 
