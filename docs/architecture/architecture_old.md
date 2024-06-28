@@ -55,3 +55,5 @@ The key takeaways for the above diagram:
   - Core-BuildService can be used to locally build container images with apps and functionality
     - i.e. Dotnet, Python v3.9, Python v3.10, OpenCV, TensorFlow, etc. (SOO Dependent)
 - VTH is only available in Development and Integration Testing.  VTH is not available in orbit
+
+<!-- TODO: Move this content into appropriate locations elsewhere in this repo and delete this file -->
