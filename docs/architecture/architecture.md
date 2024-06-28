@@ -12,7 +12,7 @@ In the following sections, we will delve deeper into the components of the Azure
 
 ## Runtime Framework
 
-The Azure Orbital Space SDK Runtime Framework is a collection of microservices built on a common architecture. We provide client libraries for application developers to interface with spacecraft in a standardized and predictable way. Host services abstract interactive logical components of a satellite to these developers, which satellite system providers can extend through the use of plugins.
+The [Azure Orbital Space SDK Runtime Framework](./runtime-framework/runtime-framework.md) is a collection of microservices built on a common architecture. We provide client libraries for application developers to interface with spacecraft in a standardized and predictable way. Host services abstract interactive logical components of a satellite to these developers, which satellite system providers can extend through the use of plugins.
 
 The runtime framework is designed to be robust and reliable, capable of operating in the challenging environment of space. It is built on a microservices architecture, which allows for independent development and deployment of services.
 
@@ -107,8 +107,6 @@ The runtime framework leverages several open source supporting technologies. The
 - [Dapr](https://dapr.io/)
 - [Kubernetes (k3s)](https://k3s-io.github.io/)
 - [Samba](https://www.samba.org)
-
-To learn more about the Azure Orbital Space SDK Runtime Framework, please refer to our detailed [Azure Orbital Space SDK Runtime Framework](./runtime-framework/runtime-framework.md) documentation.
 
 ## Software Development Kit
 
