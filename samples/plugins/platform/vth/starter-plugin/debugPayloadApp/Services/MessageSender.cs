@@ -154,11 +154,6 @@ public class MessageSender : BackgroundService {
 
         if (response == null) throw new TimeoutException($"Failed to hear {nameof(response)} after {MAX_TIMESPAN_TO_WAIT_FOR_MSG}.  Please check that {_hostSvcAppId} is deployed");
 
-        if (response.ResponseHeader.Status != Microsoft.Azure.SpaceFx.MessageFormats.Common.StatusCodes.Successful) {
-            throw new Exception($"'{request.GetType().Name}' failed with status '{response.ResponseHeader.Status}' and message '{response.ResponseHeader.Message}'");
-        }
-
-
         _logger.LogInformation($"'{request.GetType().Name}' request received.  Status: '{response.ResponseHeader.Status}' (TrackingId: '{request.RequestHeader.TrackingId}')");
 
     }
@@ -192,11 +187,6 @@ public class MessageSender : BackgroundService {
         }
 
         if (response == null) throw new TimeoutException($"Failed to hear {nameof(response)} after {MAX_TIMESPAN_TO_WAIT_FOR_MSG}.  Please check that {_hostSvcAppId} is deployed");
-
-        if (response.ResponseHeader.Status != Microsoft.Azure.SpaceFx.MessageFormats.Common.StatusCodes.Successful) {
-            throw new Exception($"'{request.GetType().Name}' failed with status '{response.ResponseHeader.Status}' and message '{response.ResponseHeader.Message}'");
-        }
-
 
         _logger.LogInformation($"'{request.GetType().Name}' request received.  Status: '{response.ResponseHeader.Status}' (TrackingId: '{request.RequestHeader.TrackingId}')");
 
@@ -253,11 +243,6 @@ public class MessageSender : BackgroundService {
 
         if (response == null) throw new TimeoutException($"Failed to hear {nameof(response)} after {MAX_TIMESPAN_TO_WAIT_FOR_MSG}.  Please check that {_hostSvcAppId} is deployed");
 
-        if (response.ResponseHeader.Status != Microsoft.Azure.SpaceFx.MessageFormats.Common.StatusCodes.Successful) {
-            throw new Exception($"'{request.GetType().Name}' failed with status '{response.ResponseHeader.Status}' and message '{response.ResponseHeader.Message}'");
-        }
-
-
         _logger.LogInformation($"'{request.GetType().Name}'received.  Status: '{response.ResponseHeader.Status}' (TrackingId: '{request.RequestHeader.TrackingId}')");
     }
 
@@ -295,11 +280,6 @@ public class MessageSender : BackgroundService {
         }
 
         if (response == null) throw new TimeoutException($"Failed to hear {nameof(response)} after {MAX_TIMESPAN_TO_WAIT_FOR_MSG}.  Please check that {_hostSvcAppId} is deployed");
-
-        if (response.ResponseHeader.Status != Microsoft.Azure.SpaceFx.MessageFormats.Common.StatusCodes.Successful) {
-            throw new Exception($"'{request.GetType().Name}' failed with status '{response.ResponseHeader.Status}' and message '{response.ResponseHeader.Message}'");
-        }
-
 
         _logger.LogInformation($"'{request.GetType().Name}'received.  Status: '{response.ResponseHeader.Status}' (TrackingId: '{request.RequestHeader.TrackingId}')");
     }
@@ -351,11 +331,6 @@ public class MessageSender : BackgroundService {
 
         if (response == null) throw new TimeoutException($"Failed to hear {nameof(response)} after {MAX_TIMESPAN_TO_WAIT_FOR_MSG}.  Please check that {_hostSvcAppId} is deployed");
 
-        if (response.ResponseHeader.Status != Microsoft.Azure.SpaceFx.MessageFormats.Common.StatusCodes.Successful) {
-            throw new Exception($"'{request.GetType().Name}' failed with status '{response.ResponseHeader.Status}' and message '{response.ResponseHeader.Message}'");
-        }
-
-
         _logger.LogInformation($"'{request.GetType().Name}' request received.  Status: '{response.ResponseHeader.Status}' (TrackingId: '{request.RequestHeader.TrackingId}')");
 
     }
@@ -391,11 +366,6 @@ public class MessageSender : BackgroundService {
 
         if (response == null) throw new TimeoutException($"Failed to hear {nameof(response)} after {MAX_TIMESPAN_TO_WAIT_FOR_MSG}.  Please check that {_hostSvcAppId} is deployed");
 
-        if (response.ResponseHeader.Status != Microsoft.Azure.SpaceFx.MessageFormats.Common.StatusCodes.Successful) {
-            throw new Exception($"'{request.GetType().Name}' failed with status '{response.ResponseHeader.Status}' and message '{response.ResponseHeader.Message}'");
-        }
-
-
         _logger.LogInformation($"'{request.GetType().Name}' request received.  Status: '{response.ResponseHeader.Status}' (TrackingId: '{request.RequestHeader.TrackingId}')");
 
     }
@@ -430,11 +400,6 @@ public class MessageSender : BackgroundService {
         }
 
         if (response == null) throw new TimeoutException($"Failed to hear {nameof(response)} after {MAX_TIMESPAN_TO_WAIT_FOR_MSG}.  Please check that {_hostSvcAppId} is deployed");
-
-        if (response.ResponseHeader.Status != Microsoft.Azure.SpaceFx.MessageFormats.Common.StatusCodes.Successful) {
-            throw new Exception($"'{request.GetType().Name}' failed with status '{response.ResponseHeader.Status}' and message '{response.ResponseHeader.Message}'");
-        }
-
 
         _logger.LogInformation($"'{request.GetType().Name}' request received.  Status: '{response.ResponseHeader.Status}' (TrackingId: '{request.RequestHeader.TrackingId}')");
 
