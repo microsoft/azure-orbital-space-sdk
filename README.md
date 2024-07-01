@@ -1,39 +1,70 @@
 # Azure Orbital Space SDK
 
-- [Azure Orbital Space SDK](#azure-orbital-space-sdk)
-  - [About](#about)
-  - [SDK License](#sdk-license)
-  - [Contributing](#contributing)
-  - [Trademarks](#trademarks)
+The Azure Orbital Space SDK is a software development kit, runtime framework, and virtualization platform that makes it easy to develop and deploy applications to space.
 
-## About
-The Azure Orbital Space SDK is a solution designed to lower the barriers for developing applications intended to run on spacecraft. The solution was created to be able to run on any spacecraft, providing a secure hosting platform and application kit to create, deploy, and operate applications on-orbit.
-As a space partner, you can leverage the Space SDK to offer edge processing on your satellite and provide your customers with the power, approachability, and security of the Microsoft development tools and the Azure ecosystem.
+As an application developer, the Azure Orbital Space SDK abstracts complex satellite systems and operations into simple components with clear, standardized actions and interfaces. This allows you to focus on what matters - developing the applications you need on orbit.
 
-![AzureOrbitalSDK-Overview.png](./img/AzureOrbitalSDK-Overview.png)
+As a satellite service provider, the Azure Orbital Space SDK provides a lightweight, secure runtime framework that allows your satellites to be treated as a generic compute platform. Through interface standardization satellites become reusable assets that can be modified on orbit to execute different missions through payload applications. Payload applications can be deployed to any of your satellites with zero downtime and no code modifications required.
 
-## SDK License
+```mermaid
+flowchart TB
+    subgraph "Azure Orbital Space SDK"
+        subgraph "Software Development Kit"
+            APIs
+            Client-Libraries(Client Libraries)
+            Documentation
+            Devcontainers
+            Debug-Shims(Debug Shims)
+            Samples
+            Tutorials
+        end
+        subgraph "Runtime Framework"
+            Core-Services(Core Services)
+            Host-Services(Host Services)
+            Platform-Services(Platform Services)
+            Framework-Plugins(Plugins)
+        end
+        subgraph "Virtual Test Harness"
+            Data-Generators(Data Generators)
+            VTH-Plugins(Plugins)
+            Virtual-Test-Harness(Virtual Test Harness)
+        end
+    end
+```
 
-The license for the Space SDK can be found [here](/LICENSE).
+## Getting Started
+
+First time working with the Azure Orbital Space SDK? Check out our [Getting Started Guide](./docs/getting-started.md).
+
+## Overview
+
+Want to learn more about what the Azure Orbital Space SDK is and how it works? Start with these resources:
+
+- [About the Azure Orbital Space SDK](./docs/overview/about-space-sdk.md)
+- [Azure Orbital Space SDK Architecture Overview](./docs/architecture/architecture.md)
+- [Azure Orbital Space SDK System Requirements](./docs/overview/requirements.md)
+
+## Quick Starts and Tutorials
+
+Ready to become a space software developer? Get started with our starter projects and guides:
+
+- [Quick Starts and Tutorials](./docs/quick-starts/README.md)
+
+## Sample Applications
+
+- [Sample ONNX Application](./samples/payloadapps/python/shipdetector-onnx/placeholder)
+- [Sample Tensorflow Application](./samples/payloadapps/python/shipdetector-tf/placeholder)
+- [Starter .NET Application](./samples/payloadapps/dotnet/starter-app/placeholder)
+- [Starter Python Application](./samples/payloadapps/python/starter-app/placeholder)
 
 ## Contributing
 
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.
+Find something you'd like to improve? See how on our [Contributing Guide](./CONTRIBUTING.md).
 
-When you submit a pull request, a CLA bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., status check, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
+## Legal
 
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+Looking for our software license and other legal information? View our [Legal Guide](./LEGAL.md).
 
-## Trademarks
+## Additional Resources
 
-This project may contain trademarks or logos for projects, products, or services. Authorized use of Microsoft
-trademarks or logos is subject to and must follow
-[Microsoft's Trademark & Brand Guidelines](https://www.microsoft.com/en-us/legal/intellectualproperty/trademarks/usage/general).
-Use of Microsoft trademarks or logos in modified versions of this project must not cause confusion or imply Microsoft sponsorship.
-Any use of third-party trademarks or logos are subject to those third-party's policies.
+Searching for something else? Find it quickly in our [Table of Contents](./docs/table-of-contents.md).
