@@ -48,7 +48,7 @@ Want to learn more about what the Azure Orbital Space SDK is and how it works? S
 
 Ready to become a space software developer? Get started with our starter projects and guides:
 
-- [Quick Starts and Tutorials](./docs/quick-starts/README.md)
+- [Quick Starts and Tutorials](./docs/quick-starts/quick-starts.md)
 
 ## Sample Applications
 
