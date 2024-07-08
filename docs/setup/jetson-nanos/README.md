@@ -1,4 +1,16 @@
-# Install the nvidia container runtime and CUDA runtime to the Jetson Nano
+# Deploy the Azure Orbital Space SDK to an nVidia Jetson Nano
+The NVIDIA Jetson Nano is a small, powerful computer designed for AI projects at the edge. The Azure Orbital Space SDK can be deployed to an NVIDIA Jetson Nano with GPU-enabled applications to be run within the cluster.
+
+The `deviceQuery` in this README are references to the [nVidia CUDA deviceQuery] (https://github.com/NVIDIA/cuda-samples/tree/master/Samples/1_Utilities/deviceQuery) in the cuda samples repo.  Container images with pre-built copies of deviceQuery and cuda versions are available via
+* [ghcr.io/microsoft/azure-orbital-space-sdk/spacesdk-jetson-devicequery:cuda-**11.4**-nightly](https://github.com/microsoft/azure-orbital-space-sdk-core/pkgs/container/azure-orbital-space-sdk%2Fspacesdk-jetson-devicequery) ~300MB
+* [ghcr.io/microsoft/azure-orbital-space-sdk/spacesdk-jetson-devicequery:cuda-**11.4**-dev-nightly](https://github.com/microsoft/azure-orbital-space-sdk-core/pkgs/container/azure-orbital-space-sdk%2Fspacesdk-jetson-devicequery) ~2.5 GB
+* [ghcr.io/microsoft/azure-orbital-space-sdk/spacesdk-jetson-devicequery:cuda-**12.2**-nightly](https://github.com/microsoft/azure-orbital-space-sdk-core/pkgs/container/azure-orbital-space-sdk%2Fspacesdk-jetson-devicequery) ~300MB
+* [ghcr.io/microsoft/azure-orbital-space-sdk/spacesdk-jetson-devicequery:cuda-**12.2**-dev-nightly](https://github.com/microsoft/azure-orbital-space-sdk-core/pkgs/container/azure-orbital-space-sdk%2Fspacesdk-jetson-devicequery) ~2.5 GB
+
+Images with `-dev` suffix have the cuda drivers installed in the image and are intended for testing and validation on the ground.  They are not intended for deployment to production hardware.
+
+
+## Prerequisite installation and configuration of the Jetson Nano
 >Note: this assumes the jetson nano is connected to the internet.  Air-gapped installation of `nvidia-container-runtime` and `cuda-runtime` are beyond the scope of this document
 ```bash
 source /etc/os-release
@@ -17,22 +29,12 @@ sudo apt-get update
 sudo apt install -y nvidia-container-runtime cuda-runtime-11-4
 ```
 
-The `deviceQuery` in this README are references to the [nVidia CUDA deviceQuery] (https://github.com/NVIDIA/cuda-samples/tree/master/Samples/1_Utilities/deviceQuery) in the cuda samples repo.  Container images with pre-built copies of deviceQuery are available via
-* [ghcr.io/microsoft/azure-orbital-space-sdk/spacesdk-jetson-devicequery:cuda-11.4-nightly](https://github.com/microsoft/azure-orbital-space-sdk-core/pkgs/container/azure-orbital-space-sdk%2Fspacesdk-jetson-devicequery) ~300MB
-* [ghcr.io/microsoft/azure-orbital-space-sdk/spacesdk-jetson-devicequery:cuda-11.4-dev-nightly](https://github.com/microsoft/azure-orbital-space-sdk-core/pkgs/container/azure-orbital-space-sdk%2Fspacesdk-jetson-devicequery) ~2.5 GB
-* [ghcr.io/microsoft/azure-orbital-space-sdk/spacesdk-jetson-devicequery:cuda-12.2-nightly](https://github.com/microsoft/azure-orbital-space-sdk-core/pkgs/container/azure-orbital-space-sdk%2Fspacesdk-jetson-devicequery) ~300MB
-* [ghcr.io/microsoft/azure-orbital-space-sdk/spacesdk-jetson-devicequery:cuda-12.2-dev-nightly](https://github.com/microsoft/azure-orbital-space-sdk-core/pkgs/container/azure-orbital-space-sdk%2Fspacesdk-jetson-devicequery) ~2.5 GB
-
-Images with `-dev` suffix have the cuda drivers installed in the image and are intended for testing and validation on the ground.  They are not intended for deployment to production hardware.
-
-
-# Test and Validate the Azure Orbital Space SDK can run GPU accelerated workloads
- >Note: The Azure Orbital Space SDK staging requires Docker to be installed.  This step also assumes you have already logged into the Azure Orbital Space SDK repo at https://github.com/microsoft/azure-orbital-space-sdk-setup
+# Validate a GPU-enabled workload in Azure Orbital Space SDK
+>Note: The Azure Orbital Space SDK staging requires Docker to be installed.  This step also assumes you have already logged into the Azure Orbital Space SDK repo at https://github.com/microsoft/azure-orbital-space-sdk-setup
 
 1. Clone the repo
 	```bash
 	git clone git@github.com:microsoft/azure-orbital-space-sdk-setup.git
-	git checkout -b nvidia_gpu_for_jetson origin/nvidia_gpu_for_jetson
 	cd azure-orbital-space-sdk-setup
 	```
 
@@ -132,8 +134,6 @@ Images with `-dev` suffix have the cuda drivers installed in the image and are i
 
 # Test GPU with deviceQuery in Docker (Optional)
 The Jetson Nano GPU workload can be tested using Docker to validate the configuration and drivers are installed for the jetson nano.  Testing in Docker allows quicker iteration and retests by not requiring a full Azure Orbital Space SDK cluster to be deployed every time.  This is intended to be for a ground-based installation.
-
-TODO: Add link to docker installation steps
 
 1. Enable the docker daemon to leverage the GPU through the nvidia-ctk cli
 	```bash
