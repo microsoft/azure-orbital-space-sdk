@@ -9,7 +9,8 @@
     "features": {
 		"ghcr.io/microsoft/azure-orbital-space-sdk/spacefx-dev:0.11.0_ryan_test": {
 			"app_name": "app-python-shipdetector-onnx",
-			"dev_language": "python"
+			"dev_language": "python",
+			"extra_packages": "libgdal-dev, libgl1",
 		}
 	},
 	"hostRequirements": {

@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug Client",
+            "name": "Debug App",
             "type": "python",
             "request": "attach",
             "preLaunchTask": "deploy-debugshim-client",

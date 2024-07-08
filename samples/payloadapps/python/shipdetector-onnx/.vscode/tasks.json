@@ -40,32 +40,10 @@
             }
         },
         {
-            "label": "setup_inbox",
-            "isBackground": false,
-            "command": "mkdir",
-            "type": "shell",
-            "args": [
-                "-p",
-                "/var/spacedev/xfer/${DEBUG_SHIM_HOST}/inbox/model"
-            ],
-            "presentation": {
-                "echo": true,
-                "reveal": "never",
-                "focus": false,
-                "panel": "shared",
-                "showReuseMessage": false,
-                "clear": false
-            }
-        },
-        {
             "label": "copy_model_to_inbox",
             "isBackground": false,
             "command": "cp",
             "type": "shell",
-            "dependsOn": [
-                "setup_inbox"
-            ],
-            "dependsOrder": "sequence",
             "args": [
                 "${APP_WORKING_DIR}/model/*",
                 "/var/spacedev/xfer/app-python-shipdetector-onnx/inbox/"
@@ -102,10 +80,6 @@
             "isBackground": false,
             "command": "cp",
             "type": "shell",
-            "dependsOn": [
-                "setup_inbox"
-            ],
-            "dependsOrder": "sequence",
             "args": [
                 "${APP_WORKING_DIR}/schedules/debug_image/app-config.json",
                 "/var/spacedev/xfer/app-python-shipdetector-onnx/inbox/app-config.json"
