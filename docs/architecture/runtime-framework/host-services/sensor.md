@@ -15,25 +15,112 @@ The Sensor Service provides access to the wide array of sensors onboard on the s
 - **Event-Triggered Sampling**: Employs sensors to perform event-triggered sampling, such as capturing atmospheric data when specific conditions are met, enhancing the efficiency of data collection for climate research and disaster management.
 - **Remote Sensing Analysis**: Supports remote sensing analysis by providing multispectral and hyperspectral imaging data, aiding in agriculture, forestry, and land use planning.
 
-## Getting Started
+## Sensor Availability
 
-### Deployment
+The sensor service can be used by payload applications to determine which sensors can be used onboard the spacecraft. This process begins by the payload application sending a `SensorsAvailableRequest` message to the sensor service through an SDK client library. Upon receiving this message, the sensor service then forwards it to the Message Translation Service (MTS) for processing. The MTS acts as the intermediary capable of communicating directly with the satellite's payload subsystems.
 
-### Configuration
+After receiving the request, the MTS interacts with payload subsystems to determine which sensors are currently available. This information, including sensor types, capabilities, and statuses, is then relayed back to the sensor service in the form of a `SensorsAvailableResponse`. From there, the sensor service optionally further refines this message before sending it back to the requesting payload application.
 
-## Sensor Data Routing
+By having access to up-to-date data on which sensors are operational and available for use, payload applications can make informed decisions on how to use these sensors for data collection and other mission-critical tasks. This not only enhances the efficiency of the mission operations but also ensures that the payload applications are utilizing the spacecraft's resources effectively, thereby maximizing the overall mission success.
+
+### Sensor Availability Sequence Diagram
+
+```mermaid
+sequenceDiagram
+    participant PA as Payload Application
+    participant SS as Sensor Service
+    participant MTS as Message Translation Service
+    participant PS as Payload Subsystems
+
+    PA->>SS: SensorsAvailableRequest
+    SS->>MTS: SensorsAvailableRequest
+    MTS->>PS: Query Available Sensors
+    PS->>MTS: Sensor Details and Status
+    MTS->>SS: SensorsAvailableResponse
+    SS->>PA: SensorsAvailableResponse
+```
+
+## Sensor Tasking Pre-Check
+
+Once a payload application has determined that a sensor is available, it can perform a sensor tasking pre-check to ensure the sensor is fully operational and ready to perform the desired tasking.
+
+The process begins by the payload application sending a `TaskingPreCheckRequest` message to the sensor service through an SDK client library. Upon receiving this message, the sensor service then forwards it to the Message Translation Service (MTS) for processing. The MTS acts as the intermediary capable of communicating directly with the satellite's payload subsystems.
+
+After receiving the request, the MTS interacts with the payload subsystems to initiate the tasking pre-check sequence on the specified sensor. The specifics of this pre-check vary from sensor to sensor, but typically involves verifying the sensor's operational status, checking for any potential conflicts with other tasks, and ensuring that all necessary resources are available to perform the specified task.
+
+The results of this pre-check are then relayed back to the sensor service in the form of a `TaskingPreCheckResponse`. From there, the sensor service optionally further refines this message before sending it back to the requesting payload application.
+
+### Sensor Tasking Pre-Check Sequence Diagram
+
+```mermaid
+sequenceDiagram
+    participant PA as Payload Application
+    participant SS as Sensor Service
+    participant MTS as Message Translation Service
+    participant PS as Payload Subsystems
+
+    PA->>SS: TaskingPreCheckRequest
+    SS->>MTS: TaskingPreCheckRequest
+    MTS->>PS: Initiate Tasking Pre-Check
+    PS->>MTS: Tasking Pre-Check Results
+    MTS->>SS: TaskingPreCheckResponse
+    SS->>PA: TaskingPreCheckResponse
+```
+
+### Examples
+
+<!-- TODO: Add Python and .NET code examples -->
+
+## Sensor Tasking
+
+Once a payload application has determined that a sensor is available and ready for tasking, it can submit a sensor tasking request to the sensor service to perform the desired tasking.
+
+The process begins by the payload application sending a `TaskingRequest` message to the sensor service through an SDK client library. Upon receiving this message, the sensor service then forwards it to the Message Translation Service (MTS) for processing. The MTS acts as the intermediary capable of communicating directly with the satellite's payload subsystems.
+
+After receiving the request, the MTS interacts with the payload subsystems to initiate the tasking sequence on the specified sensor. Upon confirmation that the sensor has received the tasking request, the MTS then responds to the sensor service with a `TaskingResponse` message. This message does not contain sensor tasking output, but rather the status of submitting the tasking request to the sensor itself. From there, the sensor service optionally further refines this message before sending it back to the requesting payload application.
+
+Output from sensor tasking is returned in the form of one or more `SensorData` messages, which is discussed further in the [Sensor Data](#sensor-data) section below.
+
+### Sensor Tasking Sequence Diagram
+
+```mermaid
+sequenceDiagram
+    participant PA as Payload Application
+    participant SS as Sensor Service
+    participant MTS as Message Translation Service
+    participant PS as Payload Subsystems
+
+    PA->>SS: TaskingRequest
+    SS->>MTS: TaskingRequest
+    MTS->>PS: Initiate Sensor Tasking
+    PS->>MTS: Confirm Tasking Received
+    MTS->>SS: TaskingResponse
+    SS->>PA: TaskingResponse
+    Note over PS,SS: Asynchronously, sensor tasking is performed and output is generated.
+    PS-->>MTS: Sensor Tasking Output
+    MTS-->>SS: SensorData
+    SS-->>PA: SensorData
+```
+
+> **Note:** One or more `SensorData` messages may be returned as the result of sensor tasking.
+
+### Examples
+
+<!-- TODO: Add Python and .NET code examples -->
+
+## Sensor Data
 
 The sensor service orchestrates the flow of data from sensors to payload applications, leveraging the Message Translation Service (MTS) for seamless data translation and routing between the runtime framework and the satellite payload. Sensor data can be routed in one of two ways, direct and broadcast routing.
 
 ### Direct Sensor Data Routing
 
-For specific tasking requests, such as capturing an image or conducting secondary processing, the sensor service ensures that data is directly routed to the requesting application. This is facilitated by the presence of `DestinationAppId` or `TaskingTrackingId` in the tasking request.
+For specific tasking requests, such as capturing an image or conducting secondary processing, the sensor service ensures that data is directly routed to the requesting application. This is facilitated by the presence of `DestinationAppId` or `TaskingTrackingId` in the `TasingRequest` message.
 
 - **TaskingTrackingId**: When populated, the sensor service prioritizes this for routing, removing any `DestinationAppId` if present. The sensor service verifies the request against its local cache for a matching `TaskingResponse` with a successful status. If a match is found, sensor data is routed to the originating application. Sensor data is discarded of the originating application is no longer present in the runtime framework.
 
 - **DestinationAppId**: If `TaskingTrackingId` is not present, sensor data is routed directly to this application ID. Sensor data is discarded of the application is not present in the runtime framework. This method is less secure than using `TaskingTrackingId` and is recommended only when the specific application ID is both known and static.
 
-> **Note:** if both the DestinationAppId and TaskingTrackingId are populated, then `DestinationAppId` is removed to force the more stringent routing rules of `TaskingTrackingId` to take affect.  This is done as a security measure to prevent stale applications from accessing sensor data they are not permitted to interact with.
+> **Note:** if both the `DestinationAppId` and `TaskingTrackingId` are populated, then `DestinationAppId` is removed to force the more stringent routing rules of `TaskingTrackingId` to take affect.  This is done as a security measure to prevent stale applications from accessing sensor data they are not permitted to interact with.
 
 ### Broadcast Sensor Data Routing
 
@@ -61,7 +148,9 @@ flowchart TD
     W -->|SensorData| R[Payload Application]
 ```
 
-### Practical Examples
+### Examples
+
+<!-- TODO: Add Python Examples -->
 
 #### Direct Sensor Data
 
