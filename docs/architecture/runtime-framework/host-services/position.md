@@ -47,7 +47,7 @@ sequenceDiagram
     PS->>MTS: PositionUpdateResponse
 ```
 
-### Position Host Service Use Examples
+## Position Host Service Use Examples
 
 The following C# example demonstrates how to request the last known position of the satellite using the Azure Orbital Space SDK .NET Client Library:
 
