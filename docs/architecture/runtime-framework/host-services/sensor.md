@@ -173,6 +173,8 @@ sequenceDiagram
 
 #### Sensor Tasking Examples
 
+The following C# example demonstrates how to submit a sensor tasking request using the Azure Orbital Space SDK .NET Client Library:
+
 ```csharp
 using System.Threading.Tasks;
 
@@ -187,7 +189,7 @@ sensorTaskingRequestTask.Wait();
 TaskingResponse taskingResponse = sensorTaskingRequestTask.Result;
 ```
 
-The following Python example demonstrates how to perform a sensor tasking pre-check using the Azure Orbital Space SDK Python Client Library:
+The following Python example demonstrates how to submit a sensor tasking request using the Azure Orbital Space SDK Python Client Library:
 
 ```python
 import spacefx
