@@ -17,9 +17,11 @@ from spacefx.protos.sensor.Sensor_pb2 import SensorData
 logger = spacefx.logger(level=logging.INFO)
 
 import sys
-sys.path.append('/workspaces/app-python-shipdetector-onnx/.protos/spacefx/protos/datagenerator/planetary_computer_geotiff')
+sys.path.append(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), ".protos", "datagenerator", "planetary_computer"))
 
-from PlanetaryComputerGeotiff_pb2 import EarthImageRequest, EarthImageResponse, GeographicCoordinates
+
+
+from PlanetaryComputer_pb2 import EarthImageRequest, EarthImageResponse, GeographicCoordinates
 
 
 def process_sensor_data(sensor_data):

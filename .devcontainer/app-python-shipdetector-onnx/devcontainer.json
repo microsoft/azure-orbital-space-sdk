@@ -10,7 +10,9 @@
 		"ghcr.io/microsoft/azure-orbital-space-sdk/spacefx-dev:0.11.0": {
 			"app_name": "app-python-shipdetector-onnx",
 			"dev_language": "python",
-			"extra_packages": "libgdal-dev, libgl1"
+			"extra_packages": "libgdal-dev, libgl1",
+			"download_artifacts": "PlanetaryComputer.proto, datagenerator-planetary-computer.yaml",
+			"pull_containers": "datagenerator-planetary-computer:0.11.0-nightly"
 		}
 	},
 	"hostRequirements": {
@@ -113,5 +115,6 @@
 			}
 		}
 	},
-	"remoteUser": "root"
+	"remoteUser": "root",
+	"postStartCommand": "mkdir -p /workspace/app-python-shipdetector-onnx/.protos/datagenerator/planetary_computer && cp /var/spacedev/protos/datagenerator/planetary-computer/PlanetaryComputer.proto /workspace/app-python-shipdetector-onnx/.protos/datagenerator/planetary_computer/PlanetaryComputer.proto"
 }

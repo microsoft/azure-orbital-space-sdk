@@ -10,7 +10,7 @@ include = "app"
 from = "src"
 
 [[tool.poetry.include]]
-path = ".protos/spacefx/protos/datagenerator/planetary_computer_geotiff"
+path = ".protos/datagenerator/planetary_computer"
 
 [tool.poetry.dependencies]
 python = ">=3.8,<3.12"
