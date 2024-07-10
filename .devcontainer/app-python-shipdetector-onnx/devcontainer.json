@@ -52,6 +52,12 @@
 						"packages": "read"
 					}
 				},
+				"microsoft/azure-orbital-space-sdk-data-generators": {
+					"permissions": {
+						"contents": "read",
+						"packages": "read"
+					}
+				},
 				"microsoft/azure-orbital-space-sdk-coresvc-registry": {
 					"permissions": {
 						"contents": "read",
