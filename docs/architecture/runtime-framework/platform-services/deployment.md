@@ -1,48 +1,56 @@
 # Azure Orbital Space SDK - Deployment Service (platform-deployment)
 
-The Deployment Service is tasked with the deployment, scheduling, and management of payload applications on the spacecraft. This service adapts to the unique hosting architectures and platforms through the use of customizable plugins.
+The [Deployment Platform Service](https://github.com/microsoft/azure-orbital-space-sdk-platform-deployment) is tasked with the deployment, scheduling, and management of payload applications and services on the spacecraft. It may also be used to update applications and services in-place. This functionality of the deployment platform service is especially important when performing a full update of the runtime framework, as it allows each component to be patched without downtime.
 
 ## Key Features
 
 ## Use Cases
 
-## Getting Started
-
-### Deployment
-
-### Configuration
-
 <!-- TODO: Finish this documentation -->
 
-## Overview
+## Deployment Platform Service Operations and Workflows
 
-To illustrate the Deployment Service's functionality, consider the process of deploying and initiating a payload application by a Satellite Owner Operator from ground control. The sequence diagrams below provide a visual representation of this process, highlighting the critical role of the Deployment Service in managing the lifecycle of payload applications on the spacecraft.
+### Deploying an Application or Service
 
-For example, the deployment and initiation of a payload application by a Satellite Owner Operator from ground control is depicted below:
+The deployment process for an application or service, as illustrated in the sequence diagram below, begins with ground control uploading the container image for the application or service to be deployed. This is then followed by an upload of a deployment schedule file, which contains applications lifecycle metadata used by the deployment platform service.
 
-```mermaid
-sequenceDiagram
-    participant app as MyPayloadApp 
-    participant deployment as Deployment Service
-    participant ground as Ground Control
+After processing the schedule file, the deployment platform service proceeds to deploy and start the application at its scheduled deployment time. Upon completion of the application, or at the application's scheduled time of removal, the deployment platform service stops and removes the application from the runtime framework.
 
-    ground     ->> deployment: Uploads schedule file
-    deployment ->> deployment: Plugin parses schedule file
-    deployment ->> app: Deploys and Starts MyPayloadApp
-    app        ->> app: App executes
-    deployment ->> app: Stops and Removes MyPayloadApp
-```
-
-The Deployment Service exclusively handles the deployment, initiation, and updating of payload applications, ensuring a streamlined and secure process for Satellite Owner Operators. The flow diagram below outlines the process of updating an application on orbit:
+This streamlined process ensures that applications and services are deployed efficiently and securely, and with authoritative scheduling from ground control.
 
 ```mermaid
 sequenceDiagram
-    participant app as MyPayloadApp 
-    participant deployment as Deployment Service
     participant ground as Ground Control
+    participant deployment as Deployment Platform Service
+    participant app as Application/Service
 
-    ground     ->> deployment: Uploads updated schedule
-    deployment ->> deployment: Plugin parses schedule
-    deployment ->> app: Patches MyPayloadApp
-    app        ->> app: MyPayloadApp executes
+    ground     ->> deployment: Uploads Application Container Image
+    ground     ->> deployment: Uploads Deployment Schedule File
+    deployment ->> deployment: Processes Deployment Schedule File
+    deployment ->> app: Deploys and Starts Application
+    app        ->> app: Application Executes
+    deployment ->> app: Stops and Removes Application
 ```
+
+### Updating an Application or Service
+
+The process of updating and existing application or service executing within the runtime framework is virtually identical to that of deploying a new application or service.
+
+The process begins with ground control uploading an updated application container image, followed by a deployment schedule file to the deployment platform service. The deployment platform service then processes the schedule file, which contains detailed metadata on when to perform the update.
+
+Once the scheduled update time has transpired, the deployment platform services executes a rolling update by patching the application or service. This ensures continuous operation of the application or service and minimizes system disruption. Like the act of deploying an application or service, updates to the runtime framework are done efficiently and securely, and with authoritative scheduling from ground control.
+
+```mermaid
+sequenceDiagram
+    participant ground as Ground Control
+    participant deployment as Deployment Platform Service
+    participant app as Application/Service
+
+    ground     ->> deployment: Uploads Updated Application Image
+    ground     ->> deployment: Uploads Deployment Schedule File
+    deployment ->> deployment: Processes Deployment Schedule File
+    deployment ->> app: Patches Application
+    app        ->> app: Updated Application Executes
+```
+
+<!-- TODO: Add examples of schedules files and explain their parameters -->
