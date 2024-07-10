@@ -1,6 +1,9 @@
 spacedev_cache
 /logs
 /.mono
+/.wheel
+/dist
+
 
 #ignore deployment-yamls, always added by docker-compose
 
