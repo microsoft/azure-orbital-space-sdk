@@ -11,6 +11,10 @@ class ObjectDetection:
     """
 
     def __init__(self, model_filename):
+        providers = [("CUDAExecutionProvider", {"device_id": torch.cuda.current_device(),
+                                        "user_compute_stream": str(torch.cuda.current_stream().cuda_stream)})]
+        sess_options = onnxruntime.SessionOptions()
+
         self.session = onnxruntime.InferenceSession(str(model_filename))
         assert len(self.session.get_inputs()) == 1
         self.input_shape = self.session.get_inputs()[0].shape[2:]
