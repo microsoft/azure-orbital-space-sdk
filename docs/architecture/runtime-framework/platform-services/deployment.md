@@ -30,7 +30,7 @@ The [Deployment Platform Service](https://github.com/microsoft/azure-orbital-spa
 
 ### Deploying an Application or Service
 
-The deployment process for an application or service, as illustrated in the sequence diagram below, begins with ground control uploading the container image for the application or service to be deployed. This is then followed by an upload of a deployment schedule file, which contains applications lifecycle metadata used by the deployment platform service.
+The deployment process for an application or service, as illustrated in the sequence diagram below, begins with ground control uploading the container image(s) for the application or service to be deployed. The application's deployment YAML is then uploaded, which defines a [Kubernetes Deployment](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) that specifies the application infrastructure to be deployed. This is then followed by an upload of a deployment schedule file, which contains applications lifecycle metadata used by the deployment platform service.
 
 After processing the schedule file, the deployment platform service proceeds to deploy and start the application at its scheduled deployment time. Upon completion of the application, or at the application's scheduled time of removal, the deployment platform service stops and removes the application from the runtime framework.
 
@@ -42,7 +42,8 @@ sequenceDiagram
     participant deployment as Deployment Platform Service
     participant app as Application/Service
 
-    ground     ->> deployment: Uploads Application Container Image
+    ground     ->> deployment: Uploads Application Container Image(s)
+    ground     ->> deployment: Uploads Application Deployment YAML
     ground     ->> deployment: Uploads Deployment Schedule File
     deployment ->> deployment: Processes Deployment Schedule File
     deployment ->> app: Deploys and Starts Application
@@ -54,7 +55,7 @@ sequenceDiagram
 
 The process of updating and existing application or service executing within the runtime framework is virtually identical to that of deploying a new application or service.
 
-The process begins with ground control uploading an updated application container image, followed by a deployment schedule file to the deployment platform service. The deployment platform service then processes the schedule file, which contains detailed metadata on when to perform the update.
+The process begins with ground control uploading updated application container image(s) and an updated application deployment YAML (if required). This is then followed by the upload of a deployment schedule file to the deployment platform service. The deployment platform service then processes the schedule file, which contains detailed metadata on when to perform the update.
 
 Once the scheduled update time has transpired, the deployment platform services executes a rolling update by patching the application or service. This ensures continuous operation of the application or service and minimizes system disruption. Like the act of deploying an application or service, updates to the runtime framework are done efficiently and securely, and with authoritative scheduling from ground control.
 
@@ -64,11 +65,83 @@ sequenceDiagram
     participant deployment as Deployment Platform Service
     participant app as Application/Service
 
-    ground     ->> deployment: Uploads Updated Application Image
+    ground     ->> deployment: Uploads Updated Application Image(s)
+    ground     ->> deployment: Uploads Updated Application Deployment YAML
     ground     ->> deployment: Uploads Deployment Schedule File
     deployment ->> deployment: Processes Deployment Schedule File
     deployment ->> app: Patches Application
     app        ->> app: Updated Application Executes
+```
+
+## The Application Deployment YAML
+
+The application deployment YAML is any [Kubernetes Deployment](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) specification that is compatible with the cluster hosting the runtime framework. This YAML could be as simple as the deployment of a single pod running the application container image, or a multi-pod deployment with supporting infrastructure depending on the needs and complexity of your application.
+
+### Basic Single-Pod Deployment YAML Example
+
+This section provides a YAML example for deploying a basic single-pod application using Kubernetes. It defines a deployment named `busybox` within the `payload-app` namespace.
+
+The deployment is configured to create a single replica of a pod labeled `busybox`. The pod runs a container based on the `busybox:1.28` image. The container's main process is a shell command that sleeps for `10000` seconds, effectively keeping the container running without performing any active tasks.
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: busybox
+  namespace: payload-app
+  labels:
+    app: busybox
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: busybox
+  template:
+    metadata:
+      labels:
+        app: busybox
+    spec:
+      containers:
+      - name: busybox
+        image: busybox:1.28
+        imagePullPolicy: IfNotPresent
+        command: ["/bin/sh"]
+        args: ["-c", "sleep 10000"]
+```
+
+### Advanced Multi-Pod Deployment YAML Example
+
+This section presents a YAML configuration for a more complex Kubernetes deployment named `advanced-app` within the `payload-app` namespace. It outlines a deployment strategy to manage two containers within a single pod: one running an Nginx server (`nginx:alpine`) and the other running a Redis server (`redis:alpine`).
+
+The deployment is configured to maintain two replicas of this pod, ensuring high availability and load distribution. Each container exposes its respective default port, with Nginx on port `80` and Redis on port `6379`, facilitating network access to both services within the pod.
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: advanced-app
+  namespace: payload-app
+  labels:
+    app: advanced-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: advanced-app
+  template:
+    metadata:
+      labels:
+        app: advanced-app
+    spec:
+      containers:
+      - name: primary-container
+        image: nginx:alpine
+        ports:
+        - containerPort: 80
+      - name: secondary-container
+        image: redis:alpine
+        ports:
+        - containerPort: 6379
 ```
 
 ## The Deployment Schedule File
@@ -231,3 +304,6 @@ In this example, the deployment schedule file defines immediate deployment of an
     }
 ]
 ```
+
+
+<!-- TODO: Finish this doc -->
