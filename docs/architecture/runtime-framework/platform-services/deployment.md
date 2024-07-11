@@ -71,4 +71,163 @@ sequenceDiagram
     app        ->> app: Updated Application Executes
 ```
 
-<!-- TODO: Add examples of schedules files and explain their parameters -->
+## The Deployment Schedule File
+
+### Deployment Schedule File Fields
+
+- **RequestHeader**: Contains metadata for the deployment request.
+  - **TrackingId**: A unique identifier for the deployment request.
+  - **CorrelationId**: A unique identifier that correlates multiple requests into a correlated series of actions.
+  - **AppId**: The unique application identifier.
+  - **Metadata**: A dictionary for additional request metadata.
+- **AppName**: The name of the application to be deployed.
+- **NameSpace**: The Kubernetes namespace within which the application will be deployed.
+- **AppGroupLabel**: A label identifying the group or owner of the application.
+- **CustomerTrackingId**: A unique customer tracking identifier.
+- **Schedule**: Deploy the application on a recurring schedule, defined via Cron syntax.
+- **StartTime**: ?????
+- **MaxDuration**: The maximum duration the application is allowed to run once started.
+  - **Seconds**: The duration of the permitted runtime in seconds.
+  - **Nanos**: ???
+- **YamlFileContents**: The name of the YAML file containing the application's deployment configuration.
+- **ContainerInjectionTarget**: ???
+- **Priority**: ???
+- **ApplicationContextString**: ???
+- **ApplicationContextFile**: Optional field to specify additional application runtime context in the form of a file. Set to null if this is not needed.
+    - **FileName**: The name of the file containing additional application context.
+    - **Required**: A boolean flag indicating if this context is required to deploy the application.
+- **ApplicationContextCase**: ???
+
+### Example Deployment Schedule File - Immediate Deployment
+
+In this example, the deployment schedule file defines a deployment of an application for immediate deployment to the `payload-app` namespace. The application comes from the `ACME` group, and will deploy the Kubernetes infrastructure defined in `example-application.yaml`. The application is permitted to run for two minutes, after which time all deployed resources will be removed.
+
+```yaml
+[
+    {
+        "RequestHeader": {
+            "TrackingId": "",
+            "CorrelationId": "57f32a53-05f4-4e9e-a03e-e9c5f60fa9d3",
+            "AppId": "",
+            "Metadata": {}
+        },
+        "AppName": "ExampleApplication",
+        "NameSpace": "payload-app",
+        "AppGroupLabel": "ACME",
+        "CustomerTrackingId": "abc123-456-789",
+        "MaxDuration": {
+            "Seconds": 120,
+            "Nanos": 0
+        },
+        "YamlFileContents": "example-application.yaml",
+        "DeployAction": 0,
+        "Priority": 1,
+        "AppContextString": null,
+        "AppContextFile": null,
+        "AppContextCase": 0
+    }
+]
+```
+
+### Example Deployment Schedule File - Scheduled Deployment
+
+In this example the deployment schedule file defines deployment of the same resources as the previous example, but delays starting the application until the specified time has elapsed.
+
+```yaml
+[
+    {
+        "RequestHeader": {
+            "TrackingId": "",
+            "CorrelationId": "844525b9-15a6-4226-8537-5b0fc3d43b57",
+            "AppId": "",
+            "Metadata": {}
+        },
+        "AppName": "ExampleApplicationScheduled",
+        "NameSpace": "payload-app",
+        "AppGroupLabel": "ACME",
+        "CustomerTrackingId": "abc123-456-789",
+        "StartTime": {
+            "Seconds": 1684531385,
+            "Nanos": 687797600
+        },
+        "MaxDuration": {
+            "Seconds": 120,
+            "Nanos": 0
+        },
+        "YamlFileContents": "example-application.yaml",
+        "DeployAction": 0,
+        "Priority": 1,
+        "AppContextString": null,
+        "AppContextFile": null,
+        "AppContextCase": 0
+    }
+]
+```
+
+### Example Deployment Schedule File - Recurring Deployment
+
+In this example the deployment schedule file defines deployment of the same resources as the previous example, but the deployment and execution of the application occurs on a recurring basis. Every five minutes the application will be redeployed, running for two minutes before being stopped and removed.
+
+```yaml
+[
+    {
+        "RequestHeader": {
+            "TrackingId": "",
+            "CorrelationId": "d321fa56-a65d-43b7-964d-b7f82489d88e",
+            "AppId": "",
+            "Metadata": {}
+        },
+        "AppName": "ExampleApplicationRecurring",
+        "NameSpace": "payload-app",
+        "AppGroupLabel": "ACME",
+        "CustomerTrackingId": "abc123-456-789",
+        "Schedule": "*/5 * * * *",
+        "MaxDuration": {
+            "Seconds": 120,
+            "Nanos": 0
+        },
+        "YamlFileContents": "example-application.yaml",
+        "DeployAction": 0,
+        "Priority": 1,
+        "AppContextString": null,
+        "AppContextFile": null,
+        "AppContextCase": 0
+    }
+]
+```
+
+### Example Deployment Schedule File - Application Context
+
+In this example, the deployment schedule file defines immediate deployment of an application with additional context accessible to the application at runtime.
+
+```yaml
+[
+    {
+        "RequestHeader": {
+            "TrackingId": "",
+            "CorrelationId": "16f87e38-322c-4c43-b96d-c4d9ff7887b3",
+            "AppId": "",
+            "Metadata": {}
+        },
+        "AppName": "ExampleApplicationWithContext",
+        "NameSpace": "payload-app",
+        "AppGroupLabel": "ACME",
+        "CustomerTrackingId": "abc123-456-789",
+        "MaxDuration": {
+            "Seconds": 120,
+            "Nanos": 0
+        },
+        "YamlFileContents": "example-application.yaml",
+        "DeployAction": 0,
+        "Priority": 1,
+        "AppContextString": {
+            "AppContext": "Lorem ipsum"
+        },
+        "AppContextFile": {
+            "FileName": "someFile.json",
+            "Required": false
+        },
+        "AppContextCase": 14
+    }
+]
+```
