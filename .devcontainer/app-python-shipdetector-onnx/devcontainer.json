@@ -11,7 +11,7 @@
 			"app_name": "app-python-shipdetector-onnx",
 			"dev_language": "python",
 			"extra_packages": "libgdal-dev, libgl1",
-			"download_artifacts": "PlanetaryComputer.proto, datagenerator-planetary-computer.yaml, planetary-computer-vth-plugin.dll, planetary-computer-vth-plugin.json.spacefx_plugin",
+			"download_artifacts": "PlanetaryComputer.proto, datagenerator-planetary-computer.yaml, planetary-computer-vth-plugin.dll, planetary-computer-vth-plugin.json.spacefx_plugin, onnxruntime_gpu-1.18.1-cp310-cp310-linux_aarch64.whl",
 			"pull_containers": "datagenerator-planetary-computer:0.11.0-nightly"
 		}
 	},
