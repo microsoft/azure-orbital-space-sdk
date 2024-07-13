@@ -3,7 +3,7 @@ spacedev_cache
 /.mono
 /.wheel
 /dist
-
+*.whl
 
 #ignore deployment-yamls, always added by docker-compose
 
