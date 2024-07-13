@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: app-python-shipdetector-onnx
-        image: registry.spacefx.local:5000/app-python-shipdetector-onnx:0.10.0-debug
+        image: registry.spacefx.local:5000/app-python-shipdetector-onnx:0.11.0_debug-nightly
         imagePullPolicy: IfNotPresent
         env:
         - name: DOTNET_SYSTEM_GLOBALIZATION_INVARIANT
