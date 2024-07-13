@@ -8,7 +8,7 @@
             "name": "Debug App",
             "type": "debugpy",
             "request": "attach",
-            //"preLaunchTask": "deploy-debugshim-client",
+            "preLaunchTask": "deploy-debugshim-client",
             "postDebugTask": "reset-debugshim-client",
             "connect": {
                 "host": "localhost",
