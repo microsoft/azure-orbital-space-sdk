@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-python-shipdetector-onnx
+  namespace: payload-app
+  labels:
+    app: app-python-shipdetector-onnx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-python-shipdetector-onnx
+  template:
+    metadata:
+      labels:
+        app: app-python-shipdetector-onnx
+    spec:
+      runtimeClassName: nvidia
+      containers:
+      - name: app-python-shipdetector-onnx
+        image: registry.spacefx.local:5000/app-python-shipdetector-onnx:0.11.0_debug-nightly
+        imagePullPolicy: IfNotPresent
+        command: ["/bin/bash", "-c", "source /workspace/app-python-shipdetector-onnx/.git/spacefx-dev/pypoetry/virtualenvs/app-python-shipdetector-onnx-WLV6R2DW-py3.10/bin/activate && /workspace/app-python-shipdetector-onnx/.git/spacefx-dev/pypoetry/virtualenvs/app-python-shipdetector-onnx-WLV6R2DW-py3.10/bin/pip install /workspace/app-python-shipdetector-onnx && /workspace/app-python-shipdetector-onnx/.git/spacefx-dev/pypoetry/virtualenvs/app-python-shipdetector-onnx-WLV6R2DW-py3.10/bin/python /workspace/app-python-shipdetector-onnx/src/app/main.py"]
