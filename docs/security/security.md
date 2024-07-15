@@ -4,6 +4,9 @@ A key area of focus for this team has always been ensuring that our platform is 
 ## Trust Levels and Pods:
 With any kubernetes cluster based system, it is important to designate the trust levels for the pods that are executed on the cluster.  To support this, the Azure Orbital Space SDK separates our pods into the following trust levels.
 
+- Trusted: These pods/container images that are internal to the Azure Orbital Space SDK, and have security features implemented by our process to ensure the validity and security of the code and the platform.
+- Untrusted:  These pods are not internal to the Azure Orbital Space SDK, and it is ultimatley up to the the Satellite Owner Operator to ensure the security of these container images, and these pods have greater restrictions placed upon them.  
+
 From a perspective of trust level, we recognize the classification of services based on the following matrix:
 
 | Service Type | Description | Trust Level |
@@ -11,7 +14,9 @@ From a perspective of trust level, we recognize the classification of services b
 | [Core Services](./docs/architecture/runtime-framework/core-services/core-services.md) | Include outside components that support the operation of the cluster, and the pods within the cluster. | Trusted |
 | [Platform Services](./docs/architecture/runtime-framework/platform-services/platform-services.md) | Platform services are a classification of service that is responsible for interacting with the underlying spacecraft.  This includes our [Message Translation Service](./docs/architecture/runtime-framework/platform-services/message-translation-service.md) and [Deployment Service](./docs/architecture/runtime-framework/platform-services/deployment.md). | Trusted |
 | [Host Services](./docs/architecture/runtime-framework/host-services/host-services.md) | These services support the communication between the payload application and the underlying spacecraft. | Trusted |
-| [Payload Applications](./docs/developer-experience/developer-experience.md) | The application created with the intention of being run on the spacecraft. | Trusted |
+| [Payload Applications](./docs/developer-experience/developer-experience.md) | The application created with the intention of being run on the spacecraft. | Untrusted |
+
+
 
 ## Key Security Features implemented today:
 Below are outlined key features to enhance the security of the platform:
