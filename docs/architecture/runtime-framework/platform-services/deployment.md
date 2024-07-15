@@ -158,18 +158,18 @@ spec:
 - **AppGroupLabel**: A label identifying the group or owner of the application.
 - **CustomerTrackingId**: A unique customer tracking identifier.
 - **Schedule**: Deploy the application on a recurring schedule, defined via Cron syntax.
-- **StartTime**: ?????
+- **StartTime**: **TODO**
 - **MaxDuration**: The maximum duration the application is allowed to run once started.
   - **Seconds**: The duration of the permitted runtime in seconds.
-  - **Nanos**: ???
+  - **Nanos**: **TODO**
 - **YamlFileContents**: The name of the YAML file containing the application's deployment configuration.
-- **ContainerInjectionTarget**: ???
-- **Priority**: ???
-- **ApplicationContextString**: ???
+- **ContainerInjectionTarget**: **TODO**
+- **Priority**: **TODO**
+- **ApplicationContextString**: **TODO**
 - **ApplicationContextFile**: Optional field to specify additional application runtime context in the form of a file. Set to null if this is not needed.
     - **FileName**: The name of the file containing additional application context.
     - **Required**: A boolean flag indicating if this context is required to deploy the application.
-- **ApplicationContextCase**: ???
+- **ApplicationContextCase**: **TODO**
 
 ### Example Deployment Schedule File - Immediate Deployment
 
