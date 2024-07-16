@@ -23,6 +23,9 @@ Below are outlined key features to enhance the security of the platform, and the
 ## Platform Level Security Features:
 For Security, the first focus of the Azure Orbital Space SDK was to enforce key security features and considerations as a part of the cluster from the moment it is deployed.  Below you will find an outlining of several of the key security features that have been built into our platform.
 
+### Cluster Level Certificate Management
+Cluster certificates is configurable and can be provided by the customer.  In the event a certificate is not provided, one is generated and added to the host's trusted root authority
+
 ### Restricted Container Images:
 For our host and platform service images, we leverage a [build service] solution which enables us to build our service images on-orbit.  And as part of this, we have a focus on keeping our services-lean and minimize the required storage.  As part of this, we extended this goal to harden our container images by restricting our container images as far as possible.  For more details on our container image build service, you can find details [here](./todo_build_service.md).  
 
@@ -32,16 +35,17 @@ From a security threat model, our [Platform-deployment](./docs/architecture/runt
 ### Isolation of Host Machine:
 For the Azure Orbital Space SDK, there is only one service, [Platform-mts](./docs/architecture/runtime-framework/platform-services/message-translation-service.md), that has the ability to access the host machine.  This is done to access, but the Message Translation Service requires this access so that it can access the underlying spacecraft's API or endpoints.  This empowers the Satellite Owner Operator to be able to control what kind of API endpoint they implement and their access model via plugin.  
 
-### Multi-Node Hypervisor Support:
-Another solution for security comes in terms on an implementation option, the Azure Orbital Space SDK supports the ability to handle multi-node clusters, and we have validated this using virtual machines on the linux operating system.  This provides the capability that should a Sattellite Owner Operator chose to enable multiple virtual machines as nodes on their cluster, you can use labels and kubernetes own node affinity and anti-affinity policies to support enforcement of hypervisor level security by isolating both payload apps away from core, host and platform services, and/or isolation of customer workloads from each other.  
-
 ### Use of Core-Registry:
 Additionally, there is another feature whereby we provide a configuration option by which the cluster can be deployed with [Core-Registry](./docs/architecture/runtime-framework/core-services/registry.md).  This pod functions as the container registry for our kubernetes cluster.  Satellite Owner Operators can choose to deploy with or without Core-Registry (the alternative being a docker registry behind kubernetes), but the intention here being that container registry makes it easier to stage / deploy the registry on the spacecraft host machine.  
 
 Being that our cluster manages and secures its own registry to isolate from other registries on the spacecraft.  This helps secure our registry from being access from outside the cluster, and additionally prevents a compromised payload app from accessing the spacecraft's registry.  
 
+All communication with Coresvc-registry can be configured to cert auth for both pull and push.  
+
 ### Use of core-fileserver and hostsvc-link:
 For our transfer of files, which includes between payload applications and/or our host and platform services, the Azure Orbital Space SDK leverages the [Link Service](./docs/architecture/runtime-framework/host-services/link.md), and it is given access to the [FileServer](./docs/architecture/runtime-framework/core-services/fileserver.md) to be able to move files only between the inbox / outbox for the different pods.  This improves our security model by ensuring that traffic and access between pods are limited.  Additionally, the use of [FileServer](./docs/architecture/runtime-framework/core-services/fileserver.md) ensure that we are not accessing the disk.  Satellite Owner Operators can choose to not leverage [FileServer](./docs/architecture/runtime-framework/core-services/fileserver.md), in that scenario, the [Link Service](./docs/architecture/runtime-framework/host-services/link.md), would need to be given access to the host machine, or the location of the xfer directory, but it would be the only service, which is isolated from Untrusted code.  
+
+Coresvc-fileserver is using SMBv3 for the FileServer and plugin, can be reduced but is not advised.  
 
 ### Code Scanning:
 Azure Orbital Space SDK has implemented CodeQL scanning as part of the normal workflow for the development and deployment of the artifacts that support the platform.  To accomplish this, our repos contain workflows that support CodeQL, and we execute our scans on before any PR can be approved.  The intention behind this being to validate the quality of the code before it can be committed to main.  Additionally the Azure Orbital Space SDK, executes these scans on a nightly basis to ensure that we catch any new queries that are added to the query packs.  As of right now we are leveraging the githubsecuritylab, in addition to other standard query packs, and are actively identifying more query packs to execute against our code-base.  
@@ -54,6 +58,8 @@ Aligning with the trust level outlined above, one of the key features that has b
 
 ### Topic Restriction of Payload Applications:
 In addition to the network restriction, we also restrict the topics that our pods can interact with in the PubSub interface.  This is accomplished during our deployment using Dapr's built in security restrictions.  By doing this we ensure that payload applications cannot listen or publish to any other services Topic.  
+
+Message exchange via MQTT pubsub is TLS encrypted and we've implemented a direct to app approach (i.e. hostsvc-sensor listens on a single topic, and it's locked down to only hostsvc-sensor)
 
 ### Message Validation by Host Services:
 For all of the Azure Orbital Space SDK's messages, we implement a common request header, which can be found [here](https://github.com/microsoft/azure-orbital-space-sdk-setup/blob/main/protos/spacefx/protos/common/Common.proto).  As part of this header we utilize several fields to help correlate messages, including using a tracking id, appId, and originAppId, and our client libraries and services both validate these values.  If a message coming from an payload application attempts to change any of these values to circumvent our security and route messages differently, our services will discard the message.  
