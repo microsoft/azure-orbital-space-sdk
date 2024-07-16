@@ -27,10 +27,10 @@ For Security, the first focus of the Azure Orbital Space SDK was to enforce key 
 For our host and platform service images, we leverage a [build service] solution which enables us to build our service images on-orbit.  And as part of this, we have a focus on keeping our services-lean and minimize the required storage.  As part of this, we extended this goal to harden our container images by restricting our container images as far as possible.  For more details on our container image build service, you can find details [here](./todo_build_service.md).  
 
 ### Isolation of Platform Deployment:
-From a security threat model, our [Platform-deployment](./docs/architecture/runtime-framework/platform-services/deployment.md) is the only service that has elevated permissions for access to the Kubernetes cluster.  Due to this, fact we have isolated platform deployment to minimize the attack surface.  All workflows associated with platform-deploy.  
+From a security threat model, our [Platform-deployment](./docs/architecture/runtime-framework/platform-services/deployment.md) is the only service that has elevated permissions for access to the Kubernetes cluster.  Due to this, fact we have isolated platform deployment to minimize the attack surface.  All workflows associated with platform-deploy.  There is no ability for other pods on the network to communicate with platform-deployment.  The communication model for this service is through files which are provided by the Satellite Owner Operator which are then consumed and annotated to be deployed onto the cluster.  
 
 ### Isolation of Host Machine:
-For the Azure Orbital Space SDK, there is only one service, [Platform-mts](./docs/architecture/runtime-framework/platform-services/message-translation-service.md), that has the ability to access the host machine.  This is done to access, but the Message Translation Service requires this access so that it can access the underlying spacecraft's API or endpoints.  
+For the Azure Orbital Space SDK, there is only one service, [Platform-mts](./docs/architecture/runtime-framework/platform-services/message-translation-service.md), that has the ability to access the host machine.  This is done to access, but the Message Translation Service requires this access so that it can access the underlying spacecraft's API or endpoints.  This empowers the Satellite Owner Operator to be able to control what kind of API endpoint they implement and their access model via plugin.  
 
 ### Multi-Node Hypervisor Support:
 Another solution for security comes in terms on an implementation option, the Azure Orbital Space SDK supports the ability to handle multi-node clusters, and we have validated this using virtual machines on the linux operating system.  This provides the capability that should a Sattellite Owner Operator chose to enable multiple virtual machines as nodes on their cluster, you can use labels and kubernetes own node affinity and anti-affinity policies to support enforcement of hypervisor level security by isolating both payload apps away from core, host and platform services, and/or isolation of customer workloads from each other.  
@@ -41,35 +41,31 @@ Additionally, there is another feature whereby we provide a configuration option
 Being that our cluster manages and secures its own registry to isolate from other registries on the spacecraft.  This helps secure our registry from being access from outside the cluster, and additionally prevents a compromised payload app from accessing the spacecraft's registry.  
 
 ### Use of core-fileserver and hostsvc-link:
-For our transfer of files between not just payload app to payload app, but also sending files between the payload apps and the host / platform services, the Azure Orbital Space SDK leverages the [Link Service](./docs/architecture/runtime-framework/host-services/link.md), and it is given access to the [FileServer](./docs/architecture/runtime-framework/core-services/fileserver.md) to be able to move files only between the inbox / outbox for the different pods.  This improves our security model by ensuring that traffic and access between pods are limited.  Additionally, the use of [FileServer](./docs/architecture/runtime-framework/core-services/fileserver.md) ensure that we are not accessing the disk.  Satellite Owner Operators can choose to not leverage [FileServer](./docs/architecture/runtime-framework/core-services/fileserver.md), in that scenario, the [Link Service](./docs/architecture/runtime-framework/host-services/link.md), would need to be given access to the host machine, or the location of the xfer directory, but it would be the only service, which is isolated from Untrusted code.  
+For our transfer of files, which includes between payload applications and/or our host and platform services, the Azure Orbital Space SDK leverages the [Link Service](./docs/architecture/runtime-framework/host-services/link.md), and it is given access to the [FileServer](./docs/architecture/runtime-framework/core-services/fileserver.md) to be able to move files only between the inbox / outbox for the different pods.  This improves our security model by ensuring that traffic and access between pods are limited.  Additionally, the use of [FileServer](./docs/architecture/runtime-framework/core-services/fileserver.md) ensure that we are not accessing the disk.  Satellite Owner Operators can choose to not leverage [FileServer](./docs/architecture/runtime-framework/core-services/fileserver.md), in that scenario, the [Link Service](./docs/architecture/runtime-framework/host-services/link.md), would need to be given access to the host machine, or the location of the xfer directory, but it would be the only service, which is isolated from Untrusted code.  
 
 ### Code Scanning:
-Azure Orbital Space SDK has implemented CodeQL scanning as part of the normal workflow for the development and deployment of the artifacts that support the platform.  To accomplish this, our repos contain workflows that support CodeQL, and we execute our scans on before any PR can be approved.  The intention behind this being to validate the quality of the code before it can be committed to main.  Additionally the Azure Orbital Space SDK, executes these scans on a nightly basis to ensure that we catch any new queries that are added to the query packs.  As of right now we are leveraging the githubsecuritylab.  
+Azure Orbital Space SDK has implemented CodeQL scanning as part of the normal workflow for the development and deployment of the artifacts that support the platform.  To accomplish this, our repos contain workflows that support CodeQL, and we execute our scans on before any PR can be approved.  The intention behind this being to validate the quality of the code before it can be committed to main.  Additionally the Azure Orbital Space SDK, executes these scans on a nightly basis to ensure that we catch any new queries that are added to the query packs.  As of right now we are leveraging the githubsecuritylab, in addition to other standard query packs, and are actively identifying more query packs to execute against our code-base.  
 
 ## Payload App Security Features:
 The following are the security features around pod communication.  
 
 ### Network Isolation of Payload Applications:
-TODO:  Explain the policies that restrict Payload App Access on the cluster for core, host and platform services.
-Aligning with the trust level outlined above, one of the key features that has been implemented is the network policies to isolate communication between the different trust levels of pods to support 
+Aligning with the trust level outlined above, one of the key features that has been implemented is the network policies to isolate communication between the different trust levels of pods.  For this we isolate all payload applications that they cannot communicate via the network with any other payload applications, or other services except through our Dapr supported PubSub interface.  This prevents untrusted code from being able to reach any of our more privileged pods, or the host machine.  
 
 ### Topic Restriction of Payload Applications:
-TODO:  Explain the policies that restrict the payload app from publishing to, or listening on topics it shouldn't
+In addition to the network restriction, we also restrict the topics that our pods can interact with in the PubSub interface.  This is accomplished during our deployment using Dapr's built in security restrictions.  By doing this we ensure that payload applications cannot listen or publish to any other services Topic.  
 
 ### Message Validation by Host Services:
-TODO: Talk about how our host services throw away messages that don't conform to expectation.
+For all of the Azure Orbital Space SDK's messages, we implement a common request header, which can be found [here](https://github.com/microsoft/azure-orbital-space-sdk-setup/blob/main/protos/spacefx/protos/common/Common.proto).  As part of this header we utilize several fields to help correlate messages, including using a tracking id, appId, and originAppId, and our client libraries and services both validate these values.  If a message coming from an payload application attempts to change any of these values to circumvent our security and route messages differently, our services will discard the message.  
+
+### SBOM Generation:
+For all of our code, we currently have been generating SBOMs with every merge to main and during our artifact building process.  We do this to be able to validate our Software Supply Chain.  
 
 # Key Security Features on our roadmap.
 The following are key security features that are on the roadmap to further support the Azure Orbital Space SDK platform:
 
 ## Container Signing:
-TODO: Talk about plans for container signing and validation.  
+At this moment we are implementing our container signing to ensure that our container images have a mechansim for validating our supply chain, and build process.  As part of this process, we are leveraging SigStore and specifically CoSign to support the ability to build, distribute and verify our signed artifacts.  The reason for this decision being that it supports different types of options for signing including hardware-based and even Kubernetes secret based tokens.  This is being implemented using Github Action Workflows through our common repo [Azure-Orbital-Space-SDK-github-actions](https://github.com/microsoft/azure-orbital-space-sdk-github-actions/).  
 
 ## Hypervisor Isolation at the Pod Level:
-TODO: Build out isolation at the pod level using Katana.
-
-## Increase Robustness of Certificate Management:
-TODO: Moving away from self-signed certificates to integrate with a certificate authority between orbit and ground. 
-
-## Hash Validation for Plugins: 
-TODO: Building out ability to validate hash of plugins to ensure supply chain.
+Another avenue of security that we have explored with more depth is providing hypervisor isolation, and the intention being to enable the ability for payload applications to have a hypervisor layer between those pods and the underlying host machine to prevent container escapes.  
