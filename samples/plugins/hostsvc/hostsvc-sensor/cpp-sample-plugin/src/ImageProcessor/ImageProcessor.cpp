@@ -7,24 +7,27 @@
 
 namespace fs = std::filesystem;
 
-
 // Expose ProcessImage with C linkage
-extern "C" {
-    int ProcessImageC(const char* imagePath) {
-        std::string imagePathStr(imagePath);
-        // Call the original C++ function
-        return ImageProcessor::ProcessImage(imagePathStr);
+extern "C"
+{
+    const char *ProcessImageC(const char *imagePath)
+    {
+        static std::string outputPath; // Static to persist the string
+        outputPath = ImageProcessor::ProcessImage(imagePath);
+        return outputPath.empty() ? nullptr : outputPath.c_str();
     }
 }
 
-
-namespace ImageProcessor {
-    int ProcessImage(const std::string& imagePath) {
+namespace ImageProcessor
+{
+    std::string ProcessImage(const std::string &imagePath)
+    {
         // Load an image from file
         cv::Mat image = cv::imread(imagePath);
-        if(image.empty()) {
-            std::cout << "Could not open or find "  << imagePath << std::endl;
-            return -1;
+        if (image.empty())
+        {
+            std::cout << "Could not open or find " << imagePath << std::endl;
+            return "";
         }
         std::cout << "Loaded " << imagePath << std::endl;
 
@@ -43,14 +46,16 @@ namespace ImageProcessor {
         fs::path outputPath = inputPath.parent_path() / ("equalized_greyscale_" + inputPath.filename().string());
 
         // Save the updated image to a file
-        try {
+        try
+        {
             cv::imwrite(outputPath.string(), equalized_greyscale_image);
             std::cout << "Saved the equalized greyscale image to " << outputPath << std::endl;
-        } catch (std::exception& e) {
-            std::cout << "Could not save the image: " << e.what() << std::endl;
-            return -1;
+            return outputPath.string();
         }
-
-        return 0;
+        catch (std::exception &e)
+        {
+            std::cout << "Could not save the image: " << e.what() << std::endl;
+            return "";
+        }
     }
 }

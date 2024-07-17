@@ -134,4 +134,18 @@ public class StarterPlugin : Microsoft.Azure.SpaceFx.HostServices.Sensor.Plugins
         Logger.LogInformation("Plugin received and processed a SensorData Event");
         return (input_request ?? null);
     });
+
+    [DllImport("ImageProcessor", EntryPoint = "ProcessImageC")]
+    private static extern IntPtr ProcessImageC(string imagePath);
+
+    public static string? ProcessImage(string imagePath) {
+        IntPtr resultPtr = ProcessImageC(imagePath);
+        if (resultPtr == IntPtr.Zero) {
+            return null;
+        }
+
+        string? result = Marshal.PtrToStringAnsi(resultPtr);
+        return result;
+    }
+
 }

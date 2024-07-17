@@ -91,6 +91,9 @@
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
+            "dependsOn": [
+                "build-image-processor-cpp"
+            ],
             "problemMatcher": "$msCompile"
         },
         {
@@ -148,6 +151,9 @@
                 "${workspaceFolder}/debugPayloadApp/debugPayloadApp.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
+            ],
+            "dependsOn": [
+                "build-image-processor-cpp"
             ],
             "problemMatcher": "$msCompile"
         },
