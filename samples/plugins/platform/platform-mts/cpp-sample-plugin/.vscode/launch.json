@@ -7,7 +7,8 @@
             "request": "launch",
             "program": "${workspaceFolder}/build/ImageProcessor",
             "args": [
-                "${workspaceFolder}/sampleData/astronaut.jpg"
+                "${workspaceFolder}/sampleData/astronaut.jpg",
+                "${workspaceFolder}/sampleData/equalized_greyscale_astronaut.jpg"
             ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

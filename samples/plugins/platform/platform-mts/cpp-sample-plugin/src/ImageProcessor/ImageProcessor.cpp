@@ -10,26 +10,26 @@ namespace fs = std::filesystem;
 // Expose ProcessImage with C linkage
 extern "C"
 {
-    const char *ProcessImageC(const char *imagePath)
+    const char *ProcessImageC(const char *inputImagePath, const char *outputImagePath)
     {
         static std::string outputPath; // Static to persist the string
-        outputPath = ImageProcessor::ProcessImage(imagePath);
+        outputPath = ImageProcessor::ProcessImage(inputImagePath, outputImagePath);
         return outputPath.empty() ? nullptr : outputPath.c_str();
     }
 }
 
 namespace ImageProcessor
 {
-    std::string ProcessImage(const std::string &imagePath)
+    std::string ProcessImage(const std::string &inputImagePath, const std::string &outputImagePath)
     {
         // Load an image from file
-        cv::Mat image = cv::imread(imagePath);
+        cv::Mat image = cv::imread(inputImagePath);
         if (image.empty())
         {
-            std::cout << "Could not open or find " << imagePath << std::endl;
+            std::cout << "Could not open or find " << inputImagePath << std::endl;
             return "";
         }
-        std::cout << "Loaded " << imagePath << std::endl;
+        std::cout << "Loaded " << inputImagePath << std::endl;
 
         // Change the image to grayscale
         cv::Mat gray_image;
@@ -41,20 +41,16 @@ namespace ImageProcessor
         cv::equalizeHist(gray_image, equalized_greyscale_image);
         std::cout << "Equalized the greyscale image" << std::endl;
 
-        // Construct output filename from input filename
-        fs::path inputPath(imagePath);
-        fs::path outputPath = inputPath.parent_path() / ("equalized_greyscale_" + inputPath.filename().string());
-
-        // Save the updated image to a file
+        // Save the updated image to the specified output file
         try
         {
-            cv::imwrite(outputPath.string(), equalized_greyscale_image);
-            std::cout << "Saved the equalized greyscale image to " << outputPath << std::endl;
-            return outputPath.string();
+            cv::imwrite(outputImagePath, equalized_greyscale_image);
+            std::cout << "Saved the equalized greyscale image to " << outputImagePath << std::endl;
+            return outputImagePath;
         }
         catch (std::exception &e)
         {
-            std::cout << "Could not save the image: " << e.what() << std::endl;
+            std::cout << "Could not save the equalized greyscale image: " << e.what() << std::endl;
             return "";
         }
     }
