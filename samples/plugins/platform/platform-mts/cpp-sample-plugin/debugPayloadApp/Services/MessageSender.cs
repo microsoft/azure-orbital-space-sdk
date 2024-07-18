@@ -1,4 +1,6 @@
 using Microsoft.Azure.SpaceFx.MessageFormats.Common;
+using Microsoft.Azure.SpaceFx.MessageFormats.HostServices.Link;
+using Microsoft.Azure.SpaceFx.MessageFormats.HostServices.Position;
 using Microsoft.Azure.SpaceFx.MessageFormats.HostServices.Sensor;
 
 namespace DebugClient;

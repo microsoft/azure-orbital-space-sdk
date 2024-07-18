@@ -1,4 +1,6 @@
 using Microsoft.Azure.SpaceFx.MessageFormats.Common;
+using Microsoft.Azure.SpaceFx.MessageFormats.HostServices.Link;
+using Microsoft.Azure.SpaceFx.MessageFormats.HostServices.Position;
 using Microsoft.Azure.SpaceFx.MessageFormats.HostServices.Sensor;
 
 namespace DebugClient;
@@ -16,11 +18,13 @@ public class Program {
 
             // Register with the messages we're expecting to receive from the service
             services.AddSingleton<Core.IMessageHandler<PluginHealthCheckMultiResponse>, MessageHandler<PluginHealthCheckMultiResponse>>();
-            services.AddSingleton<Core.IMessageHandler<SensorData>, MessageHandler<SensorData>>();
-            services.AddSingleton<Core.IMessageHandler<TaskingPreCheckResponse>, MessageHandler<TaskingPreCheckResponse>>();
+            services.AddSingleton<Core.IMessageHandler<LinkResponse>, MessageHandler<LinkResponse>>();
+            services.AddSingleton<Core.IMessageHandler<PositionResponse>, MessageHandler<PositionResponse>>();
+            services.AddSingleton<Core.IMessageHandler<PositionUpdateResponse>, MessageHandler<PositionUpdateResponse>>();
             services.AddSingleton<Core.IMessageHandler<SensorsAvailableResponse>, MessageHandler<SensorsAvailableResponse>>();
+            services.AddSingleton<Core.IMessageHandler<TaskingPreCheckResponse>, MessageHandler<TaskingPreCheckResponse>>();
             services.AddSingleton<Core.IMessageHandler<TaskingResponse>, MessageHandler<TaskingResponse>>();
-            services.AddSingleton<Core.IMessageHandler<TaskingResponse>, MessageHandler<TaskingResponse>>();
+            services.AddSingleton<Core.IMessageHandler<SensorData>, MessageHandler<SensorData>>();
         }).ConfigureLogging((logging) => {
             // Enable the Azure Orbital Space SDK Logging to route messages to the hostsvc-logging
             logging.AddProvider(new Microsoft.Extensions.Logging.SpaceFX.Logger.HostSvcLoggerProvider());
