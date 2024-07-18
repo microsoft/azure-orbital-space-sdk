@@ -3,7 +3,8 @@ using Microsoft.Azure.SpaceFx.MessageFormats.HostServices.Sensor;
 
 namespace DebugClient;
 
-public class MessageSender : BackgroundService {
+public class MessageSender : BackgroundService
+{
     private readonly ILogger<MessageSender> _logger;
     private readonly IServiceProvider _serviceProvider;
     private readonly Core.Client _client;
@@ -12,7 +13,8 @@ public class MessageSender : BackgroundService {
     private readonly List<string> _appsOnline = new();
     private readonly TimeSpan MAX_TIMESPAN_TO_WAIT_FOR_MSG = TimeSpan.FromSeconds(10);
 
-    public MessageSender(ILogger<MessageSender> logger, IServiceProvider serviceProvider) {
+    public MessageSender(ILogger<MessageSender> logger, IServiceProvider serviceProvider)
+    {
         _logger = logger;
         _serviceProvider = serviceProvider;
         _client = _serviceProvider.GetService<Core.Client>() ?? throw new NullReferenceException($"{nameof(Core.Client)} is null");
@@ -20,23 +22,27 @@ public class MessageSender : BackgroundService {
         _hostSvcAppId = _appId.Replace("-client", "");
     }
 
-    protected override async Task ExecuteAsync(CancellationToken stoppingToken) {
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    {
         DateTime maxTimeToWait = DateTime.Now.Add(TimeSpan.FromSeconds(10));
 
-        using (var scope = _serviceProvider.CreateScope()) {
+        using (var scope = _serviceProvider.CreateScope())
+        {
             _logger.LogInformation("MessageSender running at: {time}", DateTimeOffset.Now);
 
             Boolean SVC_ONLINE = _client.ServicesOnline().Any(pulse => pulse.AppId.Equals(_hostSvcAppId, StringComparison.CurrentCultureIgnoreCase));
 
             _logger.LogInformation($"Waiting for service '{_hostSvcAppId}' to come online...");
 
-            while (!SVC_ONLINE && DateTime.Now < maxTimeToWait) {
+            while (!SVC_ONLINE && DateTime.Now < maxTimeToWait)
+            {
                 await Task.Delay(1000);
                 SVC_ONLINE = _client.ServicesOnline().Any(pulse => pulse.AppId.Equals(_hostSvcAppId, StringComparison.CurrentCultureIgnoreCase));
                 ListHeardServices();
             }
 
-            if (!SVC_ONLINE) {
+            if (!SVC_ONLINE)
+            {
                 throw new Exception($"Service '{_hostSvcAppId}' did not come online in time.");
             }
 
@@ -50,19 +56,24 @@ public class MessageSender : BackgroundService {
         }
     }
 
-    private void ListHeardServices() {
-        _client.ServicesOnline().ForEach((pulse) => {
+    private void ListHeardServices()
+    {
+        _client.ServicesOnline().ForEach((pulse) =>
+        {
             if (_appsOnline.Contains(pulse.AppId)) return;
             _appsOnline.Add(pulse.AppId);
             _logger.LogInformation($"App:...{pulse.AppId}...");
         });
     }
 
-    private async Task SendPluginHealthCheck() {
+    private async Task SendPluginHealthCheck()
+    {
         DateTime maxTimeToWait = DateTime.Now.Add(TimeSpan.FromSeconds(10));
         PluginHealthCheckMultiResponse? response = null;
-        PluginHealthCheckRequest request = new() {
-            RequestHeader = new() {
+        PluginHealthCheckRequest request = new()
+        {
+            RequestHeader = new()
+            {
                 TrackingId = Guid.NewGuid().ToString(),
                 CorrelationId = Guid.NewGuid().ToString()
             }
@@ -71,7 +82,8 @@ public class MessageSender : BackgroundService {
         _logger.LogInformation($"Sending Plugin Healthcheck request (TrackingId: '{request.RequestHeader.TrackingId}')");
 
         // Register a callback event to catch the response
-        void PluginResponseEventHandler(object? _, PluginHealthCheckMultiResponse _response) {
+        void PluginResponseEventHandler(object? _, PluginHealthCheckMultiResponse _response)
+        {
             response = _response;
             MessageHandler<PluginHealthCheckMultiResponse>.MessageReceivedEvent -= PluginResponseEventHandler;
         }
@@ -82,13 +94,15 @@ public class MessageSender : BackgroundService {
 
         _logger.LogInformation($"Waiting for response (TrackingId: '{request.RequestHeader.TrackingId}')");
 
-        while (response == null && DateTime.Now <= maxTimeToWait) {
+        while (response == null && DateTime.Now <= maxTimeToWait)
+        {
             Thread.Sleep(100);
         }
 
         if (response == null) throw new TimeoutException($"Failed to hear {nameof(response)} after {MAX_TIMESPAN_TO_WAIT_FOR_MSG}.  Please check that {_hostSvcAppId} is deployed");
 
-        if (response.ResponseHeader.Status != Microsoft.Azure.SpaceFx.MessageFormats.Common.StatusCodes.Successful) {
+        if (response.ResponseHeader.Status != Microsoft.Azure.SpaceFx.MessageFormats.Common.StatusCodes.Successful)
+        {
             throw new Exception($"Plugin Health Check failed with status '{response.ResponseHeader.Status}' and message '{response.ResponseHeader.Message}'");
         }
 
@@ -97,27 +111,32 @@ public class MessageSender : BackgroundService {
 
     }
 
-    private async Task RegisterForSensorData() {
+    private async Task RegisterForSensorData()
+    {
 
         _logger.LogInformation($"Registering a function to process Sensor Data");
 
         // Register a callback event to catch the Sensor Data
-        void SensorDataEventHandler(object? _, SensorData _response) {
-            _logger.LogInformation($"Received Sensor Data: '{_response.SensorID}'");
-            // Do something with data
+        void SensorDataEventHandler(object? _, SensorData _response)
+        {
+            _logger.LogInformation($"Received Sensor Data from '{_response.SensorID}': '{_response.Data}'");
         }
 
         MessageHandler<SensorData>.MessageReceivedEvent += SensorDataEventHandler;
 
         _logger.LogInformation($"Successfully registered a function to process any Sensor Data");
 
+        await Task.Delay(0);
     }
 
-    private async Task SendSensorsAvailableRequest() {
+    private async Task SendSensorsAvailableRequest()
+    {
         DateTime maxTimeToWait = DateTime.Now.Add(TimeSpan.FromSeconds(10));
         SensorsAvailableResponse? response = null;
-        SensorsAvailableRequest request = new() {
-            RequestHeader = new() {
+        SensorsAvailableRequest request = new()
+        {
+            RequestHeader = new()
+            {
                 TrackingId = Guid.NewGuid().ToString(),
                 CorrelationId = Guid.NewGuid().ToString()
             }
@@ -126,7 +145,8 @@ public class MessageSender : BackgroundService {
         _logger.LogInformation($"Sending '{request.GetType().Name}' request (TrackingId: '{request.RequestHeader.TrackingId}')");
 
         // Register a callback event to catch the response
-        void ResponseEventHandler(object? _, SensorsAvailableResponse _response) {
+        void ResponseEventHandler(object? _, SensorsAvailableResponse _response)
+        {
             if (_response.ResponseHeader.CorrelationId != request.RequestHeader.CorrelationId) return;
             response = _response;
             MessageHandler<SensorsAvailableResponse>.MessageReceivedEvent -= ResponseEventHandler;
@@ -138,7 +158,8 @@ public class MessageSender : BackgroundService {
 
         _logger.LogInformation($"Waiting for response (TrackingId: '{request.RequestHeader.TrackingId}')");
 
-        while (response == null && DateTime.Now <= maxTimeToWait) {
+        while (response == null && DateTime.Now <= maxTimeToWait)
+        {
             Thread.Sleep(100);
         }
 
@@ -148,11 +169,14 @@ public class MessageSender : BackgroundService {
 
     }
 
-    private async Task SendTaskingPreCheckRequest() {
+    private async Task SendTaskingPreCheckRequest()
+    {
         DateTime maxTimeToWait = DateTime.Now.Add(TimeSpan.FromSeconds(10));
         TaskingPreCheckResponse? response = null;
-        TaskingPreCheckRequest request = new() {
-            RequestHeader = new() {
+        TaskingPreCheckRequest request = new()
+        {
+            RequestHeader = new()
+            {
                 TrackingId = Guid.NewGuid().ToString(),
                 CorrelationId = Guid.NewGuid().ToString()
             }
@@ -161,7 +185,8 @@ public class MessageSender : BackgroundService {
         _logger.LogInformation($"Sending '{request.GetType().Name}' request (TrackingId: '{request.RequestHeader.TrackingId}')");
 
         // Register a callback event to catch the response
-        void ResponseEventHandler(object? _, TaskingPreCheckResponse _response) {
+        void ResponseEventHandler(object? _, TaskingPreCheckResponse _response)
+        {
             if (_response.ResponseHeader.CorrelationId != request.RequestHeader.CorrelationId) return;
             response = _response;
             MessageHandler<TaskingPreCheckResponse>.MessageReceivedEvent -= ResponseEventHandler;
@@ -173,7 +198,8 @@ public class MessageSender : BackgroundService {
 
         _logger.LogInformation($"Waiting for response (TrackingId: '{request.RequestHeader.TrackingId}')");
 
-        while (response == null && DateTime.Now <= maxTimeToWait) {
+        while (response == null && DateTime.Now <= maxTimeToWait)
+        {
             Thread.Sleep(100);
         }
 
@@ -183,20 +209,25 @@ public class MessageSender : BackgroundService {
 
     }
 
-    private async Task SendTaskingRequest() {
+    private async Task SendTaskingRequest()
+    {
         DateTime maxTimeToWait = DateTime.Now.Add(TimeSpan.FromSeconds(10));
         TaskingResponse? response = null;
-        TaskingRequest request = new() {
-            RequestHeader = new() {
+        TaskingRequest request = new()
+        {
+            RequestHeader = new()
+            {
                 TrackingId = Guid.NewGuid().ToString(),
                 CorrelationId = Guid.NewGuid().ToString()
-            }
+            },
+            SensorID = "DemoAstronautCam"
         };
 
         _logger.LogInformation($"Sending '{request.GetType().Name}' request (TrackingId: '{request.RequestHeader.TrackingId}')");
 
         // Register a callback event to catch the response
-        void ResponseEventHandler(object? _, TaskingResponse _response) {
+        void ResponseEventHandler(object? _, TaskingResponse _response)
+        {
             if (_response.ResponseHeader.CorrelationId != request.RequestHeader.CorrelationId) return;
             response = _response;
             MessageHandler<TaskingResponse>.MessageReceivedEvent -= ResponseEventHandler;
@@ -208,7 +239,8 @@ public class MessageSender : BackgroundService {
 
         _logger.LogInformation($"Waiting for response (TrackingId: '{request.RequestHeader.TrackingId}')");
 
-        while (response == null && DateTime.Now <= maxTimeToWait) {
+        while (response == null && DateTime.Now <= maxTimeToWait)
+        {
             Thread.Sleep(100);
         }
 

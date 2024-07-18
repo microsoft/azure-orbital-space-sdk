@@ -1,0 +1,98 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Build and Run ImageProcessor",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/ImageProcessor",
+            "args": [
+                "${workspaceFolder}/sampleData/astronaut.jpg"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "externalConsole": false,
+            "preLaunchTask": "build-image-processor-cpp",
+            "miDebuggerPath": "/usr/bin/gdb"
+        },
+        {
+            "name": "platform-mts",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "/usr/bin/dotnet",
+            "preLaunchTask": "deploy-debugshim-host",
+            "args": [
+                "${workspaceFolder}/.git/workspaces/platform-mts/platform-mts.dll"
+            ],
+            "env": {
+                "DOTNET_ENVIRONMENT": "PluginDev"
+            },
+            "cwd": "${workspaceFolder}/src",
+            "stopAtEntry": false,
+            "console": "internalConsole",
+            "pipeTransport": {
+                "pipeCwd": "${workspaceRoot}/src",
+                "pipeProgram": "bash",
+                "pipeArgs": [
+                    "-c \" kubectl exec --stdin $(kubectl get pods -l app=platform-mts -n payload-app --sort-by=.metadata.creationTimestamp -o jsonpath=\"{.items[-1:].metadata.name}\") -n payload-app -c platform-mts -- "
+                ],
+                "quoteArgs": false,
+                "debuggerPath": "${workspaceFolder}/.git/spacefx-dev/vsdbg/vsdbg"
+            },
+            "postDebugTask": "reset-debugshim-host",
+            "presentation": {
+                "hidden": false,
+                "group": "",
+                "order": 1
+            },
+            "requireExactSource": true
+        },
+        {
+            "name": "DebugPayloadApp",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "/usr/bin/dotnet",
+            "preLaunchTask": "deploy-debugshim-client",
+            "args": [
+                "${workspaceFolder}/debugPayloadApp/bin/Debug/net6.0/debugPayloadApp.dll"
+            ],
+            "env": {
+                "DOTNET_ENVIRONMENT": "Development"
+            },
+            "cwd": "${workspaceFolder}/debugPayloadApp",
+            "stopAtEntry": false,
+            "console": "internalConsole",
+            "pipeTransport": {
+                "pipeCwd": "${workspaceRoot}/debugPayloadApp",
+                "pipeProgram": "bash",
+                "pipeArgs": [
+                    "-c \" kubectl exec --stdin $(kubectl get pods -l app=platform-mts-client -n payload-app --sort-by=.metadata.creationTimestamp -o jsonpath=\"{.items[-1:].metadata.name}\") -n payload-app -c platform-mts-client -- "
+                ],
+                "quoteArgs": false,
+                "debuggerPath": "${workspaceFolder}/.git/spacefx-dev/vsdbg/vsdbg"
+            },
+            "postDebugTask": "reset-debugshim-client",
+            "presentation": {
+                "hidden": false,
+                "group": "",
+                "order": 1
+            },
+            "requireExactSource": true
+        }
+    ],
+    "compounds": [
+        {
+            "name": "platform-mts & DebugPayloadApp",
+            "configurations": [
+                "platform-mts",
+                "DebugPayloadApp"
+            ],
+            "stopAll": true,
+            "presentation": {
+                "hidden": false,
+                "group": "debug",
+                "order": 2
+            }
+        }
+    ]
+}

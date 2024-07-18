@@ -1,30 +1,45 @@
 ﻿namespace Microsoft.Azure.SpaceFx.HostServices.Sensor.Plugins;
-public class StarterPlugin : Microsoft.Azure.SpaceFx.HostServices.Sensor.Plugins.PluginBase {
+public class CppExamplePlugin : Microsoft.Azure.SpaceFx.HostServices.Sensor.Plugins.PluginBase {
+    // AstronautCam sensor is a simple request/reply sensor
+    // For this sensor this plugin will use a C++ library to process an image of an astronaut
+    // The C++ library is located in the ImageProcessor.dll file
+    const string SENSOR_ASTRONAUT_CAM_ID = "DemoAstronautCam";
 
-    // Temperature sensor simulates a broadcast sensor to validate the unknown destination scenario works
-    const string SENSOR_TEMPERATURE_ID = "DemoTemperatureSensor";
-
-    // HelloWorld sensor is a simple request/reply sensor to validate the direct path scenario works
-    const string SENSOR_ID = "DemoHelloWorldSensor";
     readonly ConcurrentBag<string> CLIENT_IDS = new();
-    public StarterPlugin() {
+    public CppExamplePlugin() {
         LoggerFactory loggerFactory = new();
-        this.Logger = loggerFactory.CreateLogger<StarterPlugin>();
+        this.Logger = loggerFactory.CreateLogger<CppExamplePlugin>();
     }
 
-    public override void ConfigureLogging(ILoggerFactory loggerFactory) => this.Logger = loggerFactory.CreateLogger<StarterPlugin>();
+    public override void ConfigureLogging(ILoggerFactory loggerFactory) => this.Logger = loggerFactory.CreateLogger<CppExamplePlugin>();
 
     public override ILogger Logger { get; set; }
 
     public override Task BackgroundTask() => Task.Run(async () => {
-        Random random_num_generator = new Random();
-        int temperatureReading = 0;
+        // Start the astronaut cam task
+        var astronautCamTask = AstronautCamTask();
+
+        // Optionally wait for the task to complete (if needed)
+        await Task.WhenAll(astronautCamTask);
+    });
+
+    private Task AstronautCamTask() => Task.Run(async () => {
         string? clientID;
 
-        // Generate some fake Sensor Data every second after a tasking request.
         while (true) {
             // Loop through the client IDs we received for sensor data and send it out on direct path
             while (CLIENT_IDS.TryTake(out clientID)) {
+                Logger.LogInformation("Processing image for {clientId}", clientID);
+
+                // Process the astronaut image using the C++ library
+                string? greyscaleImagePath = ProcessImage("/workspace/hostsvc-sensor-cpp-plugin-sample/img/astronaut.jpg");
+
+                if (greyscaleImagePath == null) {
+                    Logger.LogError("Failed to process the image");
+                    return;
+                }
+                Logger.LogInformation("Image processed successfully");
+
                 SensorData sensorData = new() {
                     ResponseHeader = new() {
                         TrackingId = Guid.NewGuid().ToString(),
@@ -33,38 +48,34 @@ public class StarterPlugin : Microsoft.Azure.SpaceFx.HostServices.Sensor.Plugins
                         AppId = clientID
                     },
                     DestinationAppId = clientID,
-                    SensorID = SENSOR_ID,
+                    SensorID = SENSOR_ASTRONAUT_CAM_ID,
                     GeneratedTime = Google.Protobuf.WellKnownTypes.Timestamp.FromDateTime(DateTime.UtcNow),
                     ExpirationTime = Google.Protobuf.WellKnownTypes.Timestamp.FromDateTime(DateTime.MaxValue.ToUniversalTime()),
-                    Data = Google.Protobuf.WellKnownTypes.Any.Pack(new Google.Protobuf.WellKnownTypes.StringValue() { Value = "Hello Space World!" })
+                    Data = Google.Protobuf.WellKnownTypes.Any.Pack(new Google.Protobuf.WellKnownTypes.StringValue() { Value = greyscaleImagePath })
                 };
 
-                Logger.LogInformation("Sending SensorData '{sensor}' to {clientId}", SENSOR_ID, clientID);
+                Logger.LogInformation("Sending SensorData '{sensor}' to {clientId}", SENSOR_ASTRONAUT_CAM_ID, clientID);
 
                 // Route the message back to the Sensor Service so it looks like it came in as request sensor data
                 await Core.DirectToApp(Core.GetAppID().Result, sensorData);
             }
 
-
-            // Generate a fake sensor and send it out without any destination (unknown destination user scenario)
-            temperatureReading = random_num_generator.Next(10, 50);
-
-            SensorData temperatureProbe = new() {
-                ResponseHeader = new() {
-                    TrackingId = Guid.NewGuid().ToString(),
-                },
-                SensorID = SENSOR_TEMPERATURE_ID,
-                Data = Google.Protobuf.WellKnownTypes.Any.Pack(new Google.Protobuf.WellKnownTypes.StringValue() { Value = $"Temperature: {temperatureReading}" })
-            };
-
-            Logger.LogInformation("Sending SensorData '{sensor}'", SENSOR_TEMPERATURE_ID);
-
-            // Route the message back to the Sensor Service so it looks like it came in as request sensor data
-            await Core.DirectToApp(Core.GetAppID().Result, temperatureProbe);
-
-            await Task.Delay(1000);
+            await Task.Delay(100);
         }
     });
+
+    [DllImport("ImageProcessor", EntryPoint = "ProcessImageC")]
+    private static extern IntPtr ProcessImageC(string imagePath);
+
+    public static string? ProcessImage(string imagePath) {
+        IntPtr resultPtr = ProcessImageC(imagePath);
+        if (resultPtr == IntPtr.Zero) {
+            return null;
+        }
+
+        string? result = Marshal.PtrToStringAnsi(resultPtr);
+        return result;
+    }
 
     public override Task<PluginHealthCheckResponse> PluginHealthCheckResponse() => Task<PluginHealthCheckResponse>.Run(() => {
         return new MessageFormats.Common.PluginHealthCheckResponse {
@@ -88,8 +99,7 @@ public class StarterPlugin : Microsoft.Azure.SpaceFx.HostServices.Sensor.Plugins
         if (input_request == null || input_response == null) return (input_request, input_response);
 
         input_response.ResponseHeader.Status = StatusCodes.Successful;
-        input_response.Sensors.Add(new SensorsAvailableResponse.Types.SensorAvailable() { SensorID = SENSOR_ID });
-        input_response.Sensors.Add(new SensorsAvailableResponse.Types.SensorAvailable() { SensorID = SENSOR_TEMPERATURE_ID });
+        input_response.Sensors.Add(new SensorsAvailableResponse.Types.SensorAvailable() { SensorID = SENSOR_ASTRONAUT_CAM_ID });
 
 
         return (input_request, input_response);
@@ -118,8 +128,13 @@ public class StarterPlugin : Microsoft.Azure.SpaceFx.HostServices.Sensor.Plugins
         Logger.LogInformation("Plugin received and processed a TaskingResponse Event");
         if (input_request == null || input_response == null) return (input_request, input_response);
 
-        // Flip it to success
-        input_response.ResponseHeader.Status = StatusCodes.Successful;
+        if (input_request.SensorID != SENSOR_ASTRONAUT_CAM_ID) {
+            Logger.LogInformation("Tasking requested for unknown sensor: {sensorId}", input_request.SensorID);
+            input_response.ResponseHeader.Status = StatusCodes.NotFound;
+        } else {
+            Logger.LogInformation("Tasking requested for {sensorId}", SENSOR_ASTRONAUT_CAM_ID);
+            input_response.ResponseHeader.Status = StatusCodes.Successful;
+        }
         input_response.SensorID = input_request.SensorID;
 
         // Add the client ID to the list so we can direct send it Sensor Data
@@ -132,20 +147,14 @@ public class StarterPlugin : Microsoft.Azure.SpaceFx.HostServices.Sensor.Plugins
 
     public override Task<SensorData?> SensorData(SensorData? input_request) => Task.Run(() => {
         Logger.LogInformation("Plugin received and processed a SensorData Event");
-        return (input_request ?? null);
-    });
 
-    [DllImport("ImageProcessor", EntryPoint = "ProcessImageC")]
-    private static extern IntPtr ProcessImageC(string imagePath);
-
-    public static string? ProcessImage(string imagePath) {
-        IntPtr resultPtr = ProcessImageC(imagePath);
-        if (resultPtr == IntPtr.Zero) {
-            return null;
+        if (input_request?.SensorID == SENSOR_ASTRONAUT_CAM_ID) {
+            Logger.LogInformation("AstronautCam Sensor Data: {data}", input_request.Data.Unpack<Google.Protobuf.WellKnownTypes.StringValue>().Value);
+        } else {
+            Logger.LogInformation("Recieved SensorData from Unknown Sensor: {sensorId}", input_request?.SensorID);
         }
 
-        string? result = Marshal.PtrToStringAnsi(resultPtr);
-        return result;
-    }
+        return (input_request ?? null);
+    });
 
 }

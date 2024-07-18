@@ -1,18 +1,20 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/dotnet
 {
-	"name": "plugins-cpp-hostsvc-sensor",
+	"name": "plugins-platform-mts-cpp-sample",
 	"build": {
 		"context": ".",
 		"dockerfile": "Dockerfile"
 	},
-	"runArgs": [ "--name=hostsvc-sensor-cpp-plugin-sample" ],
-	"workspaceFolder": "/workspace/hostsvc-sensor-cpp-plugin-sample",
-	"workspaceMount": "source=${localWorkspaceFolder}/samples/plugins/hostsvc/hostsvc-sensor/cpp-sample-plugin,target=/workspace/hostsvc-sensor-cpp-plugin-sample,type=bind,consistency=cached",
-    "features": {
+	"runArgs": [
+		"--name=platform-mts-cpp-sample-plugin"
+	],
+	"workspaceFolder": "/workspace/platform-mts-cpp-sample-plugin",
+	"workspaceMount": "source=${localWorkspaceFolder}/samples/plugins/platform/platform-mts/cpp-sample-plugin,target=/workspace/platform-mts-cpp-sample-plugin,type=bind,consistency=cached",
+	"features": {
 		"ghcr.io/microsoft/azure-orbital-space-sdk/spacefx-dev:0.11.0": {
-			"app_name": "hostsvc-sensor-cpp-plugin-sample",
-			"app_type": "hostsvc-sensor-plugin",
+			"app_name": "platform-mts-cpp-sample-plugin",
+			"app_type": "platform-mts-plugin",
 			"addl_debug_shim_suffixes": "client"
 		}
 	},
@@ -22,18 +24,18 @@
 	},
 	"customizations": {
 		"vscode": {
-            "extensions": [
+			"extensions": [
 				"ms-vscode.cpptools",
-                "ms-dotnettools.csharp",
-                "ms-dotnettools.csdevkit",
-                "DavidAnson.vscode-markdownlint",
-                "zxh404.vscode-proto3",
-                "mutantdino.resourcemonitor",
-                "josefpihrt-vscode.roslynator",
-                "bierner.markdown-mermaid"
-            ]
+				"ms-dotnettools.csharp",
+				"ms-dotnettools.csdevkit",
+				"DavidAnson.vscode-markdownlint",
+				"zxh404.vscode-proto3",
+				"mutantdino.resourcemonitor",
+				"josefpihrt-vscode.roslynator",
+				"bierner.markdown-mermaid"
+			]
 		},
-        // Grant permissions to the Azure Orbital Space SDK repositories and their packages
+		// Grant permissions to the Azure Orbital Space SDK repositories and their packages
 		"codespaces": {
 			"repositories": {
 				"microsoft/azure-orbital-space-sdk": {
