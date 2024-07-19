@@ -19,6 +19,9 @@ public class Program {
             // Register with the messages we're expecting to receive from the service
             services.AddSingleton<Core.IMessageHandler<PluginHealthCheckMultiResponse>, MessageHandler<PluginHealthCheckMultiResponse>>();
             services.AddSingleton<Core.IMessageHandler<LinkResponse>, MessageHandler<LinkResponse>>();
+            services.AddSingleton<Core.IMessageHandler<LogMessageResponse>, MessageHandler<LogMessageResponse>>();
+            services.AddSingleton<Core.IMessageHandler<TelemetryMetricResponse>, MessageHandler<TelemetryMetricResponse>>();
+            services.AddSingleton<Core.IMessageHandler<TelemetryMultiMetricResponse>, MessageHandler<TelemetryMultiMetricResponse>>();
             services.AddSingleton<Core.IMessageHandler<PositionResponse>, MessageHandler<PositionResponse>>();
             services.AddSingleton<Core.IMessageHandler<PositionUpdateResponse>, MessageHandler<PositionUpdateResponse>>();
             services.AddSingleton<Core.IMessageHandler<SensorsAvailableResponse>, MessageHandler<SensorsAvailableResponse>>();

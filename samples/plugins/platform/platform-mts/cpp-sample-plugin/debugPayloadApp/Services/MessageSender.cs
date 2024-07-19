@@ -225,7 +225,7 @@ public class MessageSender : BackgroundService {
             MetricValue = 37
         };
 
-        _logger.LogInformation($"Sending '{request.GetType().Name}' request to '{_hostSvcAppId}' (TrackingId: '{request.RequestHeader.TrackingId}')");
+        _logger.LogInformation($"Sending '{request.GetType().Name}' request (TrackingId: '{request.RequestHeader.TrackingId}')");
 
         // Register a callback event to catch the response
         void TelemetryMetricResponseEventHandler(object? _, TelemetryMetricResponse _response) {
@@ -263,7 +263,7 @@ public class MessageSender : BackgroundService {
             Priority = Priority.Medium,
         };
 
-        _logger.LogInformation($"Sending '{request.GetType().Name}' request to '{_hostSvcAppId}' (TrackingId: '{request.RequestHeader.TrackingId}')");
+        _logger.LogInformation($"Sending '{request.GetType().Name}' request (TrackingId: '{request.RequestHeader.TrackingId}')");
 
         // Register a callback event to catch the response
         void LogMessageResponseEventHandler(object? _, LogMessageResponse _response) {
