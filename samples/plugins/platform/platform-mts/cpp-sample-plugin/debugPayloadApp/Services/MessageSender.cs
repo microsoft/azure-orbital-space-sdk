@@ -189,7 +189,7 @@ public class MessageSender : BackgroundService {
             Thread.Sleep(100);
         }
 
-        if (response == null) throw new TimeoutException($"Failed to hear {nameof(response)} after {MAX_TIMESPAN_TO_WAIT_FOR_MSG}.  Please check that {_hostSvcAppId} is deployed");
+        if (response == null) throw new TimeoutException($"Failed to hear {nameof(response)} after {MAX_TIMESPAN_TO_WAIT_FOR_MSG}.  Please check that hostsvc-position is deployed");
 
         _logger.LogInformation($"'{request.GetType().Name}' request received.  Status: '{response.ResponseHeader.Status}' (TrackingId: '{request.RequestHeader.TrackingId}')");
 
@@ -244,7 +244,7 @@ public class MessageSender : BackgroundService {
             Thread.Sleep(100);
         }
 
-        if (response == null) throw new TimeoutException($"Failed to hear {nameof(response)} after {MAX_TIMESPAN_TO_WAIT_FOR_MSG}.  Please check that {_hostSvcAppId} is deployed");
+        if (response == null) throw new TimeoutException($"Failed to hear {nameof(response)} after {MAX_TIMESPAN_TO_WAIT_FOR_MSG}.  Please check that hostsvc-logging is deployed");
 
         _logger.LogInformation($"'{request.GetType().Name}'received.  Status: '{response.ResponseHeader.Status}' (TrackingId: '{request.RequestHeader.TrackingId}')");
     }
@@ -282,7 +282,7 @@ public class MessageSender : BackgroundService {
             Thread.Sleep(100);
         }
 
-        if (response == null) throw new TimeoutException($"Failed to hear {nameof(response)} after {MAX_TIMESPAN_TO_WAIT_FOR_MSG}.  Please check that {_hostSvcAppId} is deployed");
+        if (response == null) throw new TimeoutException($"Failed to hear {nameof(response)} after {MAX_TIMESPAN_TO_WAIT_FOR_MSG}.  Please check that hostsvc-logging is deployed");
 
         _logger.LogInformation($"'{request.GetType().Name}'received.  Status: '{response.ResponseHeader.Status}' (TrackingId: '{request.RequestHeader.TrackingId}')");
     }
@@ -332,7 +332,7 @@ public class MessageSender : BackgroundService {
             Thread.Sleep(100);
         }
 
-        if (response == null) throw new TimeoutException($"Failed to hear {nameof(response)} after {MAX_TIMESPAN_TO_WAIT_FOR_MSG}.  Please check that {_hostSvcAppId} is deployed");
+        if (response == null) throw new TimeoutException($"Failed to hear {nameof(response)} after {MAX_TIMESPAN_TO_WAIT_FOR_MSG}.  Please check that hostsvc-sensor is deployed");
 
         _logger.LogInformation($"'{request.GetType().Name}' request received.  Status: '{response.ResponseHeader.Status}' (TrackingId: '{request.RequestHeader.TrackingId}')");
 
@@ -367,7 +367,7 @@ public class MessageSender : BackgroundService {
             Thread.Sleep(100);
         }
 
-        if (response == null) throw new TimeoutException($"Failed to hear {nameof(response)} after {MAX_TIMESPAN_TO_WAIT_FOR_MSG}.  Please check that {_hostSvcAppId} is deployed");
+        if (response == null) throw new TimeoutException($"Failed to hear {nameof(response)} after {MAX_TIMESPAN_TO_WAIT_FOR_MSG}.  Please check that hostsvc-sensor is deployed");
 
         _logger.LogInformation($"'{request.GetType().Name}' request received.  Status: '{response.ResponseHeader.Status}' (TrackingId: '{request.RequestHeader.TrackingId}')");
 
@@ -402,7 +402,7 @@ public class MessageSender : BackgroundService {
             Thread.Sleep(100);
         }
 
-        if (response == null) throw new TimeoutException($"Failed to hear {nameof(response)} after {MAX_TIMESPAN_TO_WAIT_FOR_MSG}.  Please check that {_hostSvcAppId} is deployed");
+        if (response == null) throw new TimeoutException($"Failed to hear {nameof(response)} after {MAX_TIMESPAN_TO_WAIT_FOR_MSG}.  Please check that hostsvc-sensor is deployed");
 
         _logger.LogInformation($"'{request.GetType().Name}' request received.  Status: '{response.ResponseHeader.Status}' (TrackingId: '{request.RequestHeader.TrackingId}')");
 
