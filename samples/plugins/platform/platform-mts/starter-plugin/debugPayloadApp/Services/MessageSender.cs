@@ -178,7 +178,8 @@ public class MessageSender : BackgroundService {
 
         MessageHandler<PositionResponse>.MessageReceivedEvent += ResponseEventHandler;
 
-        await _client.DirectToApp(appId: _hostSvcAppId, message: request);
+        // Hostsvc-Position stores the last known position
+        await _client.DirectToApp(appId: "hostsvc-position", message: request);
 
         _logger.LogInformation($"Waiting for response (TrackingId: '{request.RequestHeader.TrackingId}')");
 
@@ -206,7 +207,7 @@ public class MessageSender : BackgroundService {
             DestinationAppId = "contoso-app-id"
         };
 
-        await _client.DirectToApp(appId: _hostSvcAppId, message: request);
+        await _client.DirectToApp(appId: "hostsvc-link", message: request);
     }
 
     private async Task SendTelemetryMetric() {
@@ -233,7 +234,7 @@ public class MessageSender : BackgroundService {
 
         MessageHandler<TelemetryMetricResponse>.MessageReceivedEvent += TelemetryMetricResponseEventHandler;
 
-        await _client.DirectToApp(appId: _hostSvcAppId, message: request);
+        await _client.DirectToApp(appId: "hostsvc-logging", message: request);
 
         _logger.LogInformation($"Waiting for response message type (TrackingId: '{request.RequestHeader.TrackingId}')");
 
@@ -271,7 +272,7 @@ public class MessageSender : BackgroundService {
 
         MessageHandler<LogMessageResponse>.MessageReceivedEvent += LogMessageResponseEventHandler;
 
-        await _client.DirectToApp(appId: _hostSvcAppId, message: request);
+        await _client.DirectToApp(appId: "hostsvc-logging", message: request);
 
         _logger.LogInformation($"Waiting for response message type (TrackingId: '{request.RequestHeader.TrackingId}')");
 
@@ -321,7 +322,7 @@ public class MessageSender : BackgroundService {
 
         MessageHandler<SensorsAvailableResponse>.MessageReceivedEvent += ResponseEventHandler;
 
-        await _client.DirectToApp(appId: _hostSvcAppId, message: request);
+        await _client.DirectToApp(appId: "hostsvc-sensor", message: request);
 
         _logger.LogInformation($"Waiting for response (TrackingId: '{request.RequestHeader.TrackingId}')");
 
@@ -356,7 +357,7 @@ public class MessageSender : BackgroundService {
 
         MessageHandler<TaskingPreCheckResponse>.MessageReceivedEvent += ResponseEventHandler;
 
-        await _client.DirectToApp(appId: _hostSvcAppId, message: request);
+        await _client.DirectToApp(appId: "hostsvc-sensor", message: request);
 
         _logger.LogInformation($"Waiting for response (TrackingId: '{request.RequestHeader.TrackingId}')");
 
@@ -391,7 +392,7 @@ public class MessageSender : BackgroundService {
 
         MessageHandler<TaskingResponse>.MessageReceivedEvent += ResponseEventHandler;
 
-        await _client.DirectToApp(appId: _hostSvcAppId, message: request);
+        await _client.DirectToApp(appId: "hostsvc-sensor", message: request);
 
         _logger.LogInformation($"Waiting for response (TrackingId: '{request.RequestHeader.TrackingId}')");
 
