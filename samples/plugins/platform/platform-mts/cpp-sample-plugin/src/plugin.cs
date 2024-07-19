@@ -5,6 +5,20 @@ public class CppSamplePlugin : Microsoft.Azure.SpaceFx.PlatformServices.MessageT
         this.Logger = loggerFactory.CreateLogger<CppSamplePlugin>();
     }
 
+    // Access the ProcessImage functionality from the ImageProcessor C++ library
+    public static string? ProcessImage(string inputImagePath, string outputImagePath) {
+        IntPtr resultPtr = ProcessImageC(inputImagePath, outputImagePath);
+        if (resultPtr == IntPtr.Zero) {
+            return null;
+        }
+
+        string? result = Marshal.PtrToStringAnsi(resultPtr);
+        return result;
+    }
+
+    [DllImport("ImageProcessor", EntryPoint = "ProcessImageC")]
+    private static extern IntPtr ProcessImageC(string inputImagePath, string outputImagePath);
+
     public override void ConfigureLogging(ILoggerFactory loggerFactory) => this.Logger = loggerFactory.CreateLogger<CppSamplePlugin>();
 
     public override ILogger Logger { get; set; }
@@ -38,12 +52,28 @@ public class CppSamplePlugin : Microsoft.Azure.SpaceFx.PlatformServices.MessageT
     });
 
     public override Task<SensorData?> SensorData(SensorData? input_request) => Task.Run(() => {
-        Logger.LogInformation("Plugin received and processed a SensorData Event");
+        Logger.LogInformation("Plugin received a SensorData Event");
+
+        // Get the Data attribute from the SensorData object
+        string? imagePath = input_request?.Data?.Value?.ToString();
+
+        // If the data is a valid image path, process the image
+        if (imagePath != null && File.Exists(imagePath)) {
+            // Process the image, overwriting the original image
+            Logger.LogInformation($"Plugin processing a SensorData image: {imagePath}");
+            string? result = ProcessImage(imagePath, imagePath);
+            if (result != null) {
+                Logger.LogInformation($"Plugin processed a SensorData image successfully: {result}");
+            }
+        } else {
+            Logger.LogInformation("Plugin received a SensorData Event that did not contain a valid image path. No image processing was performed.");
+        }
+
         return (input_request ?? null);
     });
 
     public override Task<(SensorsAvailableRequest?, SensorsAvailableResponse?)> SensorsAvailableRequest(SensorsAvailableRequest? input_request, SensorsAvailableResponse? input_response) => Task.Run(() => {
-        Logger.LogInformation("Plugin received and processed a SensorsAvailableResponse Event");
+        Logger.LogInformation("Plugin received and processed a SensorsAvailableRequest Event");
         return (input_request, input_response);
     });
 
@@ -68,7 +98,7 @@ public class CppSamplePlugin : Microsoft.Azure.SpaceFx.PlatformServices.MessageT
     });
 
     public override Task<TaskingResponse?> TaskingResponse(TaskingResponse? input_response) => Task.Run(() => {
-        Logger.LogInformation("Plugin received and processed a SensorsAvailableRequest Event");
+        Logger.LogInformation("Plugin received and processed a TaskingResponse Event");
         return (input_response ?? null);
     });
 }
