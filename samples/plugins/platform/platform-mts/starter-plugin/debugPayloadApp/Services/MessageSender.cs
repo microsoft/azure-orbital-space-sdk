@@ -196,6 +196,8 @@ public class MessageSender : BackgroundService {
     private async Task SendFileRootDirectory() {
         var (inbox, outbox, root) = _client.GetXFerDirectories().Result;
 
+        _logger.LogInformation($"Sending '{Path.GetFileName(_testFile)}' to '{outbox}'");
+
         File.Copy(_testFile, string.Format($"{outbox}/{Path.GetFileName(_testFile)}"), overwrite: true);
 
         LinkRequest request = new() {
@@ -204,8 +206,10 @@ public class MessageSender : BackgroundService {
                 CorrelationId = Guid.NewGuid().ToString()
             },
             FileName = Path.GetFileName(_testFile),
-            DestinationAppId = "contoso-app-id"
+            DestinationAppId = "platform-mts"
         };
+
+        _logger.LogInformation($"Sending '{request.GetType().Name}' request (TrackingId: '{request.RequestHeader.TrackingId}') (DestinationAppId: '{request.DestinationAppId}')");
 
         await _client.DirectToApp(appId: "hostsvc-link", message: request);
     }

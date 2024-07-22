@@ -43,23 +43,24 @@ public class MessageSender : BackgroundService {
                 throw new Exception($"Service '{_hostSvcAppId}' did not come online in time.");
             }
 
-            // Hostsvc-Position endpoints
-            await UpdatePosition();
-            await GetCurrentPosition();
-
-            // Hostsvc-Link endpoints
-            await SendFileRootDirectory();
-
-            // Hostsvc-Logging endpoints
-            await SendTelemetryMetric();
-            await SendLogMessage();
-
             // Hostsvc-Sensor endpoints
             RegisterForSensorData();
             await SendPluginHealthCheck();
             await SendSensorsAvailableRequest();
             await SendTaskingPreCheckRequest();
             await SendTaskingRequest();
+
+            // Hostsvc-Link endpoints
+            // NOTE: In this plugin this also triggers the C++ Plugin to process the linked image
+            await SendFileRootDirectory();
+
+            // Hostsvc-Position endpoints
+            await UpdatePosition();
+            await GetCurrentPosition();
+
+            // Hostsvc-Logging endpoints
+            await SendTelemetryMetric();
+            await SendLogMessage();
 
             _logger.LogInformation("DebugPayloadApp completed at: {time}", DateTimeOffset.Now);
         }
@@ -113,7 +114,7 @@ public class MessageSender : BackgroundService {
     }
 
     private async Task UpdatePosition() {
-        DateTime maxTimeToWait = DateTime.Now.Add(TimeSpan.FromSeconds(10));
+        DateTime maxTimeToWait = DateTime.Now.Add(TimeSpan.FromSeconds(30));
         PositionUpdateResponse? response = null;
         PositionUpdateRequest request = new() {
             RequestHeader = new() {
@@ -161,7 +162,7 @@ public class MessageSender : BackgroundService {
     }
 
     private async Task GetCurrentPosition() {
-        DateTime maxTimeToWait = DateTime.Now.Add(TimeSpan.FromSeconds(10));
+        DateTime maxTimeToWait = DateTime.Now.Add(TimeSpan.FromSeconds(30));
         PositionResponse? response = null;
         PositionRequest request = new() {
             RequestHeader = new() {
@@ -198,6 +199,8 @@ public class MessageSender : BackgroundService {
     private async Task SendFileRootDirectory() {
         var (inbox, outbox, root) = _client.GetXFerDirectories().Result;
 
+        _logger.LogInformation($"Sending '{Path.GetFileName(_testFile)}' to '{outbox}'");
+
         File.Copy(_testFile, string.Format($"{outbox}/{Path.GetFileName(_testFile)}"), overwrite: true);
 
         LinkRequest request = new() {
@@ -206,10 +209,13 @@ public class MessageSender : BackgroundService {
                 CorrelationId = Guid.NewGuid().ToString()
             },
             FileName = Path.GetFileName(_testFile),
-            DestinationAppId = "contoso-app-id"
+            DestinationAppId = "platform-mts",
+            Overwrite = true
         };
 
-        await _client.DirectToApp(appId: "hostsvc-logging", message: request);
+        _logger.LogInformation($"Sending '{request.GetType().Name}' request (TrackingId: '{request.RequestHeader.TrackingId}') (DestinationAppId: '{request.DestinationAppId}')");
+
+        await _client.DirectToApp(appId: "hostsvc-link", message: request);
     }
 
     private async Task SendTelemetryMetric() {

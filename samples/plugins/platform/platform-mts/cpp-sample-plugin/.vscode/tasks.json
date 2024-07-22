@@ -166,7 +166,7 @@
             "command": "sleep",
             "type": "process",
             "args": [
-                "3s"
+                "10s"
             ],
             "presentation": {
                 "echo": false,
