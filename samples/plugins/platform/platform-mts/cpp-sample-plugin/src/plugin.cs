@@ -26,8 +26,6 @@ public class CppSamplePlugin : Microsoft.Azure.SpaceFx.PlatformServices.MessageT
     public override Task BackgroundTask() => Task.CompletedTask;
 
     public override Task<LinkResponse?> LinkResponse(LinkResponse? input_response) => Task.Run(() => {
-        Logger.LogInformation("Plugin received and processed a LinkResponse Event");
-
         // Get the type of link response
         MessageFormats.Common.StatusCodes? status = input_response?.ResponseHeader?.Status;
         Logger.LogInformation($"Plugin received a LinkResponse Event with status: {status}");
