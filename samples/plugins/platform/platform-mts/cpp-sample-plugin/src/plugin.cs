@@ -72,6 +72,10 @@ public class CppSamplePlugin : Microsoft.Azure.SpaceFx.PlatformServices.MessageT
                 if (result != null) {
                     Logger.LogInformation($"Plugin processed a LinkResponse image successfully: {result}");
                 }
+
+                // Delete the original image and the linkResponse file
+                File.Delete(inImagePath);
+                File.Delete(linkResponsePath);
             } else {
                 Logger.LogInformation("Plugin received a LinkResponse Event that did not contain a valid image path. No image processing was performed.");
             }
