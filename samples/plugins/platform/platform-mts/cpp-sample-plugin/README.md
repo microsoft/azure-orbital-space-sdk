@@ -43,13 +43,17 @@ DebugPayloadApp is a debugging application that is used to interact with platfor
 ```mermaid
 sequenceDiagram
     participant DPA as DebugPayloadApp
+    participant L as Hostsvc-Link
     participant MTS as Platform-MTS
     participant P as MTS-Plugin
     participant IP as ImageProcessor (C++)
 
-    DPA-->>MTS: Send astronaut.jpg via LinkRequest
+    DPA-->>L: Send LinkRequest to transfer astronaut.jpg
+    L-->>MTS: Moves astronaut.jpg to inbox
+    L-->>MTS: Sends LinkResponse to MTS
+    MTS->>MTS: Processes LinkResponse
     MTS->>P: Invokes Plugins
-    P->>IP: Invokes ImageProcessor
+    P->>IP: LinkResponse extension invokes ImageProcessor
     IP->>IP: Saves grey-scaled image to outbox
     IP->>P: Returns grey-scaled image path
 ```
