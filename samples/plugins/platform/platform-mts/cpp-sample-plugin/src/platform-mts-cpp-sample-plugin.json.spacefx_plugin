@@ -1,0 +1,10 @@
+{
+    "pluginFile": "platform-mts-cpp-sample-plugin.dll",
+    "pluginName": "platform-mts-cpp-sample-plugin",
+    "targetService": "platform-mts",
+    "plugin_permissions": "ALL",
+    "core_permissions": "ALL",
+    "build_artifacts": [],
+    "configuration": {
+    }
+}

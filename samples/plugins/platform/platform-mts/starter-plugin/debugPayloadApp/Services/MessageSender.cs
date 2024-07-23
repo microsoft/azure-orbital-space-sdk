@@ -178,7 +178,8 @@ public class MessageSender : BackgroundService {
 
         MessageHandler<PositionResponse>.MessageReceivedEvent += ResponseEventHandler;
 
-        await _client.DirectToApp(appId: _hostSvcAppId, message: request);
+        // Hostsvc-Position stores the last known position
+        await _client.DirectToApp(appId: "hostsvc-position", message: request);
 
         _logger.LogInformation($"Waiting for response (TrackingId: '{request.RequestHeader.TrackingId}')");
 
@@ -186,7 +187,7 @@ public class MessageSender : BackgroundService {
             Thread.Sleep(100);
         }
 
-        if (response == null) throw new TimeoutException($"Failed to hear {nameof(response)} after {MAX_TIMESPAN_TO_WAIT_FOR_MSG}.  Please check that {_hostSvcAppId} is deployed");
+        if (response == null) throw new TimeoutException($"Failed to hear {nameof(response)} after {MAX_TIMESPAN_TO_WAIT_FOR_MSG}.  Please check that hostsvc-position is deployed");
 
         _logger.LogInformation($"'{request.GetType().Name}' request received.  Status: '{response.ResponseHeader.Status}' (TrackingId: '{request.RequestHeader.TrackingId}')");
 
@@ -194,6 +195,8 @@ public class MessageSender : BackgroundService {
 
     private async Task SendFileRootDirectory() {
         var (inbox, outbox, root) = _client.GetXFerDirectories().Result;
+
+        _logger.LogInformation($"Sending '{Path.GetFileName(_testFile)}' to '{outbox}'");
 
         File.Copy(_testFile, string.Format($"{outbox}/{Path.GetFileName(_testFile)}"), overwrite: true);
 
@@ -203,10 +206,12 @@ public class MessageSender : BackgroundService {
                 CorrelationId = Guid.NewGuid().ToString()
             },
             FileName = Path.GetFileName(_testFile),
-            DestinationAppId = "contoso-app-id"
+            DestinationAppId = "platform-mts"
         };
 
-        await _client.DirectToApp(appId: _hostSvcAppId, message: request);
+        _logger.LogInformation($"Sending '{request.GetType().Name}' request (TrackingId: '{request.RequestHeader.TrackingId}') (DestinationAppId: '{request.DestinationAppId}')");
+
+        await _client.DirectToApp(appId: "hostsvc-link", message: request);
     }
 
     private async Task SendTelemetryMetric() {
@@ -222,7 +227,7 @@ public class MessageSender : BackgroundService {
             MetricValue = 37
         };
 
-        _logger.LogInformation($"Sending '{request.GetType().Name}' request to '{_hostSvcAppId}' (TrackingId: '{request.RequestHeader.TrackingId}')");
+        _logger.LogInformation($"Sending '{request.GetType().Name}' request (TrackingId: '{request.RequestHeader.TrackingId}')");
 
         // Register a callback event to catch the response
         void TelemetryMetricResponseEventHandler(object? _, TelemetryMetricResponse _response) {
@@ -233,7 +238,7 @@ public class MessageSender : BackgroundService {
 
         MessageHandler<TelemetryMetricResponse>.MessageReceivedEvent += TelemetryMetricResponseEventHandler;
 
-        await _client.DirectToApp(appId: _hostSvcAppId, message: request);
+        await _client.DirectToApp(appId: "hostsvc-logging", message: request);
 
         _logger.LogInformation($"Waiting for response message type (TrackingId: '{request.RequestHeader.TrackingId}')");
 
@@ -241,7 +246,7 @@ public class MessageSender : BackgroundService {
             Thread.Sleep(100);
         }
 
-        if (response == null) throw new TimeoutException($"Failed to hear {nameof(response)} after {MAX_TIMESPAN_TO_WAIT_FOR_MSG}.  Please check that {_hostSvcAppId} is deployed");
+        if (response == null) throw new TimeoutException($"Failed to hear {nameof(response)} after {MAX_TIMESPAN_TO_WAIT_FOR_MSG}.  Please check that hostsvc-logging is deployed");
 
         _logger.LogInformation($"'{request.GetType().Name}'received.  Status: '{response.ResponseHeader.Status}' (TrackingId: '{request.RequestHeader.TrackingId}')");
     }
@@ -260,7 +265,7 @@ public class MessageSender : BackgroundService {
             Priority = Priority.Medium,
         };
 
-        _logger.LogInformation($"Sending '{request.GetType().Name}' request to '{_hostSvcAppId}' (TrackingId: '{request.RequestHeader.TrackingId}')");
+        _logger.LogInformation($"Sending '{request.GetType().Name}' request (TrackingId: '{request.RequestHeader.TrackingId}')");
 
         // Register a callback event to catch the response
         void LogMessageResponseEventHandler(object? _, LogMessageResponse _response) {
@@ -271,7 +276,7 @@ public class MessageSender : BackgroundService {
 
         MessageHandler<LogMessageResponse>.MessageReceivedEvent += LogMessageResponseEventHandler;
 
-        await _client.DirectToApp(appId: _hostSvcAppId, message: request);
+        await _client.DirectToApp(appId: "hostsvc-logging", message: request);
 
         _logger.LogInformation($"Waiting for response message type (TrackingId: '{request.RequestHeader.TrackingId}')");
 
@@ -279,7 +284,7 @@ public class MessageSender : BackgroundService {
             Thread.Sleep(100);
         }
 
-        if (response == null) throw new TimeoutException($"Failed to hear {nameof(response)} after {MAX_TIMESPAN_TO_WAIT_FOR_MSG}.  Please check that {_hostSvcAppId} is deployed");
+        if (response == null) throw new TimeoutException($"Failed to hear {nameof(response)} after {MAX_TIMESPAN_TO_WAIT_FOR_MSG}.  Please check that hostsvc-logging is deployed");
 
         _logger.LogInformation($"'{request.GetType().Name}'received.  Status: '{response.ResponseHeader.Status}' (TrackingId: '{request.RequestHeader.TrackingId}')");
     }
@@ -321,7 +326,7 @@ public class MessageSender : BackgroundService {
 
         MessageHandler<SensorsAvailableResponse>.MessageReceivedEvent += ResponseEventHandler;
 
-        await _client.DirectToApp(appId: _hostSvcAppId, message: request);
+        await _client.DirectToApp(appId: "hostsvc-sensor", message: request);
 
         _logger.LogInformation($"Waiting for response (TrackingId: '{request.RequestHeader.TrackingId}')");
 
@@ -329,7 +334,7 @@ public class MessageSender : BackgroundService {
             Thread.Sleep(100);
         }
 
-        if (response == null) throw new TimeoutException($"Failed to hear {nameof(response)} after {MAX_TIMESPAN_TO_WAIT_FOR_MSG}.  Please check that {_hostSvcAppId} is deployed");
+        if (response == null) throw new TimeoutException($"Failed to hear {nameof(response)} after {MAX_TIMESPAN_TO_WAIT_FOR_MSG}.  Please check that hostsvc-sensor is deployed");
 
         _logger.LogInformation($"'{request.GetType().Name}' request received.  Status: '{response.ResponseHeader.Status}' (TrackingId: '{request.RequestHeader.TrackingId}')");
 
@@ -356,7 +361,7 @@ public class MessageSender : BackgroundService {
 
         MessageHandler<TaskingPreCheckResponse>.MessageReceivedEvent += ResponseEventHandler;
 
-        await _client.DirectToApp(appId: _hostSvcAppId, message: request);
+        await _client.DirectToApp(appId: "hostsvc-sensor", message: request);
 
         _logger.LogInformation($"Waiting for response (TrackingId: '{request.RequestHeader.TrackingId}')");
 
@@ -364,7 +369,7 @@ public class MessageSender : BackgroundService {
             Thread.Sleep(100);
         }
 
-        if (response == null) throw new TimeoutException($"Failed to hear {nameof(response)} after {MAX_TIMESPAN_TO_WAIT_FOR_MSG}.  Please check that {_hostSvcAppId} is deployed");
+        if (response == null) throw new TimeoutException($"Failed to hear {nameof(response)} after {MAX_TIMESPAN_TO_WAIT_FOR_MSG}.  Please check that hostsvc-sensor is deployed");
 
         _logger.LogInformation($"'{request.GetType().Name}' request received.  Status: '{response.ResponseHeader.Status}' (TrackingId: '{request.RequestHeader.TrackingId}')");
 
@@ -391,7 +396,7 @@ public class MessageSender : BackgroundService {
 
         MessageHandler<TaskingResponse>.MessageReceivedEvent += ResponseEventHandler;
 
-        await _client.DirectToApp(appId: _hostSvcAppId, message: request);
+        await _client.DirectToApp(appId: "hostsvc-sensor", message: request);
 
         _logger.LogInformation($"Waiting for response (TrackingId: '{request.RequestHeader.TrackingId}')");
 
@@ -399,7 +404,7 @@ public class MessageSender : BackgroundService {
             Thread.Sleep(100);
         }
 
-        if (response == null) throw new TimeoutException($"Failed to hear {nameof(response)} after {MAX_TIMESPAN_TO_WAIT_FOR_MSG}.  Please check that {_hostSvcAppId} is deployed");
+        if (response == null) throw new TimeoutException($"Failed to hear {nameof(response)} after {MAX_TIMESPAN_TO_WAIT_FOR_MSG}.  Please check that hostsvc-sensor is deployed");
 
         _logger.LogInformation($"'{request.GetType().Name}' request received.  Status: '{response.ResponseHeader.Status}' (TrackingId: '{request.RequestHeader.TrackingId}')");
 

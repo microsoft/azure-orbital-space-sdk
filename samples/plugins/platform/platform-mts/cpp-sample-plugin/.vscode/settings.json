@@ -1,0 +1,6 @@
+{
+    "omnisharp.useEditorFormattingSettings": false, // ignores any Visual Studio Code user or machine preferences for formatting and instead enforces the omnisharp.json and .editorconfig in this workspace
+    "omnisharp.enableRoslynAnalyzers": true,
+    "editor.formatOnSave": true,
+    "dotnet.completion.showCompletionItemsFromUnimportedNamespaces": true
+}
