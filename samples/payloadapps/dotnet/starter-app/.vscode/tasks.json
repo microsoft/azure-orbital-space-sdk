@@ -5,13 +5,13 @@
     "version": "2.0.0",
     "options": {
         "env": {
-            "DEBUG_SHIM_HOST": "starter-app",
+            "DEBUG_SHIM": "dotnet-starter-app",
             "APP_WORKING_DIR": "/workspace/starter-app"
         }
     },
     "tasks": [
         {
-            "label": "deploy-debugshim-dotnet",
+            "label": "deploy-debugshim",
             "isBackground": false,
             "command": "/bin/bash",
             "type": "shell",
@@ -22,7 +22,7 @@
             "args": [
                 "/spacefx-dev/debugShim-deploy.sh",
                 "--debug_shim",
-                "${DEBUG_SHIM_CLIENT}",
+                "${DEBUG_SHIM}",
                 "--disable_plugin_configs"
             ],
             "presentation": {
@@ -54,7 +54,7 @@
             "args": [
                 "/spacefx-dev/debugShim-reset.sh",
                 "--debug_shim",
-                "${DEBUG_SHIM_HOST}",
+                "${DEBUG_SHIM}",
                 "--skip-pod-wait"
             ],
             "presentation": {

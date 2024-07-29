@@ -1,57 +1,27 @@
 namespace StarterApp {
     public class Program {
         private static Microsoft.Azure.SpaceFx.SDK.Client? Client = new Microsoft.Azure.SpaceFx.SDK.Client();
-
-        const string TARGET_APP_ID = "platform-mts";
-
-        private static ILogger Logger {
-            get {
-                return Client.Logger;
-            }
-        }
+        private static ILogger Logger => Client.Logger;
 
         public static async Task Main() {
             Client.Build();
             Logger.LogInformation("Running DebugClient...");
 
 
-            var services = Client.ServicesOnline();
-
-
-            bool svc_online = false;
-            DateTime showServicesTime = DateTime.Now.Add(TimeSpan.FromSeconds(2));
-
-            Logger.LogInformation("Waiting for target service '{0}' to come online...", TARGET_APP_ID);
-
-
-            while (!svc_online) {
-
-                if (showServicesTime <= DateTime.Now) {
-                    showServicesTime = DateTime.Now.Add(TimeSpan.FromSeconds(2));
-                }
-
-                svc_online = Client.ServicesOnline().Any(pulse => pulse.AppId.Equals(TARGET_APP_ID, StringComparison.CurrentCultureIgnoreCase));
-                if (svc_online) {
-                    Logger.LogInformation("Target service '{0}' is online", TARGET_APP_ID);
-                } else {
-                    Thread.Sleep(250);
-                }
-            }
-
+            ListServicesOnline();
 
             await Microsoft.Azure.SpaceFx.SDK.Logging.SendLogMessage("Hello space world from DebugClient123!");
 
 
-
-            // ListenForSensorData();
-            // SendLogMessage();
+            ListenForSensorData();
+            SendLogMessage();
             SendSensorsAvailableRequest();
-            // //SendSensorTaskingPreCheckRequest();
-            // //SendSensorTaskingRequest();
+            SendSensorTaskingPreCheckRequest();
+            SendSensorTaskingRequest();
 
-            // SendFileToApp();
+            SendFileToApp();
 
-            // GetLastKnownPosition();
+            GetLastKnownPosition();
 
             await Client.KeepAppOpen();
         }
@@ -60,8 +30,12 @@ namespace StarterApp {
         public static void ListServicesOnline() {
             // Services send out HeartBeats to let other apps know they are online.
             // We have to give enough time for heartbeats to come in before we check
-            Console.WriteLine($"Waiting for 3 seconds, then checking for services heard...");
-            Thread.Sleep(3500);
+            double heartbeatPulseTiming = double.Parse(Microsoft.Azure.SpaceFx.Core.GetConfigSetting("heartbeatpulsetimingms").Result);
+            heartbeatPulseTiming = heartbeatPulseTiming * (double) 1.5;
+            TimeSpan timeSpan = TimeSpan.FromMilliseconds(heartbeatPulseTiming);
+
+            Console.WriteLine($"Waiting for {timeSpan.TotalSeconds} seconds, then checking for services heard...");
+            Thread.Sleep(timeSpan);
 
             List<HeartBeatPulse> heartBeats = Microsoft.Azure.SpaceFx.SDK.Client.ServicesOnline();
 
@@ -98,10 +72,15 @@ namespace StarterApp {
         public static void SendSensorsAvailableRequest() {
             Task<SensorsAvailableResponse> requestTask = Sensor.GetAvailableSensors();
             requestTask.Wait();
-
             SensorsAvailableResponse response = requestTask.Result;
 
-            Console.WriteLine($"Sensor response: {response.ResponseHeader.Status}");
+            Logger.LogInformation($"Sensor response: {response.ResponseHeader.Status}");
+
+            Logger.LogInformation("Available sensors:");
+            response.Sensors.ToList().ForEach((sensor) => {
+                Logger.LogInformation($"Sensor: {sensor.SensorID}");
+            });
+
         }
 
         public static void SendSensorTaskingPreCheckRequest() {

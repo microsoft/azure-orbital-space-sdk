@@ -9,7 +9,7 @@
             "type": "coreclr",
             "request": "launch",
             "program": "${workspaceFolder}/.git/spacefx-dev/dotnet/dotnet",
-            "preLaunchTask": "deploy-debugshim-dotnet",
+            "preLaunchTask": "deploy-debugshim",
             "args": [
                 "${workspaceFolder}/src/bin/Debug/net6.0/starter-app.dll"
             ],
@@ -23,12 +23,12 @@
                 "pipeCwd": "${workspaceFolder}/src",
                 "pipeProgram": "bash",
                 "pipeArgs": [
-                    "-c \" kubectl exec --stdin deploy/spacesdk-client -n payload-app -c spacesdk-client -- "
+                    "-c \" kubectl exec --stdin deploy/dotnet-starter-app -n payload-app -c dotnet-starter-app -- "
                 ],
                 "quoteArgs": false,
                 "debuggerPath": "${workspaceFolder}/.git/spacefx-dev/vsdbg/vsdbg"
             },
-            "postDebugTask": "reset-debugshim-client",
+            "postDebugTask": "reset-debugshim",
             "presentation": {
                 "hidden": false,
                 "group": "",
