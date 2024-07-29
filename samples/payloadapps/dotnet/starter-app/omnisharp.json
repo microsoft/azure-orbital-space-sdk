@@ -1,0 +1,18 @@
+{
+    "FormattingOptions": {
+        "EnableEditorConfigSupport": true
+    },
+    "RoslynExtensionsOptions": {
+        "documentAnalysisTimeoutMs": 30000,
+        "enableDecompilationSupport": true,
+        "enableImportCompletion": true,
+        "enableAnalyzersSupport": true,
+        "diagnosticWorkersThreadCount": 8
+    },
+    "files.trimTrailingWhitespace": true,
+    "FileOptions": {
+        "ExcludeSearchPatterns": [
+            "**/src_pluginTemplate/**/*"
+        ]
+    }
+}

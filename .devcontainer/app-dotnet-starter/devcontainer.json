@@ -5,9 +5,11 @@
 	"image": "mcr.microsoft.com/devcontainers/dotnet:1-8.0-bookworm",
 	"runArgs": [ "--name=dotnet-starter-app" ],
 	"workspaceFolder": "/workspace/dotnet-starter-app",
-	"workspaceMount": "source=${localWorkspaceFolder}/samples/payloadapps/dotnet/starter-app,target=/workspace/starter-app,type=bind,consistency=cached",
+	"workspaceMount": "source=${localWorkspaceFolder}/samples/payloadapps/dotnet/starter-app,target=/workspace/dotnet-starter-app,type=bind,consistency=cached",
     "features": {
-		"ghcr.io/microsoft/azure-orbital-space-sdk/spacefx-dev:0.11.0": {}
+		"ghcr.io/microsoft/azure-orbital-space-sdk/spacefx-dev:0.11.0": {
+			"app_name": "dotnet-starter-app"
+		}
 	},
 	"hostRequirements": {
 		"cpus": 8,
