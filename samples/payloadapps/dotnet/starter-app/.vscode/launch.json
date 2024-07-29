@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "DotNet - Debug App",
+            "name": "Debug Payload App",
             "type": "coreclr",
             "request": "launch",
             "program": "${workspaceFolder}/.git/spacefx-dev/dotnet/dotnet",

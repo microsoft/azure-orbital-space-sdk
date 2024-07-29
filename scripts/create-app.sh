@@ -40,6 +40,8 @@ while [[ "$#" -gt 0 ]]; do
         -n | --app-name)
             shift
             APP_NAME=$1
+            # Remove all non-alphanumeric characters
+            APP_NAME="${APP_NAME//[^a-zA-Z0-9]/}"
         ;;
         --overwrite)
             OVERWRITE=true
@@ -110,7 +112,7 @@ function scaffold_dotnet() {
     sed -i "s/dotnet-starter-app/$APP_NAME/g" "${OUTPUT_DIR:?}/${APP_NAME:?}/.devcontainer/devcontainer.json"
 
     echo "INFO: Updating .devcontainer/devcontainer.json workspace with new app name..."
-    sed -i "s:samples/payloadapps/dotnet/starter-app:${APP_NAME}:g" "${OUTPUT_DIR:?}/${APP_NAME:?}/.devcontainer/devcontainer.json"
+    sed -i "s:/samples/payloadapps/dotnet/starter-app::g" "${OUTPUT_DIR:?}/${APP_NAME:?}/.devcontainer/devcontainer.json"
 
     sed -i "s/starter-app/$APP_NAME/g" "${OUTPUT_DIR:?}/${APP_NAME:?}/.devcontainer/devcontainer.json"
 
@@ -122,11 +124,30 @@ function scaffold_dotnet() {
     echo "INFO: Updating project references with new app name ${APP_NAME:?}..."
     sed -i "s/starter-app/$APP_NAME/g" "${OUTPUT_DIR:?}/${APP_NAME:?}/${APP_NAME:?}.sln"
 
+    sed -i "s/dotnet-starter-app/$APP_NAME/g" "${OUTPUT_DIR:?}/${APP_NAME:?}/.vscode/launch.json"
     sed -i "s/starter-app/$APP_NAME/g" "${OUTPUT_DIR:?}/${APP_NAME:?}/.vscode/launch.json"
+
+    sed -i "s/dotnet-starter-app/$APP_NAME/g" "${OUTPUT_DIR:?}/${APP_NAME:?}/.vscode/tasks.json"
     sed -i "s/starter-app/$APP_NAME/g" "${OUTPUT_DIR:?}/${APP_NAME:?}/.vscode/tasks.json"
+
+    sed -i "s/dotnet-starter-app/$APP_NAME/g" "${OUTPUT_DIR:?}/${APP_NAME:?}/.vscode/settings.json"
     sed -i "s/starter-app/$APP_NAME/g" "${OUTPUT_DIR:?}/${APP_NAME:?}/.vscode/settings.json"
 
     sed -i "s/StarterApp/$APP_NAME/g" "${OUTPUT_DIR:?}/${APP_NAME:?}/src/Program.cs"
+
+    echo "INFO: Removing extra files and directories..."
+    [[ -d "${OUTPUT_DIR:?}/${APP_NAME:?}/src/bin" ]] && rm -rf "${OUTPUT_DIR:?}/${APP_NAME:?}/src/bin"
+    [[ -d "${OUTPUT_DIR:?}/${APP_NAME:?}/src/obj" ]] && rm -rf "${OUTPUT_DIR:?}/${APP_NAME:?}/src/obj"
+    [[ -L "${OUTPUT_DIR:?}/${APP_NAME:?}/spacedev_cache" ]] && rm "${OUTPUT_DIR:?}/${APP_NAME:?}/spacedev_cache"
+    [[ -f "${OUTPUT_DIR:?}/${APP_NAME:?}/LICENSE" ]] && rm "${OUTPUT_DIR:?}/${APP_NAME:?}/LICENSE"
+    [[ -f "${OUTPUT_DIR:?}/${APP_NAME:?}/CODE_OF_CONDUCT.md" ]] && rm "${OUTPUT_DIR:?}/${APP_NAME:?}/CODE_OF_CONDUCT.md"
+    [[ -f "${OUTPUT_DIR:?}/${APP_NAME:?}/SECURITY.md" ]] && rm "${OUTPUT_DIR:?}/${APP_NAME:?}/SECURITY.md"
+    [[ -f "${OUTPUT_DIR:?}/${APP_NAME:?}/SUPPORT.md" ]] && rm "${OUTPUT_DIR:?}/${APP_NAME:?}/SUPPORT.md"
+
+    echo "# ${APP_NAME}" > "${OUTPUT_DIR:?}/${APP_NAME:?}/README.md"
+    echo "TODO: Add documentation" >> "${OUTPUT_DIR:?}/${APP_NAME:?}/README.md"
+
+    echo "INFO: App created in ${OUTPUT_DIR:?}/${APP_NAME:?}"
 
 }
 
