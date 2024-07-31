@@ -2,20 +2,23 @@
 Processes the frame
 """
 import datetime
-import cv2
 import os
 import queue
 import threading
+import logging
 from pathlib import Path
+
+import cv2
+import spacefx
+
 from app_config import AppConfig
 from ship_detection import ShipDetection
 from object_detection import ObjectDetection
 
 IMAGE_QUEUE: queue.Queue = queue.Queue()
 
-import logging
-import spacefx
 logger = spacefx.logger(level=logging.INFO)
+
 
 class ImageProcessor:
     """
@@ -277,8 +280,6 @@ class ImageProcessor:
 
         # Return the image with the drawn hitbox and text
         return raw_image
-
-
 
     def parse_predictions(self, labels, predictions):
         """

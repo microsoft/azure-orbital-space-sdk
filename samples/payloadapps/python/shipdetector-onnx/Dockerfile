@@ -105,8 +105,8 @@ WORKDIR /workspace/app-python-shipdetector-onnx
 # Copy the installed application from the builder stage
 COPY --from=builder /workspace/app-python-shipdetector-onnx /workspace/app-python-shipdetector-onnx
 
-# Add python3 to the PATH
-ENV PATH=/usr/local/bin:$PATH
+# Set PATH to use the virtual environment
+ENV PATH="/workspace/app-python-shipdetector-onnx/.venv/bin:$PATH"
 
 # Run the application
-ENTRYPOINT ["/usr/local/bin/python3.10", "src/app/main.py"]
+ENTRYPOINT ["python", "src/app/main.py"]
