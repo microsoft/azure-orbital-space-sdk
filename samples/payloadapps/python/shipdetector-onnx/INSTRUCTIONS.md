@@ -27,8 +27,14 @@
 1. Open `shipdetector-onnx` in SSH
 1. Run `cp /usr/local/share/ca-certificates/ca.spacefx.local/ca.spacefx.local.crt .` to get the CA cert for the PyPI registry locally so that it can be built into the docker image.
 
+## Build the Application Files Image
+1. Run `docker build -t shipdetector:app  -f Dockerfile.app .`
+
 ## Build the Image
-1. Run `docker build --add-host registry.spacefx.local:127.0.0.1 --network=host -t shipdetector .`
+1. Run `docker build --add-host registry.spacefx.local:127.0.0.1 --network=host -t shipdetector:testing .`
 
 ## Run the app
-1. Run `docker run --rm -it shipdetector:latest`
+1. `sudo cp schedules/debug_image/sample-app-shipdetector-onnx.yaml /var/spacedev/xfer/platform-deployment/inbox/schedule/`
+1. `sudo cp schedules/debug_image/app-config.json /var/spacedev/xfer/platform-deployment/inbox/schedule/`
+1. `sudo cp model/* /var/spacedev/xfer/platform-deployment/inbox/schedule/`
+1. `sudo cp schedules/debug_image/sample-app-shipdetector-onnx.json /var/spacedev/xfer/platform-deployment/inbox/schedule/`

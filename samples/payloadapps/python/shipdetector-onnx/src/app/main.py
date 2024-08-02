@@ -4,6 +4,10 @@ import os
 import sys
 import time
 
+environment = os.environ
+for key, value in environment.items():
+    print(f"{key}: {value}")
+
 from app_config import AppConfig
 from image_processor import ImageProcessor
 
