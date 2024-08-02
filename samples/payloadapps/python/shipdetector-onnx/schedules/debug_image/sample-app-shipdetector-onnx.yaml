@@ -22,5 +22,5 @@ spec:
         env:
         - name: DOTNET_SYSTEM_GLOBALIZATION_INVARIANT
           value: "1"
-        command: ["python"]
+        command: ["/workspace/app-python-shipdetector-onnx/.venv/bin/python"]
         args: ["/workspace/app-python-shipdetector-onnx/src/app/main.py"]
