@@ -90,60 +90,54 @@ and individual chips:
 
 ## Running the sample in a Production Cluster (via Deployment Service)
 
-Prerequisites:
-
-* You'll need to have a destination container registry already configured through env-config to push the newly built image to
-* [Devcontainer CLI](https://code.visualstudio.com/docs/devcontainers/devcontainer-cli) installed (for building the debug image)
-* [SDK Setup Outside of DevContainer](https://github.com/microsoft/Azure-Orbital-Space-SDK-QuickStarts/blob/main/docs/walkthroughs/setup-sdk-no-devcontainer.md) Steps 1-3.  Stage_SpaceFX.sh and Deploy_SpaceFx.sh are not needed
-  * Assumes spacedev directory is `/var/spacedev`
-* This repo cloned as the current working directory
-
-### Build Debug Image
-
-Build and push the debug image:
-
-```bash
-/var/spacedev/build/build_containerImage.sh \
-    --dockerfile /var/spacedev/build/python/Dockerfile.python.app.debug \
-    --app-name app-python-shipdetector-onnx \
-    --image-tag 0.10.0-debug \
-    --architecture amd64 \
-    --repo-dir ${PWD} \
-    --extract_env_config false \
-    --build-arg APP_DIRECTORY=/workspaces/app-python-shipdetector-onnx
-```
-
-This will deploy k3s in the development configuration to build the app.  Once complete, reset the host with `big_red_button.sh`
-
-```bash
-/var/spacedev/scripts/big_red_button.sh
-```
-
-### Deploy Cluster with Data Generator and VTH
-
 Deploying this sample in a production cluster requires a couple extra artifacts since VTH and Planetary Computer are not normally deployed; Production is intended for satellite / on-obrit compute, where-as VTH and Planetary Computer require internet connectivity.  The below steps explictly deploy the components that are not normally deployed to satellite / on-orbit compute to run the sample app.
 
->NOTE: Prior to running the below commands, make sure your /var/spacedev has been provisioned following [SDK Setup Outside of DevContainer](https://github.com/microsoft/Azure-Orbital-Space-SDK-QuickStarts/blob/main/docs/walkthroughs/setup-sdk-no-devcontainer.md) (Steps 1-3.  Do not run `stage_spacfx.sh` nor `deploy_spacefx.sh` until instructed below.
+1. Clone the Microsoft Azure Space SDK Setup repo
+
+   ```bash
+    git clone https://github.com/microsoft/azure-orbital-space-sdk-setup
+    cd azure-orbital-space-sdk-setup
+    bash ./.vscode/copy_to_spacedev.sh
+    cd -
+   ```
 
 1. Deploy the cluster with extra artifacts used by the sample app
 
     ```bash
-    # Stage the cluster with planetary-computer-geotiff datagenerator, the app-python-shipdetector-onnx, and the applicable artifacts for them to communicate
-    /var/spacedev/scripts/stage/stage_spacefx.sh --vth \
-                --container tool-planetary-computer-geotiff:0.10.0 \
-                --container app-python-shipdetector-onnx:0.10.0-debug --vth \
-                --build-artifact PlanetaryComputerGeotiff.proto \
-                --build-artifact MtsPluginVTH.dll \
-                --build-artifact MtsPluginVTH.json.spacefx_plugin \
-                --build-artifact PlanetaryComputerGeotiffPluginVth.dll \
-                --build-artifact PlanetaryComputerGeotiffPluginVth.json.spacefx_plugin
+    # Stage the cluster with planetary-computer datagenerator, and the plugin artifacts for them to communicate
+    /var/spacedev/scripts/stage_spacefx.sh --vth \
+                --container datagenerator-planetary-computer:0.11.0-nightly \
+                --artifact PlanetaryComputer.proto \
+                --artifact datagenerator-planetary-computer.yaml \
+                --artifact planetary-computer-vth-plugin.dll \
+                --artifact planetary-computer-vth-plugin.json.spacefx_plugin
 
     # Deploy the cluster as normal
     /var/spacedev/scripts/deploy/deploy_spacefx.sh
-
-    # Deploy the planetary_computer datagenerator, skipping the staging step since it's already been staged above
-    /var/spacedev/samples/datagenerator/deploy_data_generator.sh --planetary_computer --nostage
     ```
+
+1. Build the Container Image (~850MB)
+
+    ```bash
+    /var/spacedev/build/build_containerImage.sh \
+        --dockerfile ${PWD}/samples/payloadapps/python/shipdetector-onnx/docker/Dockerfile.prod \
+        --app-name app-python-shipdetector-onnx \
+        --image-tag 0.11.0 \
+        --architecture amd64 \
+        --repo-dir ${PWD}/samples/payloadapps/python/shipdetector-onnx \
+        --build-arg APP_DIRECTORY=/workspace/app-python-shipdetector-onnx \
+        --devcontainer-json .devcontainer/app-python-shipdetector-onnx/devcontainer.json \
+        --annotation-config azure-orbital-space-sdk.yaml \
+        --no-push
+    ```
+
+1. Tag the new image and push to the Microsoft Azure Orbital Space SDK Cluster
+
+    ```bash
+    docker tag app-python-shipdetector-onnx:0.11.0-nightly registry.spacefx.local:5000/app-python-shipdetector-onnx:0.11.0-nightly
+    docker push registry.spacefx.local:5000/app-python-shipdetector-onnx:0.11.0-nightly
+    ```
+
 
 1. Deploy the Payload App by copying the schedule file, deployment yaml, and artifacts to Platform Deployment's inbox/schedule directory
 
@@ -152,7 +146,7 @@ Deploying this sample in a production cluster requires a couple extra artifacts 
     sudo cp ${PWD}/model/* /var/spacedev/xfer/platform-deployment/inbox/schedule/
 
     # Copy the schedule file and deployment yaml to trigger the deployment
-    sudo cp ${PWD}/schedules/debug_image/* /var/spacedev/xfer/platform-deployment/inbox/schedule/
+    sudo cp ${PWD}/schedules/prod/* /var/spacedev/xfer/platform-deployment/inbox/schedule/
     ```
 
 1. Start monitoring the payload app's `xfer` directory
