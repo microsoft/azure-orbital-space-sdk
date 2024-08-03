@@ -32,7 +32,7 @@ COPY --chown=spaceuser:spaceuser . .
 RUN poetry config virtualenvs.create false && poetry install --no-dev
 
 # Switch to the non-root user
-USER spaceuser
+# USER spaceuser
 
 # Run the application
 CMD ["python", "src/app/main.py"]
