@@ -42,7 +42,7 @@ def process_sensor_data(sensor_data):
     sensor_payload.ParseFromString(sensor_data.data.value)
     logger.info("EarthImageResponse Sensor Data: %s", sensor_payload)
 
-    geotiff_img = spacefx.link.get_xfer_directories()["inbox"]
+    geotiff_img = str(spacefx.link.get_xfer_directories()["inbox"])
 
     geotiff_img = f"{geotiff_img}/{sensor_payload.imageFiles[0].fileName}"
     logger.info(f"TrackingID: {sensor_data.responseHeader.trackingId}")
