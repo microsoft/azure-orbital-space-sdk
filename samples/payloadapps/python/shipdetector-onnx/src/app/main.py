@@ -42,7 +42,7 @@ def process_sensor_data(sensor_data):
     sensor_payload.ParseFromString(sensor_data.data.value)
     logger.info("EarthImageResponse Sensor Data: %s", sensor_payload)
 
-    geotiff_img = spacefx.link.get_xfer_directories()["inbox"]
+    geotiff_img = str(spacefx.link.get_xfer_directories()["inbox"])
 
     geotiff_img = f"{geotiff_img}/{sensor_payload.imageFiles[0].fileName}"
     logger.info(f"TrackingID: {sensor_data.responseHeader.trackingId}")
@@ -53,11 +53,12 @@ def process_sensor_data(sensor_data):
     geotiff_img_linkresponse = f"{geotiff_img}.linkResponse"
 
     logger.info(f"Waiting for {geotiff_img_linkresponse}...")
-    file_available_timeout = time.time() + 120  # seconds
+    file_available_timeout = time.time() + 300  # seconds
     while (not os.path.isfile(geotiff_img_linkresponse)) and (time.time() < file_available_timeout):
         time.sleep(1)
 
     if not os.path.isfile(geotiff_img):
+        logger.error(f"Failed to receive {geotiff_img_linkresponse}")
         raise TimeoutError(f"Failed to receive {geotiff_img}")
 
 
