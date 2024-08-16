@@ -31,7 +31,6 @@
                 "bierner.markdown-mermaid"
             ]
 		},
-        // Grant permissions to the Azure Orbital Space SDK repositories and their packages
 		"codespaces": {
 			"repositories": {
 				"microsoft/azure-orbital-space-sdk": {
