@@ -5,7 +5,7 @@
 	"image": "mcr.microsoft.com/devcontainers/dotnet:1-8.0-bookworm",
 	"runArgs": [ "--name=python-starter-app" ],
 	"workspaceFolder": "/workspace/python-starter-app",
-	"workspaceMount": "source=${localWorkspaceFolder}/samples/payloadapps/python/starter-app,target=/workspace/starter-app,type=bind,consistency=cached",
+	"workspaceMount": "source=${localWorkspaceFolder}/samples/payloadapps/python/starter-app,target=/workspace/python-starter-app,type=bind,consistency=cached",
     "features": {
 		"ghcr.io/microsoft/azure-orbital-space-sdk/spacefx-dev:0.11.0": {
 			"app_name": "python-starter-app",
