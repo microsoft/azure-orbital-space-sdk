@@ -28,7 +28,8 @@
                 "zxh404.vscode-proto3",
                 "mutantdino.resourcemonitor",
                 "josefpihrt-vscode.roslynator",
-                "bierner.markdown-mermaid"
+                "bierner.markdown-mermaid",
+				"ms-python.python"
             ]
 		},
         // Grant permissions to the Azure Orbital Space SDK repositories and their packages
