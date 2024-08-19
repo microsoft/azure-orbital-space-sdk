@@ -2,7 +2,7 @@
 // README at: https://github.com/devcontainers/templates/tree/main/src/dotnet
 {
 	"name": "app-python-starter",
-	"image": "mcr.microsoft.com/devcontainers/dotnet:1-8.0-bookworm",
+	"image": "mcr.microsoft.com/devcontainers/python:1-3.10-bullseye",
 	"runArgs": [ "--name=python-starter-app" ],
 	"workspaceFolder": "/workspace/python-starter-app",
 	"workspaceMount": "source=${localWorkspaceFolder}/samples/payloadapps/python/starter-app,target=/workspace/python-starter-app,type=bind,consistency=cached",
