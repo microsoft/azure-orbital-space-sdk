@@ -128,5 +128,4 @@
 		}
 	},
 	"remoteUser": "root",
-	"postStartCommand": "mkdir -p /workspace/app-python-shipdetector-onnx/.protos/datagenerator/planetary_computer && cp /var/spacedev/protos/datagenerator/planetary-computer/PlanetaryComputer.proto /workspace/app-python-shipdetector-onnx/.protos/datagenerator/planetary_computer/PlanetaryComputer.proto"
 }
