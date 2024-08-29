@@ -31,6 +31,6 @@
         "NameSpace": "payload-app",
         "MaxDuration": "900s",
         "DeployAction": "Apply",
-        "YamlFileContents": "app-python-shipdetector-onnx.yaml"
+        "YamlFileContents": "sample-app-shipdetector-onnx.yaml"
     }
 ]

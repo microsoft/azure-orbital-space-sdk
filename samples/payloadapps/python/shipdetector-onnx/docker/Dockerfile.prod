@@ -15,11 +15,10 @@ RUN pip install --no-cache-dir poetry
 # Install .NET 6 SDK
 RUN apt-get update \
     && apt-get install -y wget apt-transport-https \
-    && wget https://packages.microsoft.com/config/debian/11/packages-microsoft-prod.deb -O packages-microsoft-prod.deb \
-    && dpkg -i packages-microsoft-prod.deb \
-    && apt-get update \
-    && apt-get install -y aspnetcore-runtime-6.0 \
-    && rm packages-microsoft-prod.deb
+    && wget https://dot.net/v1/dotnet-install.sh -O dotnet-install.sh \
+    && chmod +x dotnet-install.sh \
+    && ./dotnet-install.sh --channel 6.0 --runtime aspnetcore --install-dir /usr/share/dotnet \
+    && rm dotnet-install.sh
 
 # Create a non-root user and group
 RUN groupadd --gid 1000 spaceuser \
