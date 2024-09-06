@@ -7,7 +7,7 @@
 	"workspaceFolder": "/workspace/app-python-shipdetector-onnx",
 	"workspaceMount": "source=${localWorkspaceFolder}/samples/payloadapps/python/shipdetector-onnx,target=/workspace/app-python-shipdetector-onnx,type=bind,consistency=cached",
     "features": {
-		"ghcr.io/microsoft/azure-orbital-space-sdk/spacefx-dev:0.11.0": {
+		"ghcr.io/microsoft/azure-orbital-space-sdk/spacefx-dev:0.11.0-nightly": {
 			"app_name": "app-python-shipdetector-onnx",
 			"dev_language": "python",
 			"extra_packages": "libgdal-dev, libgl1",
