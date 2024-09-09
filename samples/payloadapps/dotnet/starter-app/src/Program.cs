@@ -106,7 +106,7 @@ namespace StarterApp {
 
         #region LinkService
         public static void SendFileToApp() {
-            Task<LinkResponse> requestTask = Link.SendFileToApp(destinationAppId: "some-app", file: "/workspaces/sdk-dotnet/test/sampleData/astronaut.jpg", overwriteDestinationFile: true);
+            Task<LinkResponse> requestTask = Link.SendFileToApp(destinationAppId: "some-app", file: "/workspace/dotnet-starter-app/sampleData/astronaut.jpg", overwriteDestinationFile: true);
             requestTask.Wait();
 
             LinkResponse response = requestTask.Result;
