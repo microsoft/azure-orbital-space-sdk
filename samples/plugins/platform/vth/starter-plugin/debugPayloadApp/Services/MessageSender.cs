@@ -10,7 +10,7 @@ public class MessageSender : BackgroundService {
     private readonly string _appId;
     private readonly string _hostSvcAppId;
     private readonly List<string> _appsOnline = new();
-    private readonly TimeSpan MAX_TIMESPAN_TO_WAIT_FOR_MSG = TimeSpan.FromSeconds(10);
+    private readonly TimeSpan MAX_TIMESPAN_TO_WAIT_FOR_MSG = TimeSpan.FromSeconds(30);
     private readonly string _testFile = "/workspace/vth-plugin-starter/sampleData/astronaut.jpg";
 
     public MessageSender(ILogger<MessageSender> logger, IServiceProvider serviceProvider) {
@@ -22,7 +22,7 @@ public class MessageSender : BackgroundService {
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken) {
-        DateTime maxTimeToWait = DateTime.Now.Add(TimeSpan.FromSeconds(10));
+        DateTime maxTimeToWait = DateTime.Now.Add(TimeSpan.FromSeconds(30));
 
         using (var scope = _serviceProvider.CreateScope()) {
             _logger.LogInformation("MessageSender running at: {time}", DateTimeOffset.Now);
@@ -72,7 +72,7 @@ public class MessageSender : BackgroundService {
     }
 
     private async Task SendPluginHealthCheck() {
-        DateTime maxTimeToWait = DateTime.Now.Add(TimeSpan.FromSeconds(10));
+        DateTime maxTimeToWait = DateTime.Now.Add(TimeSpan.FromSeconds(30));
         PluginHealthCheckMultiResponse? response = null;
         PluginHealthCheckRequest request = new() {
             RequestHeader = new() {
@@ -111,7 +111,7 @@ public class MessageSender : BackgroundService {
     }
 
     private async Task UpdatePosition() {
-        DateTime maxTimeToWait = DateTime.Now.Add(TimeSpan.FromSeconds(10));
+        DateTime maxTimeToWait = DateTime.Now.Add(TimeSpan.FromSeconds(30));
         PositionUpdateResponse? response = null;
         PositionUpdateRequest request = new() {
             RequestHeader = new() {
@@ -144,7 +144,7 @@ public class MessageSender : BackgroundService {
 
         MessageHandler<PositionUpdateResponse>.MessageReceivedEvent += ResponseEventHandler;
 
-        await _client.DirectToApp(appId: _hostSvcAppId, message: request);
+        await _client.DirectToApp(appId: "hostsvc-position", message: request);
 
         _logger.LogInformation($"Waiting for response (TrackingId: '{request.RequestHeader.TrackingId}')");
 
@@ -152,14 +152,14 @@ public class MessageSender : BackgroundService {
             Thread.Sleep(100);
         }
 
-        if (response == null) throw new TimeoutException($"Failed to hear {nameof(response)} after {MAX_TIMESPAN_TO_WAIT_FOR_MSG}.  Please check that {_hostSvcAppId} is deployed");
+        if (response == null) throw new TimeoutException($"Failed to hear {nameof(response)} after {MAX_TIMESPAN_TO_WAIT_FOR_MSG}.  Please check that hostsvc-position is deployed");
 
         _logger.LogInformation($"'{request.GetType().Name}' request received.  Status: '{response.ResponseHeader.Status}' (TrackingId: '{request.RequestHeader.TrackingId}')");
 
     }
 
     private async Task GetCurrentPosition() {
-        DateTime maxTimeToWait = DateTime.Now.Add(TimeSpan.FromSeconds(10));
+        DateTime maxTimeToWait = DateTime.Now.Add(TimeSpan.FromSeconds(30));
         PositionResponse? response = null;
         PositionRequest request = new() {
             RequestHeader = new() {
@@ -178,7 +178,7 @@ public class MessageSender : BackgroundService {
 
         MessageHandler<PositionResponse>.MessageReceivedEvent += ResponseEventHandler;
 
-        await _client.DirectToApp(appId: _hostSvcAppId, message: request);
+        await _client.DirectToApp(appId: "hostsvc-position", message: request);
 
         _logger.LogInformation($"Waiting for response (TrackingId: '{request.RequestHeader.TrackingId}')");
 
@@ -186,7 +186,7 @@ public class MessageSender : BackgroundService {
             Thread.Sleep(100);
         }
 
-        if (response == null) throw new TimeoutException($"Failed to hear {nameof(response)} after {MAX_TIMESPAN_TO_WAIT_FOR_MSG}.  Please check that {_hostSvcAppId} is deployed");
+        if (response == null) throw new TimeoutException($"Failed to hear {nameof(response)} after {MAX_TIMESPAN_TO_WAIT_FOR_MSG}.  Please check that hostsvc-position is deployed");
 
         _logger.LogInformation($"'{request.GetType().Name}' request received.  Status: '{response.ResponseHeader.Status}' (TrackingId: '{request.RequestHeader.TrackingId}')");
 
@@ -206,11 +206,11 @@ public class MessageSender : BackgroundService {
             DestinationAppId = "contoso-app-id"
         };
 
-        await _client.DirectToApp(appId: _hostSvcAppId, message: request);
+        await _client.DirectToApp(appId: "hostsvc-link", message: request);
     }
 
     private async Task SendTelemetryMetric() {
-        DateTime maxTimeToWait = DateTime.Now.Add(TimeSpan.FromSeconds(10));
+        DateTime maxTimeToWait = DateTime.Now.Add(TimeSpan.FromSeconds(30));
         TelemetryMetricResponse? response = null;
 
         TelemetryMetric request = new() {
@@ -233,7 +233,7 @@ public class MessageSender : BackgroundService {
 
         MessageHandler<TelemetryMetricResponse>.MessageReceivedEvent += TelemetryMetricResponseEventHandler;
 
-        await _client.DirectToApp(appId: _hostSvcAppId, message: request);
+        await _client.DirectToApp(appId: "hostsvc-logging", message: request);
 
         _logger.LogInformation($"Waiting for response message type (TrackingId: '{request.RequestHeader.TrackingId}')");
 
@@ -241,13 +241,13 @@ public class MessageSender : BackgroundService {
             Thread.Sleep(100);
         }
 
-        if (response == null) throw new TimeoutException($"Failed to hear {nameof(response)} after {MAX_TIMESPAN_TO_WAIT_FOR_MSG}.  Please check that {_hostSvcAppId} is deployed");
+        if (response == null) throw new TimeoutException($"Failed to hear {nameof(response)} after {MAX_TIMESPAN_TO_WAIT_FOR_MSG}.  Please check that hostsvc-logging is deployed");
 
         _logger.LogInformation($"'{request.GetType().Name}'received.  Status: '{response.ResponseHeader.Status}' (TrackingId: '{request.RequestHeader.TrackingId}')");
     }
 
     private async Task SendLogMessage() {
-        DateTime maxTimeToWait = DateTime.Now.Add(TimeSpan.FromSeconds(10));
+        DateTime maxTimeToWait = DateTime.Now.Add(TimeSpan.FromSeconds(30));
         LogMessageResponse? response = null;
 
         LogMessage request = new() {
@@ -271,7 +271,7 @@ public class MessageSender : BackgroundService {
 
         MessageHandler<LogMessageResponse>.MessageReceivedEvent += LogMessageResponseEventHandler;
 
-        await _client.DirectToApp(appId: _hostSvcAppId, message: request);
+        await _client.DirectToApp(appId: "hostsvc-logging", message: request);
 
         _logger.LogInformation($"Waiting for response message type (TrackingId: '{request.RequestHeader.TrackingId}')");
 
@@ -279,7 +279,7 @@ public class MessageSender : BackgroundService {
             Thread.Sleep(100);
         }
 
-        if (response == null) throw new TimeoutException($"Failed to hear {nameof(response)} after {MAX_TIMESPAN_TO_WAIT_FOR_MSG}.  Please check that {_hostSvcAppId} is deployed");
+        if (response == null) throw new TimeoutException($"Failed to hear {nameof(response)} after {MAX_TIMESPAN_TO_WAIT_FOR_MSG}.  Please check that hostsvc-logging is deployed");
 
         _logger.LogInformation($"'{request.GetType().Name}'received.  Status: '{response.ResponseHeader.Status}' (TrackingId: '{request.RequestHeader.TrackingId}')");
     }
@@ -301,7 +301,7 @@ public class MessageSender : BackgroundService {
     }
 
     private async Task SendSensorsAvailableRequest() {
-        DateTime maxTimeToWait = DateTime.Now.Add(TimeSpan.FromSeconds(10));
+        DateTime maxTimeToWait = DateTime.Now.Add(TimeSpan.FromSeconds(30));
         SensorsAvailableResponse? response = null;
         SensorsAvailableRequest request = new() {
             RequestHeader = new() {
@@ -321,7 +321,7 @@ public class MessageSender : BackgroundService {
 
         MessageHandler<SensorsAvailableResponse>.MessageReceivedEvent += ResponseEventHandler;
 
-        await _client.DirectToApp(appId: _hostSvcAppId, message: request);
+        await _client.DirectToApp(appId: "hostsvc-sensor", message: request);
 
         _logger.LogInformation($"Waiting for response (TrackingId: '{request.RequestHeader.TrackingId}')");
 
@@ -329,14 +329,14 @@ public class MessageSender : BackgroundService {
             Thread.Sleep(100);
         }
 
-        if (response == null) throw new TimeoutException($"Failed to hear {nameof(response)} after {MAX_TIMESPAN_TO_WAIT_FOR_MSG}.  Please check that {_hostSvcAppId} is deployed");
+        if (response == null) throw new TimeoutException($"Failed to hear {nameof(response)} after {MAX_TIMESPAN_TO_WAIT_FOR_MSG}.  Please check that hostsvc-sensor is deployed");
 
         _logger.LogInformation($"'{request.GetType().Name}' request received.  Status: '{response.ResponseHeader.Status}' (TrackingId: '{request.RequestHeader.TrackingId}')");
 
     }
 
     private async Task SendTaskingPreCheckRequest() {
-        DateTime maxTimeToWait = DateTime.Now.Add(TimeSpan.FromSeconds(10));
+        DateTime maxTimeToWait = DateTime.Now.Add(TimeSpan.FromSeconds(30));
         TaskingPreCheckResponse? response = null;
         TaskingPreCheckRequest request = new() {
             RequestHeader = new() {
@@ -356,7 +356,7 @@ public class MessageSender : BackgroundService {
 
         MessageHandler<TaskingPreCheckResponse>.MessageReceivedEvent += ResponseEventHandler;
 
-        await _client.DirectToApp(appId: _hostSvcAppId, message: request);
+        await _client.DirectToApp(appId: "hostsvc-sensor", message: request);
 
         _logger.LogInformation($"Waiting for response (TrackingId: '{request.RequestHeader.TrackingId}')");
 
@@ -364,14 +364,14 @@ public class MessageSender : BackgroundService {
             Thread.Sleep(100);
         }
 
-        if (response == null) throw new TimeoutException($"Failed to hear {nameof(response)} after {MAX_TIMESPAN_TO_WAIT_FOR_MSG}.  Please check that {_hostSvcAppId} is deployed");
+        if (response == null) throw new TimeoutException($"Failed to hear {nameof(response)} after {MAX_TIMESPAN_TO_WAIT_FOR_MSG}.  Please check that hostsvc-sensor is deployed");
 
         _logger.LogInformation($"'{request.GetType().Name}' request received.  Status: '{response.ResponseHeader.Status}' (TrackingId: '{request.RequestHeader.TrackingId}')");
 
     }
 
     private async Task SendTaskingRequest() {
-        DateTime maxTimeToWait = DateTime.Now.Add(TimeSpan.FromSeconds(10));
+        DateTime maxTimeToWait = DateTime.Now.Add(TimeSpan.FromSeconds(30));
         TaskingResponse? response = null;
         TaskingRequest request = new() {
             RequestHeader = new() {
@@ -391,7 +391,7 @@ public class MessageSender : BackgroundService {
 
         MessageHandler<TaskingResponse>.MessageReceivedEvent += ResponseEventHandler;
 
-        await _client.DirectToApp(appId: _hostSvcAppId, message: request);
+        await _client.DirectToApp(appId: "hostsvc-sensor", message: request);
 
         _logger.LogInformation($"Waiting for response (TrackingId: '{request.RequestHeader.TrackingId}')");
 
@@ -399,7 +399,7 @@ public class MessageSender : BackgroundService {
             Thread.Sleep(100);
         }
 
-        if (response == null) throw new TimeoutException($"Failed to hear {nameof(response)} after {MAX_TIMESPAN_TO_WAIT_FOR_MSG}.  Please check that {_hostSvcAppId} is deployed");
+        if (response == null) throw new TimeoutException($"Failed to hear {nameof(response)} after {MAX_TIMESPAN_TO_WAIT_FOR_MSG}.  Please check that hostsvc-sensor is deployed");
 
         _logger.LogInformation($"'{request.GetType().Name}' request received.  Status: '{response.ResponseHeader.Status}' (TrackingId: '{request.RequestHeader.TrackingId}')");
 
