@@ -9,7 +9,7 @@
 	"workspaceFolder": "/workspace/vth-plugin-starter",
 	"workspaceMount": "source=${localWorkspaceFolder}/samples/plugins/platform/vth/starter-plugin,target=/workspace/vth-plugin-starter,type=bind,consistency=cached",
 	"features": {
-		"ghcr.io/microsoft/azure-orbital-space-sdk/spacefx-dev:0.11.0": {
+		"ghcr.io/microsoft/azure-orbital-space-sdk/spacefx-dev:0.11.0-nightly": {
 			"app_name": "vth-plugin-starter",
 			"app_type": "vth-plugin",
 			"addl_debug_shim_suffixes": "client"

@@ -7,7 +7,7 @@
 	"workspaceFolder": "/workspace/hostsvc-logging-plugin-starter",
 	"workspaceMount": "source=${localWorkspaceFolder}/samples/plugins/hostsvc/hostsvc-logging/starter-plugin,target=/workspace/hostsvc-logging-plugin-starter,type=bind,consistency=cached",
     "features": {
-		"ghcr.io/microsoft/azure-orbital-space-sdk/spacefx-dev:0.11.0": {
+		"ghcr.io/microsoft/azure-orbital-space-sdk/spacefx-dev:0.11.0-nightly": {
 			"app_name": "hostsvc-logging-plugin-starter",
 			"app_type": "hostsvc-logging-plugin",
 			"addl_debug_shim_suffixes": "client"

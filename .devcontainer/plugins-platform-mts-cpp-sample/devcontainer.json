@@ -12,7 +12,7 @@
 	"workspaceFolder": "/workspace/platform-mts-cpp-sample-plugin",
 	"workspaceMount": "source=${localWorkspaceFolder}/samples/plugins/platform/platform-mts/cpp-sample-plugin,target=/workspace/platform-mts-cpp-sample-plugin,type=bind,consistency=cached",
 	"features": {
-		"ghcr.io/microsoft/azure-orbital-space-sdk/spacefx-dev:0.11.0": {
+		"ghcr.io/microsoft/azure-orbital-space-sdk/spacefx-dev:0.11.0-nightly": {
 			"app_name": "platform-mts-cpp-sample-plugin",
 			"app_type": "platform-mts-plugin",
 			"addl_debug_shim_suffixes": "client"

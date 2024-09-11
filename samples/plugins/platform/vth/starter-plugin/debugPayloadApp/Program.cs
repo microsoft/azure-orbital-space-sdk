@@ -20,10 +20,12 @@ public class Program {
             services.AddSingleton<Core.IMessageHandler<TaskingPreCheckResponse>, MessageHandler<TaskingPreCheckResponse>>();
             services.AddSingleton<Core.IMessageHandler<SensorsAvailableResponse>, MessageHandler<SensorsAvailableResponse>>();
             services.AddSingleton<Core.IMessageHandler<TaskingResponse>, MessageHandler<TaskingResponse>>();
-            services.AddSingleton<Core.IMessageHandler<TaskingResponse>, MessageHandler<TaskingResponse>>();
+            services.AddSingleton<Core.IMessageHandler<TelemetryMetricResponse>, MessageHandler<TelemetryMetricResponse>>();
+            services.AddSingleton<Core.IMessageHandler<TelemetryMultiMetricResponse>, MessageHandler<TelemetryMultiMetricResponse>>();
             services.AddSingleton<Core.IMessageHandler<LinkResponse>, MessageHandler<LinkResponse>>();
             services.AddSingleton<Core.IMessageHandler<PositionResponse>, MessageHandler<PositionResponse>>();
             services.AddSingleton<Core.IMessageHandler<PositionUpdateResponse>, MessageHandler<PositionUpdateResponse>>();
+            services.AddSingleton<Core.IMessageHandler<LogMessageResponse>, MessageHandler<LogMessageResponse>>();
 
         }).ConfigureLogging((logging) => {
             // Enable the Azure Orbital Space SDK Logging to route messages to the hostsvc-logging

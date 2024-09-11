@@ -7,7 +7,7 @@
 	"workspaceFolder": "/workspace/python-starter-app",
 	"workspaceMount": "source=${localWorkspaceFolder}/samples/payloadapps/python/starter-app,target=/workspace/starter-app,type=bind,consistency=cached",
     "features": {
-		"ghcr.io/microsoft/azure-orbital-space-sdk/spacefx-dev:0.11.0": {}
+		"ghcr.io/microsoft/azure-orbital-space-sdk/spacefx-dev:0.11.0-nightly": {}
 	},
 	"hostRequirements": {
 		"cpus": 8,

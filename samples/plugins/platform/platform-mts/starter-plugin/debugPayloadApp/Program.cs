@@ -1,6 +1,3 @@
-using Microsoft.Azure.SpaceFx.MessageFormats.Common;
-using Microsoft.Azure.SpaceFx.MessageFormats.HostServices.Sensor;
-
 namespace DebugClient;
 
 public class Program {
