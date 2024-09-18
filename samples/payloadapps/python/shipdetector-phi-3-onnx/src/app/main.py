@@ -73,7 +73,6 @@ def main():
 
     app_config = AppConfig()
     image_processor = ImageProcessor()
-    # phi3_vision = Phi3Vision()
 
     for key, value in vars(app_config).items():
         logger.info(f"AppConfig {key} : {value}")

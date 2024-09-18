@@ -29,7 +29,7 @@ class Phi3VisionRunner:
         print ("success")
 
 
-    def process_image(sef, input_image_path)
+    def process_image(self, input_image_path):
         """
         Monitors the image queue, processes each image, and saves the results.
         """
@@ -55,6 +55,8 @@ class Phi3VisionRunner:
         # Load Image
         logger.info(f"Loading image: {image_path}")
         image_paths = [image_path]
+        if not os.path.exists(image_path):
+            raise FileNotFoundError(f"Image {image_path} not found")
         images = og.Images.open(*image_paths)
 
         image_entry = self.image_prompt(1)
@@ -68,11 +70,12 @@ class Phi3VisionRunner:
 
         for prompt in self.app_config.PROMPTS:
 
-            current_prompt += "\n" + prompt "\n" + self.prompt_suffix
+            current_prompt += "\n" + prompt + self.prompt_suffix
 
-            logger.info(f"Prompting image {image_path} with prompt: {current_prompt}")
+            logger.info(f"Prompting image {image_path} with prompt:\n{current_prompt}")
 
-            inputs = processor(prompt, images=images)
+            # input prompt and images
+            inputs = processor(current_prompt, images=images)
 
             logger.info("Generating response...")
             params = og.GeneratorParams(model)
