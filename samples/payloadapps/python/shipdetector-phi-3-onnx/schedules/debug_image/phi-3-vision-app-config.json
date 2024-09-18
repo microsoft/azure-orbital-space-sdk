@@ -2,6 +2,7 @@
     "MODEL_FOLDER":"cpu-int4-rtn-block-32-acc-level-4",
     "INBOX_FOLDER": "/var/spacedev/xfer/app-python-shipdetector-phi-3-onnx/inbox",
     "OUTBOX_FOLDER": "/var/spacedev/xfer/app-python-shipdetector-phi-3-onnx/outbox",
+    "NUM_OF_WORKERS": 1,
     "PROMPTS": [
         "Describe in objective detail the terrain, features, and objects present within the image.",
         "Are there any ships present in the image?",

@@ -7,9 +7,6 @@ import time
 from app_config import AppConfig
 from image_processor import ImageProcessor
 
-import rasterio
-
-
 import spacefx
 from spacefx.protos.common.Common_pb2 import StatusCodes
 from spacefx.protos.sensor.Sensor_pb2 import SensorData
@@ -76,6 +73,7 @@ def main():
 
     app_config = AppConfig()
     image_processor = ImageProcessor()
+    # phi3_vision = Phi3Vision()
 
     for key, value in vars(app_config).items():
         logger.info(f"AppConfig {key} : {value}")

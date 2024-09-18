@@ -16,23 +16,27 @@ import logging
 import spacefx
 logger = spacefx.logger(level=logging.INFO)
 
-class SLMPrompting:
+class Phi3Vision:
     """
     Runs Inference on a visual image using ONNX
     """
 
     def __init__(self):
+        print("Starting Phi3 Vision..", end=" ")
         self.app_config = Phi3_AppConfig()
         self.prompt_header = "<|user|>"
         self.prompt_suffix = "<|end|>\n<|assistant|>\n"
 
 
-        for _ in range(0, self.app_config.NUM_OF_WORKERS):
-            image_processor = threading.Thread(target=self.monitor_queue)
-            image_processor.daemon = True
-            image_processor.start()
+        for i in range(0, self.app_config.NUM_OF_WORKERS):
+            try:
+                phi3_processor = threading.Thread(target=self.monitor_queue)
+                phi3_processor.daemon = True
+                phi3_processor.start()
+            except Exception as e:
+                logger.error(f"Failed to start thread {i+1}: {e}", exc_info=True)
 
-        logger.info("success")
+        print ("success")
 
     @staticmethod
     def add_image_to_queue(imagefile:str):
@@ -42,13 +46,13 @@ class SLMPrompting:
         PHI3_IMAGE_QUEUE.put(imagefile)
 
 
-     def monitor_queue(self):
+    def monitor_queue(self):
         """
         Monitors the image queue, processes each image, and saves the results.
         """
         # Initialize the Phi-3 Vision Model
-       
-        model = og.Model(self.app_config.MODEL_FOLDER)
+        logger.info("Phi3 Vision Model Loading...")
+        model = og.Model(str(Path(self.app_config.INBOX_FOLDER, self.app_config.MODEL_FOLDER)))
         processor =self.model.create_multimodal_processor()
         tokenizer_stream = self.processor.create_stream()
 
@@ -59,12 +63,13 @@ class SLMPrompting:
             input_image_path = Path(PHI3_IMAGE_QUEUE.get())
             logger.info(f"Processing {input_image_path}")
 
-            self.single_image_process(model, input_image_path)
+            prompt_response = self.single_image_process(input_image_path, model, processor, tokenizer_stream)
+            print(prompt_response)
 
             logger.info(f"Finished processing {input_image_path}")
     
 
-     def single_image_process(self, image_path, model, processor, tokenizer_stream):
+    def single_image_process(self, image_path, model, processor, tokenizer_stream):
         """
         Process a single image with phi-3-vision-instruct-cpu model
         """

@@ -156,3 +156,17 @@ Deploying this sample in a production cluster requires a couple extra artifacts 
     ```
 
 The app will finish processing and output the results to `/var/spacedev/xfer/app-python-shipdetector-phi-3-onnx/outbox`.  Changing the model can be done by copying a different model.onnx file in the above step.
+
+
+## Phi3
+
+1. Due to the size of the model in question, the k3s pod housing the payload-app must be larger than the default size. Travel to `/workspace/app-python-shipdetector-phi-3-onnx/spacedev_cache/tmp/app-python-shipdetector-phi-3-onnx/debugShim_app-python-shipdetector-phi-3-onnx.yaml` and change line 228 update the memory of the k3s pod:
+
+    ![alt text](image.png)
+
+1. Delete an redeploy the payload-app pod:
+    ```bash
+    kubectl delete -f /workspace/app-python-shipdetector-phi-3-onnx/spacedev_cache/tmp/app-python-shipdetector-phi-3-onnx/debugShim_app-python-shipdetector-phi-3-onnx.yaml
+
+    kubectl apply -f /workspace/app-python-shipdetector-phi-3-onnx/spacedev_cache/tmp/app-python-shipdetector-phi-3-onnx/debugShim_app-python-shipdetector-phi-3-onnx.yaml
+    ```

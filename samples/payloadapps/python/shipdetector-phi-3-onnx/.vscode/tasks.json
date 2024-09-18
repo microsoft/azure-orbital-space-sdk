@@ -18,7 +18,9 @@
             "dependsOn": [
                 "copy_model_to_inbox",
                 "copy_app_config_inbox",
-                "copy_model_to_debug_image"
+                "copy_model_to_debug_image",
+                "copy_phi3_to_inbox",
+                "copy_phi3_app_config_inbox"
             ],
             "dependsOrder": "parallel",
             "args": [
@@ -58,6 +60,25 @@
             }
         },
         {
+            "label": "copy_phi3_to_inbox",
+            "isBackground": false,
+            "command": "cp",
+            "type": "shell",
+            "args": [
+                "-r",
+                "${APP_WORKING_DIR}/phi-3-vision-128k-instruct-onnx-cpu/cpu-int4-rtn-block-32-acc-level-4/",
+                "/var/spacedev/xfer/app-python-shipdetector-phi-3-onnx/inbox/"
+            ],
+            "presentation": {
+                "echo": true,
+                "reveal": "never",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            }
+        },
+        {
             "label": "copy_model_to_debug_image",
             "isBackground": false,
             "command": "cp",
@@ -83,6 +104,24 @@
             "args": [
                 "${APP_WORKING_DIR}/schedules/debug_image/shipdetector-app-config.json",
                 "/var/spacedev/xfer/app-python-shipdetector-phi-3-onnx/inbox/shipdetector-app-config.json"
+            ],
+            "presentation": {
+                "echo": true,
+                "reveal": "never",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            }
+        },
+        {
+            "label": "copy_phi3_app_config_inbox",
+            "isBackground": false,
+            "command": "cp",
+            "type": "shell",
+            "args": [
+                "${APP_WORKING_DIR}/schedules/debug_image/phi-3-vision-app-config.json",
+                "/var/spacedev/xfer/app-python-shipdetector-phi-3-onnx/inbox/phi-3-vision-app-config.json"
             ],
             "presentation": {
                 "echo": true,

@@ -10,6 +10,7 @@ from pathlib import Path
 from app_config import AppConfig
 from ship_detection import ShipDetection
 from object_detection import ObjectDetection
+from phi3_vision import Phi3VisionRunner
 
 IMAGE_QUEUE: queue.Queue = queue.Queue()
 
@@ -52,6 +53,7 @@ class ImageProcessor:
         """
         # Initialize the ship detection model
         ship_detection = ObjectDetection(Path(self.app_config.INBOX_FOLDER, self.app_config.MODEL_FILENAME))
+        slm = Phi3VisionRunner()
 
         # Calculate the maximum chip size based on the model's input shape and the chipping scale
         chip_max_height = round(ship_detection.input_shape[0] * self.app_config.IMG_CHIPPING_SCALE)
@@ -74,6 +76,10 @@ class ImageProcessor:
 
             # Save the original image
             self.save_image(raw_image, Path(self.app_config.OUTBOX_FOLDER, f"{input_image_path.stem}_orig.jpg"))
+
+            # feed original image to the phi3 vision model
+            # Phi3Vision.add_image_to_queue(str(Path(self.app_config.OUTBOX_FOLDER, f"{input_image_path.stem}_orig.jpg")))
+            slm.process_image(str(Path(self.app_config.OUTBOX_FOLDER, f"{input_image_path.stem}_orig.jpg")))
 
             # Run ship detection on the image or on each chip of the image
             if img_width > chip_max_width or img_height > chip_max_height:
@@ -106,6 +112,7 @@ class ImageProcessor:
 
             # Save the augmented image
             self.save_image(raw_image, augmented_file_path)
+
 
             logger.info(f"Finished processing {input_image_path}")
 
@@ -161,8 +168,96 @@ class ImageProcessor:
 
         # Return the list of all detections
         return all_detections
-
     
+    def save_image(self, image, path):
+        """
+        Saves the given image to the specified path.
+        """
+        logger.info(f"Saving image to '{path}'")
+        cv2.imwrite(str(path), image)
+
+    def run_ship_detection_large_image(self, ship_detection:ObjectDetection, raw_image, chip_max_height:int, chip_max_width:int):
+        """
+        Runs ship detection on a large image by dividing it into smaller chips and running detection on each chip.
+
+        Args:
+            ship_detection (ObjectDetection): The ship detection model used for prediction.
+            raw_image (numpy.ndarray): The raw image on which ship detection is performed.
+            chip_max_height (int): The maximum height of each chip.
+            chip_max_width (int): The maximum width of each chip.
+
+        Returns:
+            list: A list of ShipDetection objects representing the detected ships in the image.
+        """
+        # Initialize an empty list to store all detections
+        all_detections = []
+
+        # Get the shape of the raw image
+        orig_img_height, orig_img_width, _ = raw_image.shape
+
+        # Loop through the rows and columns of the image, creating chips
+        for chip_y_start in range(0, orig_img_height, chip_max_height):
+            for chip_x_start in range(0, orig_img_width, chip_max_width):
+                # Calculate the end coordinates of the chip, ensuring they don't exceed the image dimensions
+                chip_y_end = min(chip_y_start + chip_max_height, orig_img_height)
+                chip_x_end = min(chip_x_start + chip_max_width, orig_img_width)
+
+                # Extract the chip from the raw image
+                raw_image_chip = raw_image[chip_y_start:chip_y_end, chip_x_start:chip_x_end]
+
+                # Run ship detection on the chip
+                chipped_detections = self.run_ship_detection(ship_detection=ship_detection, raw_image=raw_image_chip)
+
+                # Adjust the coordinates of the detections based on the chip's position in the image
+                for chipped_detection in chipped_detections:
+                    chipped_detection.x_coordinate += chip_x_start
+                    chipped_detection.y_coordinate += chip_y_start
+
+                    # Log the detection
+                    logger.info(f"Ship detected at ({chipped_detection.x_coordinate}, {chipped_detection.y_coordinate}).  Width: {chipped_detection.width}  Height: {chipped_detection.height}")
+
+                    # Add the detection to the list of all detections
+                    all_detections.append(chipped_detection)
+
+        # Return the list of all detections
+        return all_detections
+
+    def run_ship_detection(self, ship_detection:ObjectDetection, raw_image):
+        """
+        Runs ship detection on the given raw image using the provided ship detection model.
+
+        Args:
+            ship_detection (ObjectDetection): The ship detection model used for prediction.
+            raw_image (numpy.ndarray): The raw image on which ship detection is performed.
+
+        Returns:
+            list: A list of ShipDetection objects representing the detected ships in the image.
+        """
+        # Get the shape of the raw image
+        orig_img_height, orig_img_width, _ = raw_image.shape
+
+        # Run the ship detection model on the raw image
+        ship_predictions = ship_detection.predict_image(raw_image)
+
+        # Parse the predictions using the detection labels
+        ship_predictions = self.parse_predictions(self.app_config.DETECTION_LABELS, ship_predictions)
+
+        # Filter out predictions below the detection threshold and create ShipDetection objects for the rest
+        all_detections = [
+            ShipDetection(
+                probability=ship_hitbox['probability'],
+                x_coordinate=round(orig_img_width * ship_hitbox['boundingBox']['left']),
+                y_coordinate=round(orig_img_height * ship_hitbox['boundingBox']['top']),
+                width=round(orig_img_width * ship_hitbox['boundingBox']['width']),
+                height=round(orig_img_height * ship_hitbox['boundingBox']['height'])
+            )
+            for ship_hitbox in ship_predictions
+            if ship_hitbox['probability'] >= self.app_config.DETECTION_THRESHOLD
+        ]
+
+        # Return the list of all detections
+        return all_detections
+
 
     def write_hitboxes(self, raw_image, detection:ShipDetection, ship_num:int):
         """
