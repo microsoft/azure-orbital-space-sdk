@@ -23,19 +23,19 @@ sequenceDiagram
 
     groundStation->>deploymentInbox: Uplink Deployment
     loop Uplink
-    groundStation->>deploymentInbox: uplink app-config.json
+    groundStation->>deploymentInbox: uplink shipdetector-app-config.json
     groundStation->>deploymentInbox: uplink model.onnx and labels.txt
-    groundStation->>deploymentInbox: app-python-shipdetector-onnx.json
-    groundStation->>deploymentInbox: app-python-shipdetector-onnx.yaml
+    groundStation->>deploymentInbox: app-python-shipdetector-phi-3-onnx.json
+    groundStation->>deploymentInbox: app-python-shipdetector-phi-3-onnx.yaml
     end
-    deploymentInbox->>deployment: Process schedule app-python-shipdetector-onnx.json
+    deploymentInbox->>deployment: Process schedule app-python-shipdetector-phi-3-onnx.json
     loop Deployment
-    deployment->>appInbox: Transfer app-config.json
+    deployment->>appInbox: Transfer shipdetector-app-config.json
     deployment->>appInbox: Transfer labels.txt
     deployment->>appInbox: Transfer model.onnx
     end
     deployment->>app: Start App
-    appInbox->>app: Read app-config.json (Lat / Long)
+    appInbox->>app: Read shipdetector-app-config.json (Lat / Long)
     appInbox->>app: Load labels.txt and model.onnx
     app->>sensor: Request Imagery for Lat/Long
     sensorSvc->>mts: Pass Imagery Request
@@ -73,13 +73,13 @@ Prerequisites:
 
 The `./.vscode/launch.json` and subsequent `./.vscode/tasks.json` are preconfigured to copy
 
-* `./schedules/debug_image/app-config.json`
+* `./schedules/debug_image/shipdetector-app-config.json`
 * `./model/model.onnx`
 * `./model/labels.txt`
 
-to `/var/spacedev/xfer/app-python-shipdetector-onnx/inbox` to simulate the same event as a production run.
+to `/var/spacedev/xfer/app-python-shipdetector-phi-3-onnx/inbox` to simulate the same event as a production run.
 
-Once complete, the output will be saved to `/var/spacedev/xfer/app-python-shipdetector-onnx/outbox` (symlinked: `./spacedev_cache/xfer/app-python-shipdetector-onnx/outbox`)
+Once complete, the output will be saved to `/var/spacedev/xfer/app-python-shipdetector-phi-3-onnx/outbox` (symlinked: `./spacedev_cache/xfer/app-python-shipdetector-phi-3-onnx/outbox`)
 
 ![Annotated Image](./images/final-image.png)
 
@@ -121,12 +121,12 @@ Deploying this sample in a production cluster requires a couple extra artifacts 
     ```bash
     /var/spacedev/build/build_containerImage.sh \
         --dockerfile ${PWD}/samples/payloadapps/python/shipdetector-onnx/docker/Dockerfile.prod \
-        --app-name app-python-shipdetector-onnx \
+        --app-name app-python-shipdetector-phi-3-onnx \
         --image-tag 0.11.0 \
         --architecture amd64 \
         --repo-dir ${PWD}/samples/payloadapps/python/shipdetector-onnx \
-        --build-arg APP_DIRECTORY=/workspace/app-python-shipdetector-onnx \
-        --devcontainer-json .devcontainer/app-python-shipdetector-onnx/devcontainer.json \
+        --build-arg APP_DIRECTORY=/workspace/app-python-shipdetector-phi-3-onnx \
+        --devcontainer-json .devcontainer/app-python-shipdetector-phi-3-onnx/devcontainer.json \
         --annotation-config azure-orbital-space-sdk.yaml \
         --no-push
     ```
@@ -134,8 +134,8 @@ Deploying this sample in a production cluster requires a couple extra artifacts 
 1. Tag the new image and push to the Microsoft Azure Orbital Space SDK Cluster
 
     ```bash
-    docker tag app-python-shipdetector-onnx:0.11.0-nightly registry.spacefx.local:5000/app-python-shipdetector-onnx:0.11.0-nightly
-    docker push registry.spacefx.local:5000/app-python-shipdetector-onnx:0.11.0-nightly
+    docker tag app-python-shipdetector-phi-3-onnx:0.11.0-nightly registry.spacefx.local:5000/app-python-shipdetector-phi-3-onnx:0.11.0-nightly
+    docker push registry.spacefx.local:5000/app-python-shipdetector-phi-3-onnx:0.11.0-nightly
     ```
 
 
@@ -152,7 +152,7 @@ Deploying this sample in a production cluster requires a couple extra artifacts 
 1. Start monitoring the payload app's `xfer` directory
 
     ```bash
-    watch -n 2 tree /var/spacedev/xfer/app-python-shipdetector-onnx
+    watch -n 2 tree /var/spacedev/xfer/app-python-shipdetector-phi-3-onnx
     ```
 
-The app will finish processing and output the results to `/var/spacedev/xfer/app-python-shipdetector-onnx/outbox`.  Changing the model can be done by copying a different model.onnx file in the above step.
+The app will finish processing and output the results to `/var/spacedev/xfer/app-python-shipdetector-phi-3-onnx/outbox`.  Changing the model can be done by copying a different model.onnx file in the above step.

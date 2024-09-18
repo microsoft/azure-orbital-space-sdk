@@ -464,3 +464,6 @@ $RECYCLE.BIN/
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+# model 
+samples/payloadapps/python/shipdetector-phi-3-onnx/phi-3-vision-128k-instruct-onnx-cpu

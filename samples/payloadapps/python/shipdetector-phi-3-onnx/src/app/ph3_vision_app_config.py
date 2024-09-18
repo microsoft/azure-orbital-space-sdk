@@ -9,29 +9,14 @@ from typing import List
 import time
 
 @dataclass
-class AppConfig:
+class Phi3_AppConfig:
     """
     Strong type the apps parameters supplied by arguments
     """
 
-    LATITUDE: float
+    MODEL_FOLDER: str
     """
     Latitude of the location to query for imagery
-    """
-
-    LONGITUDE: float
-    """
-    Longitude of the location to query for imagery
-    """
-
-    MODEL_FILENAME: str
-    """
-    Filename of the model to run inference on any imagery returned
-    """
-
-    MODEL_LABEL_FILENAME: str
-    """
-    Filename of the model's labels to run inference on any imagery returned
     """
 
     INBOX_FOLDER: str
@@ -39,14 +24,9 @@ class AppConfig:
     Inbox folder that'll contain the model, labels, and imagery to process
     """
 
-    DETECTION_THRESHOLD: float
+    NUM_OF_WORKERS: int
     """
-    Minimum confidence threshold to consider an object detected
-    """
-
-    OUTBOX_FOLDER_CHIPS: str
-    """
-    Output folder to store the chips of any objects detected from the imagery
+    Number of workers to use for the image processing
     """
 
     OUTBOX_FOLDER: str
@@ -54,41 +34,21 @@ class AppConfig:
     Output folder to store a copy of the source imagery with the detected objects annotated
     """
 
-    IMG_CHIPPING_SCALE: int
+    PROMPTS: List[str] = field(default_factory=list)
     """
-    Maximum size of the chip to extract from the source imagery compared to the source tensor size
-    """
-
-    NUM_OF_WORKERS: int
-    """
-    Number of workers to use for the image processing
-    """
-
-    IMG_CHIPPING_PADDING: float
-    """
-    Amount of overlap pixels between chips extracted from the source imagery
-    """
-
-    DETECTION_LABELS: List[str] = field(default_factory=list)
-    """
-    Detection labels
+    Prompts to run against the image
     """
 
     TYPE_MAPPING = {
-        'IMG_CHIPPING_PADDING': float,
-        'LATITUDE': float,
-        'LONGITUDE': float,
-        'DETECTION_THRESHOLD': float,
-        'IMG_CHIPPING_SCALE': int,
-        'NUM_OF_WORKERS': int,
+        'NUM_OF_WORKERS': int
     }
 
-    def __init__(self, file_path='/var/spacedev/xfer/app-python-shipdetector-phi-3-onnx/inbox/shipdetector-app-config.json'):
+    def __init__(self, file_path='/var/spacedev/xfer/app-python-shipdetector-phi-3-onnx/inbox/phi-3-vision-app-config.json'):
         """
         Initializes the AppConfig object by loading the configuration from a JSON file.
 
         Args:
-            file_path (str, optional): Path to the configuration JSON file. Defaults to '/var/spacedev/xfer/app-python-shipdetector-phi-3-onnx/inbox/shipdetector-app-config.json'.
+            file_path (str, optional): Path to the configuration JSON file. Defaults to '/var/spacedev/xfer/app-python-shipdetector-phi-3-onnx/inbox/phi-3-vision-app-config.json'.
         """
 
         def check_file_exists(path):
@@ -129,11 +89,5 @@ class AppConfig:
             else:
                 setattr(self, key, value)
 
-        check_file_exists(os.path.join(self.INBOX_FOLDER, self.MODEL_LABEL_FILENAME))
-        check_file_exists(os.path.join(self.INBOX_FOLDER, self.MODEL_FILENAME))
-
-        with open(os.path.join(self.INBOX_FOLDER, self.MODEL_LABEL_FILENAME), encoding='UTF-8') as f:
-            self.DETECTION_LABELS = [l.strip() for l in f.readlines()]
-
-        ensure_dir_exists(os.path.join(self.OUTBOX_FOLDER, self.OUTBOX_FOLDER_CHIPS))
+        ensure_dir_exists(os.path.join(self.INBOX_FOLDER, self.MODEL_FOLDER))
         ensure_dir_exists(self.OUTBOX_FOLDER)

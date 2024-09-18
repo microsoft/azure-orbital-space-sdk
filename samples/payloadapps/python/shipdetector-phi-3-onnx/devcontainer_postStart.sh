@@ -14,7 +14,7 @@ function move_protos() {
 
     run_a_script "mkdir -p ${CONTAINER_WORKING_DIR}/.protos/datagenerator/planetary_computer"
     # Copy the .proto file to the target directory
-    run_a_script "${SPACEFX_DIR}/protos/datagenerator/planetary-computer/PlanetaryComputer.proto ${CONTAINER_WORKING_DIR}/.protos/datagenerator/planetary_computer/PlanetaryComputer.proto"
+    run_a_script "sudo cp ${SPACEFX_DIR}/protos/datagenerator/planetary-computer/PlanetaryComputer.proto ${CONTAINER_WORKING_DIR}/.protos/datagenerator/planetary_computer/PlanetaryComputer.proto"
 
     info_log "END: ${FUNCNAME[0]}"
 }

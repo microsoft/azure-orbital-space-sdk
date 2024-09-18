@@ -5,8 +5,8 @@
     "version": "2.0.0",
     "options": {
         "env": {
-            "DEBUG_SHIM_HOST": "app-python-shipdetector-onnx",
-            "APP_WORKING_DIR": "/workspace/app-python-shipdetector-onnx"
+            "DEBUG_SHIM_HOST": "app-python-shipdetector-phi-3-onnx",
+            "APP_WORKING_DIR": "/workspace/app-python-shipdetector-phi-3-onnx"
         }
     },
     "tasks": [
@@ -46,7 +46,7 @@
             "type": "shell",
             "args": [
                 "${APP_WORKING_DIR}/model/*",
-                "/var/spacedev/xfer/app-python-shipdetector-onnx/inbox/"
+                "/var/spacedev/xfer/app-python-shipdetector-phi-3-onnx/inbox/"
             ],
             "presentation": {
                 "echo": true,
@@ -81,8 +81,8 @@
             "command": "cp",
             "type": "shell",
             "args": [
-                "${APP_WORKING_DIR}/schedules/debug_image/app-config.json",
-                "/var/spacedev/xfer/app-python-shipdetector-onnx/inbox/app-config.json"
+                "${APP_WORKING_DIR}/schedules/debug_image/shipdetector-app-config.json",
+                "/var/spacedev/xfer/app-python-shipdetector-phi-3-onnx/inbox/shipdetector-app-config.json"
             ],
             "presentation": {
                 "echo": true,

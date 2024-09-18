@@ -129,5 +129,5 @@
 		}
 	},
 	"remoteUser": "root",
-	"postStartCommand": "bash postStart.sh"
+	"postStartCommand": "bash /workspace/app-python-shipdetector-phi-3-onnx/devcontainer_postStart.sh"
 }

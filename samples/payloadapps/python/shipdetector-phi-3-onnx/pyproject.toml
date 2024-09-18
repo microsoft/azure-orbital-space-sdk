@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "app-python-shipdetector-onnx"
+name = "app-python-shipdetector-phi-3-onnx"
 description = "A sample app leveraging the Microsoft Azure Orbital SDK to do AI-based shiped detection"
 authors = ["Azure Space SDK"]
 version = "1.0.0"
@@ -22,8 +22,8 @@ opencv-python-headless = "^4.8.1.78"
 grpcio-tools = "^1.26.0"
 grpcio = "^1.26.0"
 protobuf = "^3.20.1"
-huggingface-hub==0.24.7
-onnxruntime-genai==0.4.0
+huggingface-hub = "0.24.7"
+onnxruntime-genai = "0.4.0" 
 
 [tool.poetry.dependencies.microsoftazurespacefx]
 path = ".wheel/microsoftazurespacefx-0.11.0-py3-none-any.whl"

@@ -1,15 +1,15 @@
 [
     {
-        "AppName": "app-python-shipdetector-onnx",
+        "AppName": "app-python-shipdetector-phi-3-onnx",
         "NameSpace": "payload-app",
         "DeployAction": "UplinkFile",
         "AppContextFile": {
-            "FileName": "app-config.json",
+            "FileName": "shipdetector-app-config.json",
             "Required": "true"
         }
     },
     {
-        "AppName": "app-python-shipdetector-onnx",
+        "AppName": "app-python-shipdetector-phi-3-onnx",
         "NameSpace": "payload-app",
         "DeployAction": "UplinkFile",
         "AppContextFile": {
@@ -18,7 +18,7 @@
         }
     },
     {
-        "AppName": "app-python-shipdetector-onnx",
+        "AppName": "app-python-shipdetector-phi-3-onnx",
         "NameSpace": "payload-app",
         "DeployAction": "UplinkFile",
         "AppContextFile": {
@@ -27,10 +27,10 @@
         }
     },
     {
-        "AppName": "app-python-shipdetector-onnx",
+        "AppName": "app-python-shipdetector-phi-3-onnx",
         "NameSpace": "payload-app",
         "MaxDuration": "900s",
         "DeployAction": "Apply",
-        "YamlFileContents": "app-python-shipdetector-onnx.yaml"
+        "YamlFileContents": "app-python-shipdetector-phi-3-onnx.yaml"
     }
 ]

@@ -45,7 +45,6 @@ class ImageProcessor:
 
         IMAGE_QUEUE.put(imagefile)
 
-    from pathlib import Path
 
     def monitor_queue(self):
         """
@@ -163,42 +162,7 @@ class ImageProcessor:
         # Return the list of all detections
         return all_detections
 
-    def run_ship_detection(self, ship_detection:ObjectDetection, raw_image):
-        """
-        Runs ship detection on the given raw image using the provided ship detection model.
-
-        Args:
-            ship_detection (ObjectDetection): The ship detection model used for prediction.
-            raw_image (numpy.ndarray): The raw image on which ship detection is performed.
-
-        Returns:
-            list: A list of ShipDetection objects representing the detected ships in the image.
-        """
-        # Get the shape of the raw image
-        orig_img_height, orig_img_width, _ = raw_image.shape
-
-        # Run the ship detection model on the raw image
-        ship_predictions = ship_detection.predict_image(raw_image)
-
-        # Parse the predictions using the detection labels
-        ship_predictions = self.parse_predictions(self.app_config.DETECTION_LABELS, ship_predictions)
-
-        # Filter out predictions below the detection threshold and create ShipDetection objects for the rest
-        all_detections = [
-            ShipDetection(
-                probability=ship_hitbox['probability'],
-                x_coordinate=round(orig_img_width * ship_hitbox['boundingBox']['left']),
-                y_coordinate=round(orig_img_height * ship_hitbox['boundingBox']['top']),
-                width=round(orig_img_width * ship_hitbox['boundingBox']['width']),
-                height=round(orig_img_height * ship_hitbox['boundingBox']['height'])
-            )
-            for ship_hitbox in ship_predictions
-            if ship_hitbox['probability'] >= self.app_config.DETECTION_THRESHOLD
-        ]
-
-        # Return the list of all detections
-        return all_detections
-
+    
 
     def write_hitboxes(self, raw_image, detection:ShipDetection, ship_num:int):
         """
