@@ -90,9 +90,13 @@ def main():
         logger.info("PlanetaryComputer not found. Exiting...")
         sys.exit(1)
 
-
+    # WA
     latitude = app_config.LATITUDE
     longitude = app_config.LONGITUDE
+
+    # NM
+    # latitude = 33.40609968134938
+    # longitude = -108.12573498073635
 
     logger.info(f"Tasking PlanetaryComputer sensor for ({latitude}, {longitude})...")
 
