@@ -4,8 +4,6 @@
     "OUTBOX_FOLDER": "/var/spacedev/xfer/app-python-shipdetector-phi-3-onnx/outbox",
     "NUM_OF_WORKERS": 1,
     "PROMPTS": [
-        "Describe in objective detail the terrain, features, and objects present within the image.",
-        "Are there any ships present in the image?",
-        "If so, how many are docked versus in open water?"
+        "Describe in objective detail the terrain, features, and objects present within the image."
     ]
 }

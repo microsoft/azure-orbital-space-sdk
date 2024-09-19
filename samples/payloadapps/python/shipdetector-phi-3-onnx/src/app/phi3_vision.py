@@ -42,7 +42,7 @@ class Phi3VisionRunner:
         logger.info(f"Processing {input_image_path}")
 
         prompt_response = self.single_image_process(input_image_path, model, processor, tokenizer_stream)
-        print(prompt_response)
+        logger.info(prompt_response)
 
         logger.info(f"Finished processing {input_image_path}")
 
@@ -83,17 +83,14 @@ class Phi3VisionRunner:
             params.set_search_options(max_length=7680)
 
             generator = og.Generator(model, params)
-            response=""
             while not generator.is_done():
                 generator.compute_logits()
                 generator.generate_next_token()
 
                 new_token = generator.get_next_tokens()[0]
                 decoded_token = tokenizer_stream.decode(new_token)
-                response += decoded_token
+                response = str(decoded_token)
                 print(decoded_token, end="", flush=True)
-
-                response = response[-1]
                 responses.append(response)
                 current_prompt += f"{response}<|end|>\n<|user|>"
 
