@@ -83,9 +83,9 @@ class ImageProcessor:
             # feed original image to the phi3 vision model
             responses = slm.process_image(str(orig_img_path))
 
-            # Only look at the first response for now
-            response = responses[0]
-            if response['percent_land'] > 10 and response['vessel_count'] > 0:
+            json_response = responses[0]
+
+            if json_response['percent_water'] > 10 or json_response['vessel_count'] > 0:
                 logger.info("Response from SLM meets the criteria for ship detection")
                 logger.info("Running ship detection model...")
             

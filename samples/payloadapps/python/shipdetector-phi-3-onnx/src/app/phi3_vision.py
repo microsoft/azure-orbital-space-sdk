@@ -46,17 +46,16 @@ class Phi3VisionRunner:
 
 
         # Validate the response
-        output_response = None
+        output_responses = []
         for prompt_response in prompt_responses:
-            if not self.response_validation(prompt_response):
+            response_data = self.response_validation(prompt_response)
+            if response_data is None:
                 logger.error(f"Invalid response: {prompt_response}")
                 return
-            output_response.append(json.loads(prompt_response))
+            output_responses.append(response_data)
 
         logger.info(f"Finished processing {input_image_path}")
-
-        print(output_response)
-        return output_response
+        return output_responses
 
 
     def single_image_process(self, image_path, model, processor, tokenizer_stream):
@@ -94,16 +93,18 @@ class Phi3VisionRunner:
             params.set_search_options(max_length=7680)
 
             generator = og.Generator(model, params)
+            response = ""
             while not generator.is_done():
                 generator.compute_logits()
                 generator.generate_next_token()
 
                 new_token = generator.get_next_tokens()[0]
                 decoded_token = tokenizer_stream.decode(new_token)
-                response = str(decoded_token)
+                response += str(decoded_token)
                 print(decoded_token, end="", flush=True)
-                responses.append(response)
-                current_prompt += f"{response}<|end|>\n<|user|>"
+            
+            responses.append(response)
+            current_prompt += f"{response}<|end|>\n<|user|>"
 
             # Delete the generator to free the captured graph before creating another one
             del generator
@@ -118,23 +119,33 @@ class Phi3VisionRunner:
         Validate the that the SLM response
         """
         try:
+
             response_data = json.loads(response)
+            response_template = self.app_config.RESPONSE_TEMPLATE
+            valid_json = True
+            for field in response_template.keys():
+                logger.info(f"Looking for field: {field}")
+                if field not in response_data:
+                    logger.error(f"Missing field in response: {field}")
+                    valid_json = False
+                else:
+                    logger.info(f"Found field: {field}")
+                    logger.info(f"Checking type for field: {field}, type: {response_template[field]['type']}")
+                    expected_type = eval(response_template[field]["type"])
+                    if not isinstance(response_data[field], expected_type):
+                        logger.warning(f"Incorrect type for field {field}: expected {response_template[field]['type']}, got {type(response_data[field])}")
+                        try:
+                            response_data[field] = expected_type(response_data[field])
+                            logger.info(f"Updated field {field} to correct type: {expected_type}")
+                        except (ValueError, TypeError) as e:
+                            logger.error(f"Failed to cast field {field} to {expected_type}: {e}")
+                            valid_json = False
+            if valid_json:
+                return response_data
+            else:
+                return None
         except json.JSONDecodeError as e:
             logger.info(f"Invalid JSON response: {e}")
-        response_template = self.app_config.RESPONSE_TEMPLATE
-        for field in response_template.keys():
-            logger.info(f"Looking for field: {field}")
-            if field not in response_data:
-                logger.error(f"Missing field in response: {field}")
-            else:
-                logger.info(f"Found field: {field}")
-                logger.info(f"Checking type for field: {field}, type: {response_template[field]['type']}")
-                expected_type = eval(response_template[field]["type"])
-                if not isinstance(response_data[field], expected_type):
-                    logger.warning(f"Incorrect type for field {field}: expected {response_template[field]['type']}, got {type(response_data[field])}")
-                    try:
-                        response_data[field] = expected_type(response_data[field])
-                        logger.info(f"Updated field {field} to correct type: {expected_type}")
-                    except (ValueError, TypeError) as e:
-                        logger.error(f"Failed to cast field {field} to {expected_type}: {e}")  
+            return None
+      
     
