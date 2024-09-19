@@ -13,6 +13,7 @@ import onnxruntime_genai as og
 
 import logging
 import spacefx
+import json
 logger = spacefx.logger(level=logging.INFO)
 
 class Phi3VisionRunner:
@@ -41,11 +42,19 @@ class Phi3VisionRunner:
 
         logger.info(f"Processing {input_image_path}")
 
-        prompt_response = self.single_image_process(input_image_path, model, processor, tokenizer_stream)
+        prompt_responses = self.single_image_process(input_image_path, model, processor, tokenizer_stream)
         logger.info(prompt_response)
 
-        logger.info(f"Finished processing {input_image_path}")
+        # Validate the response
+        output_response = None
+        for prompt_response in prompt_responses:
+            if not self.response_validation(prompt_response)
+                logger.error(f"Invalid response: {prompt_response}")
+                return
+            output_response.append(json.loads(prompt_response))
 
+        logger.info(f"Finished processing {input_image_path}")
+        return prompt_responses
 
 
     def single_image_process(self, image_path, model, processor, tokenizer_stream):
@@ -101,4 +110,29 @@ class Phi3VisionRunner:
 
     def image_prompt(self, image_num):
         return f"<|image_{image_num}|>"
+    
+    def response_validation(self,response):
+        """
+        Validate the that the SLM response
+        """
+        try:
+            response_data = json.loads(response)
+        except json.JSONDecodeError as e:
+            logger.info(f"Invalid JSON response: {e}")
+        response_template = app_config.RESPONSE_TEMPLATE
+        for field in response_template.keys():
+            logger.info(f"Looking for field: {field}")
+            if field not in response_data:
+                logger.error(f"Missing field in response: {field}")
+            else:
+                logger.info(f"Found field: {field}")
+                logger.info(f"Checking type for field: {field}, type: {response_template[field]['type']}")
+                expected_type = eval(response_template[field]["type"])
+                if not isinstance(response_data[field], expected_type):
+                    logger.warning(f"Incorrect type for field {field}: expected {response_template[field]['type']}, got {type(response_data[field])}")
+                    try:
+                        response_data[field] = expected_type(response_data[field])
+                        logger.info(f"Updated field {field} to correct type: {expected_type}")
+                    except (ValueError, TypeError) as e:
+                        logger.error(f"Failed to cast field {field} to {expected_type}: {e}")  
     

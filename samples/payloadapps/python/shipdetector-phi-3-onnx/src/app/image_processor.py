@@ -32,6 +32,7 @@ class ImageProcessor:
         print("Starting Image Processor...", end=" ")
 
         for _ in range(0, self.app_config.NUM_OF_WORKERS):
+            # Each worker starts an instance of monitor_queue
             image_processor = threading.Thread(target=self.monitor_queue)
             image_processor.daemon = True
             image_processor.start()
@@ -75,49 +76,56 @@ class ImageProcessor:
             print(f"...maximum scale factor: {self.app_config.IMG_CHIPPING_SCALE} ({chip_max_height}x{chip_max_width})")
 
             # Save the original image
-            self.save_image(raw_image, Path(self.app_config.OUTBOX_FOLDER, f"{input_image_path.stem}_orig.jpg"))
+            orig_img_path = Path(self.app_config.OUTBOX_FOLDER, f"{input_image_path.stem}_orig.jpg")
+            self.save_image(raw_image, orig_img_path)
 
            
             # feed original image to the phi3 vision model
-            responses = slm.process_image(str(Path(self.app_config.OUTBOX_FOLDER, f"{input_image_path.stem}_orig.jpg")))
+            responses = slm.process_image(str(orig_img_path))
 
-            # TODO: Process the responses from the slm and see if there any key tags that indicate we want to run the object detection model:
+            # Only look at the first response for now
+            response = responses[0]
+            if response['percent_land'] > 10 and response['vessel_count'] > 0:
+                logger.info("Response from SLM meets the criteria for ship detection")
+                logger.info("Running ship detection model...")
+            
+                # Run ship detection on the image or on each chip of the image
+                if img_width > chip_max_width or img_height > chip_max_height:
+                    all_detections = self.run_ship_detection_large_image(ship_detection=ship_detection, raw_image=raw_image, chip_max_height=chip_max_height, chip_max_width=chip_max_width)
+                else:
+                    all_detections = self.run_ship_detection(ship_detection=ship_detection, raw_image=raw_image)
 
-            # Run ship detection on the image or on each chip of the image
-            if img_width > chip_max_width or img_height > chip_max_height:
-                all_detections = self.run_ship_detection_large_image(ship_detection=ship_detection, raw_image=raw_image, chip_max_height=chip_max_height, chip_max_width=chip_max_width)
+                # Prepare the filename for the augmented image
+                augmented_file_path = Path(self.app_config.OUTBOX_FOLDER, f"{input_image_path.stem}_augmented.jpg")
+                logger.info(f"Detected {len(all_detections)} ships.  Building augmented image '{augmented_file_path}'")
+
+                # Loop over each detection
+                for i, detection in enumerate(all_detections, start=1):
+                    print(f"Writing ship detection #{i}")
+
+                    # Draw the detection on the image
+                    raw_image = self.write_hitboxes(raw_image=raw_image, detection=detection, ship_num=i)
+
+                    # Calculate the coordinates of the ship image with padding
+                    ship_start_x = max(0, detection.x_coordinate - self.app_config.IMG_CHIPPING_PADDING)
+                    ship_start_y = max(0, detection.y_coordinate - self.app_config.IMG_CHIPPING_PADDING)
+                    ship_end_x = min(img_width, detection.x_coordinate + detection.width + self.app_config.IMG_CHIPPING_PADDING)
+                    ship_end_y = min(img_height, detection.y_coordinate + detection.height + self.app_config.IMG_CHIPPING_PADDING)
+
+                    # Extract the ship image from the raw image
+                    cropped_ship_img = raw_image[int(ship_start_y):int(ship_end_y), int(ship_start_x):int(ship_end_x)]
+
+                    # Save the ship image
+                    self.save_image(cropped_ship_img, Path(self.app_config.OUTBOX_FOLDER, self.app_config.OUTBOX_FOLDER_CHIPS, f"{input_image_path.stem}_ship_{i}.jpg"))
+
+                # Save the augmented image
+                self.save_image(raw_image, augmented_file_path)
+
+                logger.info(f"Finished ship detection processing {input_image_path}")
             else:
-                all_detections = self.run_ship_detection(ship_detection=ship_detection, raw_image=raw_image)
-
-            # Prepare the filename for the augmented image
-            augmented_file_path = Path(self.app_config.OUTBOX_FOLDER, f"{input_image_path.stem}_augmented.jpg")
-            logger.info(f"Detected {len(all_detections)} ships.  Building augmented image '{augmented_file_path}'")
-
-            # Loop over each detection
-            for i, detection in enumerate(all_detections, start=1):
-                print(f"Writing ship detection #{i}")
-
-                # Draw the detection on the image
-                raw_image = self.write_hitboxes(raw_image=raw_image, detection=detection, ship_num=i)
-
-                # Calculate the coordinates of the ship image with padding
-                ship_start_x = max(0, detection.x_coordinate - self.app_config.IMG_CHIPPING_PADDING)
-                ship_start_y = max(0, detection.y_coordinate - self.app_config.IMG_CHIPPING_PADDING)
-                ship_end_x = min(img_width, detection.x_coordinate + detection.width + self.app_config.IMG_CHIPPING_PADDING)
-                ship_end_y = min(img_height, detection.y_coordinate + detection.height + self.app_config.IMG_CHIPPING_PADDING)
-
-                # Extract the ship image from the raw image
-                cropped_ship_img = raw_image[int(ship_start_y):int(ship_end_y), int(ship_start_x):int(ship_end_x)]
-
-                # Save the ship image
-                self.save_image(cropped_ship_img, Path(self.app_config.OUTBOX_FOLDER, self.app_config.OUTBOX_FOLDER_CHIPS, f"{input_image_path.stem}_ship_{i}.jpg"))
-
-            # Save the augmented image
-            self.save_image(raw_image, augmented_file_path)
-
+                logger.info("Response from SLM does not meet the criteria for ship detection. Skipping ship detection model...")
 
             logger.info(f"Finished processing {input_image_path}")
-
     def save_image(self, image, path):
         """
         Saves the given image to the specified path.
