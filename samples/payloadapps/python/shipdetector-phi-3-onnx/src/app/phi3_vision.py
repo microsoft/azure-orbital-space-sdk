@@ -97,7 +97,7 @@ class Phi3VisionRunner:
             # Delete the generator to free the captured graph before creating another one
             del generator
 
-        return response
+        return responses
 
     def image_prompt(self, image_num):
         return f"<|image_{image_num}|>"

@@ -77,9 +77,11 @@ class ImageProcessor:
             # Save the original image
             self.save_image(raw_image, Path(self.app_config.OUTBOX_FOLDER, f"{input_image_path.stem}_orig.jpg"))
 
+           
             # feed original image to the phi3 vision model
-            # Phi3Vision.add_image_to_queue(str(Path(self.app_config.OUTBOX_FOLDER, f"{input_image_path.stem}_orig.jpg")))
-            slm.process_image(str(Path(self.app_config.OUTBOX_FOLDER, f"{input_image_path.stem}_orig.jpg")))
+            responses = slm.process_image(str(Path(self.app_config.OUTBOX_FOLDER, f"{input_image_path.stem}_orig.jpg")))
+
+            # TODO: Process the responses from the slm and see if there any key tags that indicate we want to run the object detection model:
 
             # Run ship detection on the image or on each chip of the image
             if img_width > chip_max_width or img_height > chip_max_height:
