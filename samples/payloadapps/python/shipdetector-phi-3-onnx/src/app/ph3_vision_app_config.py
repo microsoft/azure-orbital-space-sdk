@@ -34,9 +34,14 @@ class Phi3_AppConfig:
     Output folder to store a copy of the source imagery with the detected objects annotated
     """
 
-    PROMPTS: List[str] = field(default_factory=list)
+    PROMPTS: List[str] = field(default_factory=list)    
     """
     Prompts to run against the image
+    """
+
+    RESPONSE_TEMPLATE: dict = field(default_factory=dict)
+    """
+    Template for the SLM response
     """
 
     TYPE_MAPPING = {
@@ -79,6 +84,16 @@ class Phi3_AppConfig:
             if not os.path.isdir(path):
                 os.makedirs(path, exist_ok=True)
 
+        def read_response_template(json_file_path):
+            # Read the JSON file
+            with open(json_file_path, 'r') as file:
+                data = json.load(file)
+            
+            # Access the RESPONSE_TEMPLATE entry
+            response_template = data.get("RESPONSE_TEMPLATE")
+            return response_template
+        
+
         check_file_exists(file_path)
         with open(file_path, 'r') as f:
             data = json.load(f)
@@ -86,8 +101,12 @@ class Phi3_AppConfig:
             expected_type = self.TYPE_MAPPING.get(key)
             if expected_type:
                 setattr(self, key, expected_type(value))
+            elif key == "RESPONSE_TEMPLATE":
+                setattr(self, key, read_response_template(file_path))
             else:
                 setattr(self, key, value)
+
+        
 
         ensure_dir_exists(os.path.join(self.INBOX_FOLDER, self.MODEL_FOLDER))
         ensure_dir_exists(self.OUTBOX_FOLDER)
