@@ -90,12 +90,16 @@ def main():
         logger.info("PlanetaryComputer not found. Exiting...")
         sys.exit(1)
 
-    logger.info(f"Tasking PlanetaryComputer sensor for ({app_config.LATITUDE}, {app_config.LONGITUDE})...")
+
+    latitude = app_config.LATITUDE
+    longitude = app_config.LONGITUDE
+
+    logger.info(f"Tasking PlanetaryComputer sensor for ({latitude}, {longitude})...")
 
     earth_image_request = EarthImageRequest()
     line_of_sight = GeographicCoordinates()
-    line_of_sight.latitude = app_config.LATITUDE
-    line_of_sight.longitude = app_config.LONGITUDE
+    line_of_sight.latitude = latitude
+    line_of_sight.longitude = longitude
     earth_image_request.collection = "naip"
     earth_image_request.asset.append("image")
     earth_image_request.geographicCoordinates.CopyFrom(line_of_sight)
