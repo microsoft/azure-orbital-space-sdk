@@ -43,18 +43,20 @@ class Phi3VisionRunner:
         logger.info(f"Processing {input_image_path}")
 
         prompt_responses = self.single_image_process(input_image_path, model, processor, tokenizer_stream)
-        logger.info(prompt_response)
+
 
         # Validate the response
         output_response = None
         for prompt_response in prompt_responses:
-            if not self.response_validation(prompt_response)
+            if not self.response_validation(prompt_response):
                 logger.error(f"Invalid response: {prompt_response}")
                 return
             output_response.append(json.loads(prompt_response))
 
         logger.info(f"Finished processing {input_image_path}")
-        return prompt_responses
+
+        print(output_response)
+        return output_response
 
 
     def single_image_process(self, image_path, model, processor, tokenizer_stream):
@@ -119,7 +121,7 @@ class Phi3VisionRunner:
             response_data = json.loads(response)
         except json.JSONDecodeError as e:
             logger.info(f"Invalid JSON response: {e}")
-        response_template = app_config.RESPONSE_TEMPLATE
+        response_template = self.app_config.RESPONSE_TEMPLATE
         for field in response_template.keys():
             logger.info(f"Looking for field: {field}")
             if field not in response_data:
