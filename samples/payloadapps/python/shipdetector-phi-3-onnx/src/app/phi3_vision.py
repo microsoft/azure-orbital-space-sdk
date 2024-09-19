@@ -48,7 +48,7 @@ class Phi3VisionRunner:
         # Validate the response
         output_responses = []
         for prompt_response in prompt_responses:
-            response_data = self.response_validation(prompt_response)
+            response_data = self.response_validation(prompt_response.strip())
             if response_data is None:
                 logger.error(f"Invalid response: {prompt_response}")
                 return

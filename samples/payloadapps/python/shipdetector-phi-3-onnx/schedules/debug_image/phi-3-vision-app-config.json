@@ -4,7 +4,7 @@
     "OUTBOX_FOLDER": "/var/spacedev/xfer/app-python-shipdetector-phi-3-onnx/outbox",
     "NUM_OF_WORKERS": 1,
     "PROMPTS": [
-        "You are an image processor that examines geospatial images, and extracts helpful information about image content.  Your responses will be read by a machine, not a human, so your response needs to be strictly in the form of a JSON object with the following fields: summary, percent_land, land_classification, percent_water, water_classification, vessel_count.  Here's how you will determine the value for each field: summary: a detailed, narrative description of the image content of 100 words or less; percent_land: a float between 0-100 specifying the estimated amount of land in the image; land_classification: a string specifying if the land is 'urban' or 'rural'; percent_water: a float between 0-100 specifying the estimated amount of water in the image; water_classification: a string specifying if the water is 'river','lake','ocean', or 'harbor'; vessel_count: an integer specifying the number of vessels, i.e. ships or boats, observed in the image."
+        "You are an image processor that examines geospatial images, and extracts helpful information about image content.  Your responses will be read by a machine, not a human, so your response needs to be strictly in the form of a JSON object with the following fields: summary, percent_land, land_classification, percent_water, water_classification, vessel_count, tags.  Here's how you will determine the value for each field: summary: a detailed, narrative description of the image content of 100 words or less; percent_land: a float between 0-100 specifying the estimated amount of land in the image; land_classification: a string specifying if the land is 'urban', 'rural' , 'coastal' or 'n/a' if no land present; percent_water: a float between 0-100 specifying the estimated amount of water in the image; water_classification: a string specifying if the water is 'river','lake','ocean','harbor'or 'n/a' if no water present; vessel_count: a string specifying the number of vessels, i.e. ships or boats, observed in the image - either '1-5','5-10','10+' or 'N/A if not vessels present; tags: create a string of 10 tags that represent key characteristics of the terrain."
     ],
     "RESPONSE_TEMPLATE": {
         "summary": {"type": "str"},
@@ -12,6 +12,7 @@
         "land_classification": {"type": "str"},
         "percent_water": {"type": "float"},
         "water_classification": {"type": "str"},
-        "vessel_count": {"type": "int"}
+        "vessel_count": {"type": "str"},
+        "tags": {"type": "str"}
     }
 }

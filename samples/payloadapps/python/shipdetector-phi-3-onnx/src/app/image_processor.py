@@ -85,7 +85,7 @@ class ImageProcessor:
 
             json_response = responses[0]
 
-            if json_response['percent_water'] > 10 or json_response['vessel_count'] > 0:
+            if json_response['percent_water'] > 10 and json_response['vessel_count'] != "N/A":
                 logger.info("Response from SLM meets the criteria for ship detection")
                 logger.info("Running ship detection model...")
             
@@ -126,6 +126,7 @@ class ImageProcessor:
                 logger.info("Response from SLM does not meet the criteria for ship detection. Skipping ship detection model...")
 
             logger.info(f"Finished processing {input_image_path}")
+
     def save_image(self, image, path):
         """
         Saves the given image to the specified path.
