@@ -1,4 +1,4 @@
-# Sample App - Ship Detector (ONNX)
+# Sample App - Ship Detector (ONNX) with Phi-3-Vision
 
 This repository is a sample payload application leveraging Planetary Computer to query for imagery, then run an inference ship detection model from onnx.  The input imagery is loaded from the application's inbox, while the outputs are saved to the application's outbox.
 
@@ -51,6 +51,8 @@ sequenceDiagram
     linkSvc->>appInbox: Deliver *.tif
     linkSvc->>app: Notify Imagery is ready to be picked up in Inbox
     loop Process Image
+    app->>app: Run Imagery against Phi-3 for analysis
+    app->>app: Read Phi-3 analysis to determine if shipdetetor should be run
     app->>app: Read and Chip GeoTiff
     app->>app: Run inference on chips
     app->>appOutbox: Write annotated image with ships highlighted
