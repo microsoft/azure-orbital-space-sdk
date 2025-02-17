@@ -15,10 +15,10 @@
 			"pull_containers": "datagenerator-planetary-computer:0.11.0-nightly"
 		}
 	},
-	// "hostRequirements": {
-	// 	"cpus": 8,
-	// 	"memory": "8gb"
-	// },
+	"hostRequirements": {
+		"cpus": 8,
+		"memory": "8gb"
+	},
 	"customizations": {
 		"vscode": {
             "extensions": [
