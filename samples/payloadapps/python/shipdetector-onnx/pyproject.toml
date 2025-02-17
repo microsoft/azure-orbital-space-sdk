@@ -22,6 +22,7 @@ opencv-python-headless = "^4.8.1.78"
 grpcio-tools = "^1.26.0"
 grpcio = "^1.26.0"
 protobuf = "^3.20.1"
+numpy = "1.24.4"
 
 [tool.poetry.dependencies.microsoftazurespacefx]
 path = ".wheel/microsoftazurespacefx-0.11.0-py3-none-any.whl"
