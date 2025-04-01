@@ -1,0 +1,6 @@
+{
+    "sensor_name":"Thales-SEC-Cameras",
+    "camera":"rgb",
+    "n_frames":5,
+    "gain":1
+}

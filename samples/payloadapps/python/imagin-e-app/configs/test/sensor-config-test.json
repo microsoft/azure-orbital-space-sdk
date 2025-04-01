@@ -1,0 +1,7 @@
+{
+    "sensor_name":"PlanetaryComputer",
+    "collection":"sentinel-2-l2a",
+    "asset": ["B04", "B03", "B02"],
+    "latitude":47.6062,
+    "longitude":-122.3321
+}

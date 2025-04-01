@@ -1,14 +1,14 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/dotnet
 {
-	"name": "app-python-shipdetector-onnx",
+	"name": "app-imagin-e-starter",
 	"image": "mcr.microsoft.com/devcontainers/python:1-3.10-bullseye",
-	"runArgs": [ "--name=app-python-shipdetector-onnx" ],
-	"workspaceFolder": "/workspace/app-python-shipdetector-onnx",
-	"workspaceMount": "source=${localWorkspaceFolder}/samples/payloadapps/python/shipdetector-onnx,target=/workspace/app-python-shipdetector-onnx,type=bind,consistency=cached",
+	"runArgs": [ "--name=app-imagin-e-starter" ],
+	"workspaceFolder": "/workspace/app-imagin-e-starter",
+	"workspaceMount": "source=${localWorkspaceFolder}/samples/payloadapps/python/imagin-e-app,target=/workspace/app-imagin-e-starter,type=bind,consistency=cached",
     "features": {
 		"ghcr.io/microsoft/azure-orbital-space-sdk/spacefx-dev:0.11.0": {
-			"app_name": "app-python-shipdetector-onnx",
+			"app_name": "app-imagin-e-starter",
 			"dev_language": "python",
 			"extra_packages": "libgdal-dev, libgl1",
 			"download_artifacts": "PlanetaryComputer.proto, datagenerator-planetary-computer.yaml, planetary-computer-vth-plugin.dll, planetary-computer-vth-plugin.json.spacefx_plugin",
@@ -129,5 +129,5 @@
 		}
 	},
 	"remoteUser": "root",
-	"postStartCommand": "mkdir -p /workspace/app-python-shipdetector-onnx/.protos/datagenerator/planetary_computer && cp /var/spacedev/protos/datagenerator/planetary-computer/PlanetaryComputer.proto /workspace/app-python-shipdetector-onnx/.protos/datagenerator/planetary_computer/PlanetaryComputer.proto"
+	"postStartCommand": "mkdir -p /workspace/app-imagin-e-starter/.protos/datagenerator/planetary_computer && cp /var/spacedev/protos/datagenerator/planetary-computer/PlanetaryComputer.proto /workspace/app-imagin-e-starter/.protos/datagenerator/planetary_computer/PlanetaryComputer.proto"
 }

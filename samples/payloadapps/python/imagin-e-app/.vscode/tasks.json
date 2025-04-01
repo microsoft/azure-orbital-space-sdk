@@ -1,0 +1,155 @@
+// tasks.json defines quick commands that can be launched in Visual Studio Code
+// See https://go.microsoft.com/fwlink/?LinkId=733558
+// for the documentation about the tasks.json format
+{
+    "version": "2.0.0",
+    "options": {
+        "env": {
+            "DEBUG_SHIM_HOST": "app-imagin-e-starter",
+            "APP_WORKING_DIR": "/workspace/app-imagin-e-starter"
+        }
+    },
+    "tasks": [
+        {
+            "label": "deploy-debugshim-client",
+            "isBackground": false,
+            "command": "/bin/bash",
+            "type": "shell",
+            "dependsOn": [
+                "copy_app_config_inbox",
+                "copy_model_to_inbox",
+                "copy_sensor_config_inbox",
+                "copy_sensor_test_image_inbox",
+                "copy_model_to_debug_image"
+            ],
+            "dependsOrder": "parallel",
+            "args": [
+                "/spacefx-dev/debugShim-deploy.sh",
+                "--debug_shim",
+                "${DEBUG_SHIM_HOST}",
+                "--python_file",
+                "${workspaceFolder}/src/app/main.py",
+                "--port",
+                "5678"
+            ],
+            "presentation": {
+                "echo": true,
+                "reveal": "never",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            }
+        },
+        {
+            "label": "copy_model_to_inbox",
+            "isBackground": false,
+            "command": "cp",
+            "type": "shell",
+            "args": [
+                "${APP_WORKING_DIR}/model/*",
+                "/var/spacedev/xfer/app-imagin-e-starter/inbox/"
+            ],
+            "presentation": {
+                "echo": true,
+                "reveal": "never",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            }
+        },
+        {
+            "label": "copy_model_to_debug_image",
+            "isBackground": false,
+            "command": "cp",
+            "type": "shell",
+            "args": [
+                "${APP_WORKING_DIR}/model/*",
+                "${APP_WORKING_DIR}/schedules/debug_image/"
+            ],
+            "presentation": {
+                "echo": true,
+                "reveal": "never",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            }
+        },
+        {
+            "label": "copy_app_config_inbox",
+            "isBackground": false,
+            "command": "cp",
+            "type": "shell",
+            "args": [
+                "${APP_WORKING_DIR}/schedules/debug_image/app-config.json",
+                "/var/spacedev/xfer/app-imagin-e-starter/inbox/app-config.json"
+            ],
+            "presentation": {
+                "echo": true,
+                "reveal": "never",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            }
+        },
+        {
+            "label": "copy_sensor_config_inbox",
+            "isBackground": false,
+            "command": "cp",
+            "type": "shell",
+            "args": [
+                "${APP_WORKING_DIR}/configs/test/sensor-config-*.json",
+                "/var/spacedev/xfer/app-imagin-e-starter/inbox/."
+            ],
+            "presentation": {
+                "echo": true,
+                "reveal": "never",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            }
+        },
+        {
+            "label": "copy_sensor_test_image_inbox",
+            "isBackground": false,
+            "command": "/bin/bash",
+            "type": "shell",
+            "args": [
+                "-c",
+                "if [ -d '${APP_WORKING_DIR}/tests/images' ]; then cp ${APP_WORKING_DIR}/tests/images/* /var/spacedev/xfer/app-imagin-e-starter/inbox/.; fi"
+            ],
+            "presentation": {
+                "echo": true,
+                "reveal": "never",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            }
+        },        
+        {
+            "label": "reset-debugshim-client",
+            "isBackground": true,
+            "command": "/bin/bash",
+            "type": "shell",
+            "args": [
+                "/spacefx-dev/debugShim-reset.sh",
+                "--debug_shim",
+                "${DEBUG_SHIM_HOST}",
+                "--skip-pod-wait"
+            ],
+            "presentation": {
+                "echo": false,
+                "reveal": "never",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            }
+        }
+    ]
+}

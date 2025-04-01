@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-imagin-e-starter
+  namespace: payload-app
+  labels:
+    app: app-imagin-e-starter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-imagin-e-starter
+  template:
+    metadata:
+      labels:
+        app: app-imagin-e-starter
+    spec:
+      containers:
+      - name: app-imagin-e-starter
+        image: registry.spacefx.local:5000/app-imagin-e-starter:0.10.0-debug
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: DOTNET_SYSTEM_GLOBALIZATION_INVARIANT
+          value: "1"
+        command: ["python"]
+        args: ["/workspaces/app-imagin-e-starter/src/app/main.py"]
