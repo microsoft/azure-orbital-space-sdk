@@ -63,12 +63,14 @@ sequenceDiagram
 
 ## Running the sample via a DevContainer
 
-Prerequisites:
+### Prerequisites:
 
 * You'll need to be able to [run DevContainers](https://github.com/microsoft/Azure-Orbital-Space-SDK-QuickStarts/blob/main/docs/walkthroughs/using-devcontainers.md) authenticated with your GitHub profile
+* If you want to experiment with the IMAGIN-e sensor interface, you will need to acquire the .proto specifications from TAS-E, and then put them in the .protos directory of the app folder.
 
 >NOTE: A starter model.onnx and labels.txt is included in the `./model` directory.  This model is an example only and should not be used for production workloads.  You can generate your own models via [Custom Vision](https://www.customvision.ai/)
 
+## Steps to Run the Sample
 1. Build DevContainer without Cache
 1. Wait for DevContainer to finish building
 1. Run the task `Debug Client`
